@@ -5,7 +5,7 @@ import { env } from './env';
 import { api } from './api';
 
 console.log(`Node environment: ${env.nodeEnv}`);
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 const dev = env.nodeEnv !== 'production';
 
 const app = next({ dev });
@@ -29,7 +29,9 @@ app.prepare()
 		});
 
 		server.listen(port, () => {
-			console.log(`Server is listening on PORT:${port}`);
+			console.log(
+				`Server is listening on PORT:http://localhost:${port}/`
+			);
 		});
 	})
 	.catch((error) => {
