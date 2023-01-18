@@ -5,6 +5,7 @@ import cors from 'cors';
 import { env } from './env';
 import { api } from './api';
 import { AppDataSource } from './connectDb';
+import { User } from './entities/User';
 
 console.log(`Node environment: ${env.nodeEnv}`);
 const port = process.env.PORT || 3000;
@@ -29,6 +30,15 @@ app.prepare()
 			);
 
 		const server = express();
+
+		const user = new User();
+		user.username = 'sammy';
+		user.password = 'password';
+
+		const userRepo = AppDataSource.getRepository(User);
+		await userRepo.save(user);
+
+		console.log('User has been saved. User id is', user.id);
 
 		server.use(
 			cors({
