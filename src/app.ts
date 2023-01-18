@@ -4,6 +4,7 @@ import next from 'next';
 import cors from 'cors';
 import { env } from './env';
 import { api } from './api';
+import { AppDataSource } from './connectDb';
 
 console.log(`Node environment: ${env.nodeEnv}`);
 const port = process.env.PORT || 3000;
@@ -14,6 +15,19 @@ const handle = app.getRequestHandler();
 
 app.prepare()
 	.then(async () => {
+		// Connect DB
+		AppDataSource.initialize()
+			.then(() => {
+				console.log(
+					'Data source initialized and database is connected'
+				);
+			})
+			.catch((error) =>
+				console.log(
+					`Unable to connect to the data source and database: ${error}`
+				)
+			);
+
 		const server = express();
 
 		server.use(

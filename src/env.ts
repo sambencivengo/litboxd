@@ -7,5 +7,7 @@ export const env = setEnv({
 	optional: {
 		nodeEnv: 'NODE_ENV',
 		websiteUrl: 'WEBSITE_URL',
+		postgresUsername: 'POSTGRES_USERNAME',
+		postgresPassword: 'POSTGRES_PASSWORD',
 	},
 });
