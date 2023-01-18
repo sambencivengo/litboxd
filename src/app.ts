@@ -4,7 +4,6 @@ import next from 'next';
 import cors from 'cors';
 import { env } from './env';
 import { api } from './api';
-import { User } from './entities/User';
 import { appDataSource } from './ormConfig';
 
 console.log(`Node environment: ${env.nodeEnv}`);
@@ -16,7 +15,7 @@ const handle = app.getRequestHandler();
 
 appDataSource
 	.initialize()
-	.then(() => {
+	.then(async () => {
 		console.log(`Data Source has been initialized`);
 
 		app.prepare()
