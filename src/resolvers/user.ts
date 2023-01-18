@@ -8,7 +8,7 @@ import {
 	Resolver,
 } from 'type-graphql';
 import { User } from '../entities';
-import entityManager from '../entityManager';
+import { appDataSource } from '../ormConfig';
 
 @InputType() // Used for arguments
 class UsernamePasswordInput {
@@ -48,7 +48,7 @@ export class UserResolver {
 
 		const hashedPassword = await argon2.hash(password);
 
-		const user = entityManager.getRepository(User).create({
+		const user = appDataSource.getRepository(User).create({
 			username: username.toLowerCase(),
 			password: hashedPassword,
 		});
