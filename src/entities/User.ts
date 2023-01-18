@@ -1,5 +1,6 @@
 import { Field, ID } from 'type-graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Review } from './Review';
 
 @Entity()
 export class User {
@@ -15,4 +16,7 @@ export class User {
 	@Field()
 	password: string;
 	// TODO: add many to one reviews
+
+	@OneToMany(() => Review, (review) => review.user)
+	reviews: Review[];
 }
