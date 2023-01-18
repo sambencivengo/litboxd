@@ -4,8 +4,8 @@ import next from 'next';
 import cors from 'cors';
 import { env } from './env';
 import { api } from './api';
-import { AppDataSource } from './connectDb';
 import { User } from './entities/User';
+import entityManager from './entityManager';
 
 console.log(`Node environment: ${env.nodeEnv}`);
 const port = process.env.PORT || 3000;
@@ -17,28 +17,9 @@ const handle = app.getRequestHandler();
 app.prepare()
 	.then(async () => {
 		// Connect DB
-		AppDataSource.initialize()
-			.then(() => {
-				console.log(
-					'Data source initialized and database is connected'
-				);
-			})
-			.catch((error) =>
-				console.log(
-					`Unable to connect to the data source and database: ${error}`
-				)
-			);
+		entityManager;
 
 		const server = express();
-
-		const user = new User();
-		user.username = 'sammy';
-		user.password = 'password';
-
-		const userRepo = AppDataSource.getRepository(User);
-		await userRepo.save(user);
-
-		console.log('User has been saved. User id is', user.id);
 
 		server.use(
 			cors({
