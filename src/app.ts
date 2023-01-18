@@ -3,7 +3,7 @@ import express from 'express';
 import next from 'next';
 import cors from 'cors';
 import { env } from './env';
-import { api } from './api';
+import { api } from './api/routes';
 import { appDataSource } from './ormConfig';
 
 console.log(`Node environment: ${env.nodeEnv}`);
