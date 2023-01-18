@@ -48,14 +48,15 @@ export class UserResolver {
 
 		const hashedPassword = await argon2.hash(password);
 
-		const user = appDataSource.getRepository(User).create({
-			username: username.toLowerCase(),
-			password: hashedPassword,
-		});
+		const user = new User();
+		user.username = username.toLowerCase();
+		user.password = hashedPassword;
 
 		try {
-			await user;
-		} catch (error) {}
+			await appDataSource.manager.save(user);
+		} catch (error) {
+			console.log(`Unable to save user: ${error}`);
+		}
 
 		return { user };
 	}
