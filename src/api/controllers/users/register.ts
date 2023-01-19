@@ -1,17 +1,16 @@
 import { Handler } from 'express';
 import * as argon2 from 'argon2';
 import { validate } from '../../../utils';
-import { CreateUser } from '../../../schema';
 import { User } from '../../../entities';
-import { argon2d } from 'argon2';
 import { appDataSource } from '../../../ormConfig';
+import { CreateAndLoginUser } from '../../../schema';
 
 export const register: Handler = async (req, res) => {
 	const { password, username, errorHandled } =
-		await validate<CreateUser.ApiValues>({
+		await validate<CreateAndLoginUser.ApiValues>({
 			req,
 			res,
-			schema: CreateUser.apiSchema,
+			schema: CreateAndLoginUser.apiSchema,
 		});
 
 	if (errorHandled) return;

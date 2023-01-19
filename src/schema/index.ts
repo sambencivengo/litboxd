@@ -1,3 +1,3 @@
-import * as CreateUser from './createUser';
+import * as CreateAndLoginUser from './createAndLoginUser';
 
-export { CreateUser };
+export { CreateAndLoginUser };
