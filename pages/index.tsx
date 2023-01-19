@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import { Box, Heading } from '@chakra-ui/react';
+import { Heading, useDisclosure } from '@chakra-ui/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
