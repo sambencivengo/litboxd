@@ -3,13 +3,15 @@ import express from 'express';
 import next from 'next';
 import cors from 'cors';
 import { env } from './env';
+import createMemoryStore from 'memorystore';
+import session from 'express-session';
 import { api } from './api/routes';
 import { appDataSource } from './ormConfig';
 
 console.log(`Node environment: ${env.nodeEnv}`);
 const port = process.env.PORT || 3000;
 const dev = env.nodeEnv !== 'production';
-
+const MemoryStore = createMemoryStore(session);
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -26,6 +28,24 @@ appDataSource
 					cors({
 						credentials: true,
 						origin: env.websiteUrl,
+					})
+				);
+
+				server.use(
+					session({
+						store: new MemoryStore({
+							checkPeriod: 86400000,
+						}),
+						name: env.cookieName,
+						cookie: {
+							maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+							httpOnly: false,
+							sameSite: 'lax', // csrf
+							secure: false,
+						},
+						saveUninitialized: false,
+						secret: env.cookieSecret,
+						resave: true,
 					})
 				);
 
