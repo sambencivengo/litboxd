@@ -1,8 +1,11 @@
 import * as yup from 'yup';
 
 const schema = yup.object({
-	username: yup.string().trim().required('Service Request is required'),
-	password: yup.string().trim(),
+	username: yup.string().trim().required('Username is required'),
+	password: yup
+		.string()
+		.trim()
+		.min(8, 'Password must be at least 8 characters long'),
 });
 
 export type UiValues = yup.InferType<typeof uiSchema>;
