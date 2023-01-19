@@ -20,8 +20,6 @@ export const validate: <T>(
 }) => {
 	const dataToValidate = data ?? req.body;
 
-	const INVALID_KEYS_ERROR = 'Keys not allowed:';
-
 	const modifiedSchema = schema.clone();
 
 	try {
@@ -35,8 +33,6 @@ export const validate: <T>(
 		if (error.inner.length > 1) {
 			customError += `: \n${error.inner
 				.map(({ message, path }: { message: string; path: string }) => {
-					console.log(message, path);
-
 					let errorText = message;
 					if (isArray) {
 						errorText += ` - ${path}`;
