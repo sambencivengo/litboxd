@@ -49,6 +49,8 @@ appDataSource
 					})
 				);
 
+				server.use(express.json());
+
 				server.use('/api', api);
 
 				server.get('/*', (req, res) => {
