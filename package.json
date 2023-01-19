@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "nodemon src/app.ts",
+		"dev": "nodemon --files src/app.ts",
 		"dev2": "nodemon dist/app.js",
 		"next dev": "next dev",
 		"watch": "tsc -w",
