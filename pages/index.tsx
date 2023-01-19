@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
+import { Box, Heading } from '@chakra-ui/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +19,9 @@ export default function Home() {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main>App</main>
+			<main>
+				<Heading>App</Heading>
+			</main>
 		</>
 	);
 }
