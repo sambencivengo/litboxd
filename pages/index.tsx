@@ -42,11 +42,13 @@ export default function Home() {
 					</Heading>
 					<Divider />
 
-					{isLoading ? (
-						<Spinner />
-					) : (
-						<Button onClick={fetchBooks}>Fetch</Button>
-					)}
+					<Box mt={10}>
+						{isLoading ? (
+							<Spinner />
+						) : (
+							<Button onClick={fetchBooks}>Fetch</Button>
+						)}
+					</Box>
 				</Box>
 			</main>
 		</>
