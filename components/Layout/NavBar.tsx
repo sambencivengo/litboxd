@@ -84,7 +84,6 @@ export const NavBar: React.FC = () => {
 				<Heading size="lg" color={'white'}>
 					Litboxd
 				</Heading>
-				<BookSearchBar />
 				<HStack>
 					{isMobile ? (
 						<MobileMenu

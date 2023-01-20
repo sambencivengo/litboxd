@@ -1,6 +1,8 @@
 import { Search2Icon } from '@chakra-ui/icons';
 import {
-	Button,
+	Box,
+	color,
+	Flex,
 	HStack,
 	IconButton,
 	Input,
@@ -22,10 +24,14 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({}) => {
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
 	const [isLoading, setIsLoading] = React.useState(false);
 
+	console.log(searchBarInput);
+
 	const fetchBooks = async () => {
 		setIsLoading(true);
 		const res = await fetch(
-			`${LIBRARY_SEARCH_URL}${searchCategory}=${searchBarInput}`
+			`${LIBRARY_SEARCH_URL}${searchCategory}=${searchBarInput
+				.split(' ')
+				.join('+')}`
 		);
 		const data = await res.json();
 
@@ -34,40 +40,45 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({}) => {
 	};
 
 	return (
-		<HStack>
-			<Select
-				onChange={(e) =>
-					setSearchCategory(e.target.value as SearchBarCategoryProps)
-				}
-				bgColor={colors.greyBlue}
-				w="150px"
-				borderRight={0}
-				left={2}
-				borderRightRadius={0}
-			>
-				<option value="title">Title</option>
-				<option value="author">Author</option>
-				<option value="text">Text</option>
-				<option value="subject">Subject</option>
-			</Select>
-			<InputGroup>
-				<Input
-					borderLeftRadius={0}
-					onChange={(e) => setSearchBarInput(e.target.value)}
-				/>
-				<InputRightElement width="4.5rem">
-					{isLoading ? (
-						<Spinner />
-					) : (
-						<IconButton
-							icon={<Search2Icon />}
-							aria-label="Magnifying glass"
-							h="1.75rem"
-							onClick={fetchBooks}
-						/>
-					)}
-				</InputRightElement>
-			</InputGroup>
-		</HStack>
+		<Box ml={2}>
+			<HStack>
+				<Select
+					onChange={(e) =>
+						setSearchCategory(
+							e.target.value as SearchBarCategoryProps
+						)
+					}
+					color={colors.white}
+					textAlign="center"
+					bgColor={colors.greyBlue}
+					w="200px"
+					borderRight={0}
+					borderRightRadius={0}
+				>
+					<option value="title">Title</option>
+					<option value="author">Author</option>
+					<option value="text">Text</option>
+					<option value="subject">Subject</option>
+				</Select>
+				<InputGroup right={2}>
+					<Input
+						borderLeftRadius={0}
+						onChange={(e) => setSearchBarInput(e.target.value)}
+					/>
+					<InputRightElement width="4.5rem">
+						{isLoading ? (
+							<Spinner />
+						) : (
+							<IconButton
+								icon={<Search2Icon />}
+								aria-label="Magnifying glass"
+								h="1.75rem"
+								onClick={fetchBooks}
+							/>
+						)}
+					</InputRightElement>
+				</InputGroup>
+			</HStack>
+		</Box>
 	);
 };
