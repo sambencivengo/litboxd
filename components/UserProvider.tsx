@@ -16,20 +16,42 @@ interface UserContextData {
 	user: SimpleUser | null;
 	signUp: (a: LoginAndSignUpArgs) => Promise<void>;
 	login: (a: LoginAndSignUpArgs) => Promise<void>;
-	getMe: () => Promise<void>;
 }
 
 const UserContext = React.createContext<UserContextData>({
 	user: null,
 	isLoading: false,
 	signUp: async () => {},
-	getMe: async () => {},
+
 	login: async () => {},
 });
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [user, setUser] = React.useState<SimpleUser | null>(null);
+
+	React.useEffect(() => {
+		const getMe = async (): Promise<void> => {
+			try {
+				const res = await fetch(`/api/users/me`, {
+					method: 'GET',
+					credentials: 'include',
+				});
+
+				if (!res.ok) {
+					setUser(null);
+				}
+
+				const data = await res.json();
+				setUser(data);
+				console.log(user);
+			} catch (error) {
+				setUser(null);
+				console.error(error);
+			}
+		};
+		getMe();
+	}, []);
 
 	const login = async ({
 		username,
@@ -87,10 +109,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 		}
 	};
 
-	const getMe = async (): Promise<void> => {};
-
 	return (
-		<UserContext.Provider value={{ getMe, login, user, isLoading, signUp }}>
+		<UserContext.Provider value={{ login, user, isLoading, signUp }}>
 			{children}
 		</UserContext.Provider>
 	);
