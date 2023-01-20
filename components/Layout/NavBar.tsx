@@ -61,7 +61,7 @@ export const NavBar: React.FC = () => {
 				},
 			}}
 			py={5}
-			px={isMobile ? 5 : 300}
+			px={[5, 20, 50, 100, 300]}
 		>
 			<Flex alignItems={'center'} justifyContent={'space-between'}>
 				<Heading size="lg" color={'white'}>
