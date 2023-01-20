@@ -36,7 +36,7 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay
-				bg="whiteAlpha.300"
+				bg="whiteAlpha.200"
 				backdropFilter="auto"
 				backdropBlur="5px"
 			/>

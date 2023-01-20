@@ -1,4 +1,4 @@
-import { Box, Center } from '@chakra-ui/react';
+import { Box, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
 import { NavBar } from './NavBar';
 
@@ -7,13 +7,18 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
+	const isMobile = useBreakpointValue({ base: true, md: false });
+
 	return (
 		<>
 			<NavBar />
-			<Box h="100vh" w="full" px={10}>
-				<Center>
-					<main>{children}</main>
-				</Center>
+			<Box
+				mt={isMobile ? 10 : 100}
+				h="100vh"
+				w="full"
+				px={isMobile ? 5 : 300}
+			>
+				<main>{children}</main>
 			</Box>
 		</>
 	);
