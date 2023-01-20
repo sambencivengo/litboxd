@@ -16,12 +16,14 @@ interface UserContextData {
 	user: SimpleUser | null;
 	signUp: (a: LoginAndSignUpArgs) => Promise<void>;
 	login: (a: LoginAndSignUpArgs) => Promise<void>;
+	getMe: () => Promise<void>;
 }
 
 const UserContext = React.createContext<UserContextData>({
 	user: null,
 	isLoading: false,
 	signUp: async () => {},
+	getMe: async () => {},
 	login: async () => {},
 });
 
@@ -29,9 +31,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [user, setUser] = React.useState<SimpleUser | null>(null);
 
-	console.log(user);
-
-	// LOG IN
 	const login = async ({
 		username,
 		password,
@@ -62,28 +61,36 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 		}
 	};
 
-	// SIGN UP
 	const signUp = async ({
 		username,
 		password,
 	}: LoginAndSignUpArgs): Promise<void> => {
-		const res = await fetch('/api/users/register', {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-			},
-			body: JSON.stringify({ username, password }),
-			credentials: 'include',
-		});
+		try {
+			const res = await fetch('/api/users/register', {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+				},
+				body: JSON.stringify({ username, password }),
+				credentials: 'include',
+			});
 
-		if (!res.ok) {
+			if (!res.ok) {
+				setUser(null);
+				return;
+			}
+			const data: SimpleUser = await res.json();
+			setUser(data);
+		} catch (error) {
 			setUser(null);
-			return;
+			console.error(error);
 		}
 	};
 
+	const getMe = async (): Promise<void> => {};
+
 	return (
-		<UserContext.Provider value={{ login, user, isLoading, signUp }}>
+		<UserContext.Provider value={{ getMe, login, user, isLoading, signUp }}>
 			{children}
 		</UserContext.Provider>
 	);
