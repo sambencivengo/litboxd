@@ -51,7 +51,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			}
 		};
 		getMe();
-	}, []);
+	}, []); // Use callback?
 
 	const login = async ({
 		username,
