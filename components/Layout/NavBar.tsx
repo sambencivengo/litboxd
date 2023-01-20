@@ -22,6 +22,7 @@ export const NavBar: React.FC = () => {
 	>();
 	const { user } = useUser();
 
+	console.log(user);
 	const navBarOptions = () =>
 		user ? (
 			<Button>New</Button> // TODO: buttons for auth'd users

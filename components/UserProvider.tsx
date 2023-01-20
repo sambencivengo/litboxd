@@ -44,7 +44,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 				const data = await res.json();
 				setUser(data);
-				console.log(user);
 			} catch (error) {
 				setUser(null);
 				console.error(error);
