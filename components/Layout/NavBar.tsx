@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../../theme';
+import { MobileMenu } from '../MobileMenu';
 import { SignUpAndLoginModal } from '../SignUpAndLoginModal';
 
 export const NavBar: React.FC = () => {
@@ -35,10 +36,11 @@ export const NavBar: React.FC = () => {
 				</Heading>
 				<HStack>
 					{isMobile ? (
-						// TODO: Navbar items
-						<>Button</>
+						<MobileMenu
+							onOpen={onOpen}
+							setFormPurpose={setFormPurpose}
+						/>
 					) : (
-						// TODO: Mobile navbar items
 						<>
 							<Button
 								color={colors.white}
