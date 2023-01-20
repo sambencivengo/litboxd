@@ -104,6 +104,11 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 									/>
 
 									<Button
+										bgColor={colors.green}
+										color={colors.white}
+										_hover={{
+											backgroundColor: colors.greyBlue,
+										}}
 										isLoading={isSubmitting}
 										type="submit"
 									>
