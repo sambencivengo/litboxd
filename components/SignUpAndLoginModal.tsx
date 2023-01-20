@@ -15,6 +15,7 @@ import React from 'react';
 import { CreateAndLoginUser } from '../src/schema';
 import { colors } from '../theme';
 import { InputField } from './InputField';
+import { useUser } from './UserProvider';
 
 interface SignUpAndLoginModalProps {
 	isOpen: boolean;
@@ -33,6 +34,7 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 	purpose,
 }) => {
 	const toast = useToast();
+	const { login, user, signUp } = useUser();
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay
@@ -55,35 +57,9 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 						initialValues={{ username: '', password: '' }}
 						validationSchema={CreateAndLoginUser.uiSchema}
 						onSubmit={async (args: SignUpAndLoginFormArgs) => {
-							const res = await fetch(
-								`/api/users/${
-									purpose === 'sign up' ? 'register' : 'login'
-								}`,
-								{
-									method: 'POST',
-									headers: {
-										'content-type': 'application/json',
-									},
-									body: JSON.stringify(args),
-									credentials: 'include',
-								}
-							);
-
-							if (!res.ok) {
-								toast({
-									title: `Unable to ${
-										purpose === 'sign up'
-											? 'sign up'
-											: 'log in'
-									}`,
-									status: 'error',
-									variant: 'solid',
-									duration: 2000,
-									isClosable: true,
-									position: 'top',
-								});
-								return;
-							}
+							purpose === 'log in'
+								? await login(args)
+								: await signUp(args);
 							onClose();
 							// TODO: update user store
 						}}

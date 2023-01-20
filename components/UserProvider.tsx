@@ -29,13 +29,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [user, setUser] = React.useState<SimpleUser | null>(null);
 
+	console.log(user);
+
 	// LOG IN
 	const login = async ({
 		username,
 		password,
 	}: LoginAndSignUpArgs): Promise<void> => {
 		try {
-			const res = await fetch('/api/users/register', {
+			const res = await fetch('/api/users/login', {
 				method: 'POST',
 				headers: {
 					'content-type': 'application/json',
@@ -65,7 +67,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 		username,
 		password,
 	}: LoginAndSignUpArgs): Promise<void> => {
-		const res = await fetch('/api/users/login', {
+		const res = await fetch('/api/users/register', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -86,3 +88,5 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 		</UserContext.Provider>
 	);
 };
+
+export const useUser = () => React.useContext(UserContext);

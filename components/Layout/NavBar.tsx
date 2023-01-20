@@ -12,6 +12,7 @@ import { colors } from '../../theme';
 import { BookSearchBar } from '../BookSearchBar';
 import { MobileMenu } from '../MobileMenu';
 import { SignUpAndLoginModal } from '../SignUpAndLoginModal';
+import { useUser } from '../UserProvider';
 
 export const NavBar: React.FC = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
@@ -19,6 +20,37 @@ export const NavBar: React.FC = () => {
 	const [formPurpose, setFormPurpose] = React.useState<
 		'sign up' | 'log in'
 	>();
+	const { user } = useUser();
+
+	const navBarOptions = () =>
+		user ? (
+			<Button>New</Button> // TODO: buttons for auth'd users
+		) : (
+			<>
+				<Button
+					color={colors.white}
+					size="lg"
+					variant="link"
+					onClick={() => {
+						setFormPurpose('log in');
+						onOpen();
+					}}
+				>
+					Login
+				</Button>
+				<Button
+					color={colors.white}
+					size="lg"
+					variant="link"
+					onClick={() => {
+						setFormPurpose('sign up');
+						onOpen();
+					}}
+				>
+					Sign Up
+				</Button>
+			</>
+		);
 
 	return (
 		<Box
@@ -43,30 +75,7 @@ export const NavBar: React.FC = () => {
 							setFormPurpose={setFormPurpose}
 						/>
 					) : (
-						<>
-							<Button
-								color={colors.white}
-								size="lg"
-								variant="link"
-								onClick={() => {
-									setFormPurpose('log in');
-									onOpen();
-								}}
-							>
-								Login
-							</Button>
-							<Button
-								color={colors.white}
-								size="lg"
-								variant="link"
-								onClick={() => {
-									setFormPurpose('sign up');
-									onOpen();
-								}}
-							>
-								Sign Up
-							</Button>
-						</>
+						navBarOptions()
 					)}
 				</HStack>
 			</Flex>
