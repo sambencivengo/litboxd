@@ -1,18 +1,34 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+	Collection,
+	Entity,
+	OneToMany,
+	PrimaryKey,
+	Property,
+} from '@mikro-orm/core';
 import { Review } from './Review';
 
 @Entity()
 export class User {
-	@PrimaryGeneratedColumn()
-	id: number;
+	@PrimaryKey()
+	id!: number;
 
-	@Column({ type: 'varchar', unique: true })
-	username: string;
+	@Property({ type: Date, defaultRaw: 'clock_timestamp()' })
+	createdAt = new Date();
 
-	@Column('varchar')
-	password: string;
+	@Property({
+		type: Date,
+		defaultRaw: 'clock_timestamp()',
+		onUpdate: () => new Date(),
+	})
+	updatedAt = new Date();
+
+	@Property({ type: 'text', unique: true })
+	username!: string;
+
+	@Property({ type: 'text' })
+	password!: string;
 	// TODO: add many to one reviews
 
 	@OneToMany(() => Review, (review) => review.user)
-	reviews: Review[];
+	reviews = new Collection<Review>(this);
 }

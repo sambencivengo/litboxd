@@ -7,6 +7,8 @@ import createMemoryStore from 'memorystore';
 import session from 'express-session';
 import { api } from './api/routes';
 import { appDataSource } from './ormConfig';
+import { MikroORM } from '@mikro-orm/postgresql';
+import mikroOrmConfig from './mikro-orm.config';
 
 console.log(`Node environment: ${env.nodeEnv}`);
 const port = process.env.PORT || 3000;
@@ -19,6 +21,9 @@ appDataSource
 	.initialize()
 	.then(async () => {
 		console.log(`Data Source has been initialized`);
+
+		const orm = await MikroORM.init(mikroOrmConfig);
+		await orm.getMigrator().up(); // WARN: Migrations: if table conflicts happen on app start up, comment out and debug
 
 		app.prepare()
 			.then(async () => {

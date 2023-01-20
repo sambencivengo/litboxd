@@ -1,20 +1,36 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+	Entity,
+	ManyToOne,
+	IdentifiedReference,
+	PrimaryKey,
+	Property,
+} from '@mikro-orm/core';
 import { User } from './User';
 
 @Entity()
 export class Review {
-	@PrimaryGeneratedColumn()
+	@PrimaryKey()
 	id: number;
 
-	@Column({ type: 'varchar' })
+	@Property({ type: Date, defaultRaw: 'clock_timestamp()' })
+	createdAt = new Date();
+
+	@Property({
+		type: Date,
+		defaultRaw: 'clock_timestamp()',
+		onUpdate: () => new Date(),
+	})
+	updatedAt = new Date();
+
+	@Property({ type: 'text' })
 	title: string;
 
-	@Column('varchar')
+	@Property({ type: 'text' })
 	description: string;
 
-	@Column({ type: 'int', default: 0 })
+	@Property({ type: 'integer', default: 0 })
 	likes: number;
 
-	@ManyToOne(() => User, (user) => user.reviews)
-	user: User;
+	@ManyToOne({ entity: () => User })
+	user: IdentifiedReference<User>;
 }
