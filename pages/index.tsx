@@ -1,25 +1,12 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import { Box, Button, Divider, Heading, Spinner } from '@chakra-ui/react';
-import { LIBRARY_SEARCH_URL } from '../constants';
+import { Box, Divider, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../theme';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-	const [isLoading, setIsLoading] = React.useState(false);
-
-	const fetchBooks = async () => {
-		setIsLoading(true);
-		const res = await fetch(
-			`${LIBRARY_SEARCH_URL}title=the+lord+of+the+rings`
-		);
-		const data = await res.json();
-
-		setIsLoading(false);
-		console.log(data);
-	};
 	return (
 		<>
 			<Head>
@@ -41,14 +28,6 @@ export default function Home() {
 						and books.
 					</Heading>
 					<Divider />
-
-					<Box mt={10}>
-						{isLoading ? (
-							<Spinner />
-						) : (
-							<Button onClick={fetchBooks}>Fetch</Button>
-						)}
-					</Box>
 				</Box>
 			</main>
 		</>

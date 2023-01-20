@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../../theme';
+import { BookSearchBar } from '../BookSearchBar';
 import { MobileMenu } from '../MobileMenu';
 import { SignUpAndLoginModal } from '../SignUpAndLoginModal';
 
@@ -34,6 +35,7 @@ export const NavBar: React.FC = () => {
 				<Heading size="lg" color={'white'}>
 					Litboxd
 				</Heading>
+				<BookSearchBar />
 				<HStack>
 					{isMobile ? (
 						<MobileMenu
