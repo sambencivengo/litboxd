@@ -7,6 +7,7 @@ import {
 	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { colors } from '../../theme';
 import { BookSearchBar } from '../BookSearchBar';
@@ -20,11 +21,27 @@ export const NavBar: React.FC = () => {
 	const [formPurpose, setFormPurpose] = React.useState<
 		'sign up' | 'log in'
 	>();
-	const { user } = useUser();
+	const { user, getMe } = useUser();
+	const router = useRouter();
 
 	const navBarOptions = () =>
 		user ? (
-			<Button>New</Button> // TODO: buttons for auth'd users
+			<Button
+				color={colors.white}
+				size="lg"
+				variant="link"
+				onClick={async () => {
+					const res = await fetch('/api/users/logout', {
+						method: 'DELETE',
+					});
+					if (!res.ok) {
+						console.log('There was an issue logging out');
+					}
+					await getMe();
+				}}
+			>
+				Log Out
+			</Button>
 		) : (
 			<>
 				<Button
