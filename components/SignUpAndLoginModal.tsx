@@ -13,48 +13,69 @@ import {
 import { Formik, Form } from 'formik';
 import React from 'react';
 import { CreateAndLoginUser } from '../src/schema';
+import { colors } from '../theme';
 import { InputField } from './InputField';
 
-interface SignUpModalProps {
+interface SignUpAndLoginModalProps {
 	isOpen: boolean;
 	onClose: () => void;
+	purpose: 'sign up' | 'log in';
 }
 
-interface SignUpFormArgs {
+export interface SignUpAndLoginFormArgs {
 	username: string;
 	password: string;
 }
 
-export const SignUpModal: React.FC<SignUpModalProps> = ({
+export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 	isOpen,
 	onClose,
+	purpose,
 }) => {
 	const toast = useToast();
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
-			<ModalOverlay />
-			<ModalContent>
-				<ModalHeader>Sign Up for Litboxd</ModalHeader>
+			<ModalOverlay
+				bg="whiteAlpha.300"
+				backdropFilter="auto"
+				backdropBlur="5px"
+			/>
+
+			<ModalContent top={50}>
+				<ModalHeader color={colors.white} bgColor={colors.darkBlue}>
+					{purpose === 'sign up'
+						? 'Sign Up for Litboxd'
+						: 'Log in to Litboxd'}
+				</ModalHeader>
 				<ModalCloseButton />
-				<ModalBody>
+				<ModalBody bgColor={colors.darkBlue}>
 					<Formik
 						validateOnChange={false}
 						validateOnBlur={false}
 						initialValues={{ username: '', password: '' }}
 						validationSchema={CreateAndLoginUser.uiSchema}
-						onSubmit={async (args: SignUpFormArgs) => {
-							const res = await fetch('/api/users/register', {
-								method: 'POST',
-								headers: {
-									'content-type': 'application/json',
-								},
-								body: JSON.stringify(args),
-								credentials: 'include',
-							});
+						onSubmit={async (args: SignUpAndLoginFormArgs) => {
+							const res = await fetch(
+								`/api/users/${
+									purpose === 'sign up' ? 'register' : 'login'
+								}`,
+								{
+									method: 'POST',
+									headers: {
+										'content-type': 'application/json',
+									},
+									body: JSON.stringify(args),
+									credentials: 'include',
+								}
+							);
 
 							if (!res.ok) {
 								toast({
-									title: `Unable to sign up`,
+									title: `Unable to ${
+										purpose === 'sign up'
+											? 'sign up'
+											: 'log in'
+									}`,
 									status: 'error',
 									variant: 'solid',
 									duration: 2000,
@@ -76,6 +97,7 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
 										isRequired={true}
 									/>
 									<InputField
+										type="password"
 										label="Password"
 										name="password"
 										isRequired={true}
@@ -85,7 +107,9 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
 										isLoading={isSubmitting}
 										type="submit"
 									>
-										Submit
+										{purpose === 'sign up'
+											? 'Sign Up'
+											: 'Log In'}
 									</Button>
 								</VStack>
 							</Form>
@@ -93,8 +117,8 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
 					</Formik>
 				</ModalBody>
 
-				<ModalFooter>
-					<Button colorScheme="blue" mr={3} onClick={onClose}>
+				<ModalFooter bgColor={colors.darkBlue}>
+					<Button mr={3} onClick={onClose}>
 						Close
 					</Button>
 				</ModalFooter>

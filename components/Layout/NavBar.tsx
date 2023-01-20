@@ -3,32 +3,74 @@ import {
 	Button,
 	Flex,
 	Heading,
+	HStack,
 	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../../theme';
-import { SignUpModal } from '../SignUpModal';
+import { SignUpAndLoginModal } from '../SignUpAndLoginModal';
 
 export const NavBar: React.FC = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [formPurpose, setFormPurpose] = React.useState<
+		'sign up' | 'log in'
+	>();
 
 	return (
-		<Box bgColor={colors.greyBlue} p={'10px'} px={4}>
+		<Box
+			sx={{
+				_hover: {
+					background:
+						'linear-gradient(180deg, black, 20%, rgba(0, 0, 0, 0) 90%)',
+				},
+			}}
+			py={5}
+			px={isMobile ? 5 : 300}
+		>
 			<Flex alignItems={'center'} justifyContent={'space-between'}>
 				<Heading size="lg" color={'white'}>
 					Litboxd
 				</Heading>
-				{isMobile ? (
-					// TODO: Navbar items
-					<>Button</>
-				) : (
-					// TODO: Mobile navbar items
-					<Button onClick={() => onOpen()}>Sign Up</Button>
-				)}
+				<HStack>
+					{isMobile ? (
+						// TODO: Navbar items
+						<>Button</>
+					) : (
+						// TODO: Mobile navbar items
+						<>
+							<Button
+								color={colors.white}
+								size="lg"
+								variant="link"
+								onClick={() => {
+									setFormPurpose('log in');
+									onOpen();
+								}}
+							>
+								Login
+							</Button>
+							<Button
+								color={colors.white}
+								size="lg"
+								variant="link"
+								onClick={() => {
+									setFormPurpose('sign up');
+									onOpen();
+								}}
+							>
+								Sign Up
+							</Button>
+						</>
+					)}
+				</HStack>
 			</Flex>
-			<SignUpModal isOpen={isOpen} onClose={onClose} />
+			<SignUpAndLoginModal
+				purpose={formPurpose}
+				isOpen={isOpen}
+				onClose={onClose}
+			/>
 		</Box>
 	);
 };
