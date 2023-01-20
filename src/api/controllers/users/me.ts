@@ -1,15 +1,12 @@
 import { Handler } from 'express';
 import { User } from '../../../entities';
-import { appDataSource } from '../../../ormConfig';
 
 export const me: Handler = async (req, res) => {
 	const { userId } = req.session;
 
 	try {
-		const user = await appDataSource.manager.findOne(User, {
-			where: {
-				id: userId ?? null,
-			},
+		const user = await req.em.findOne(User, {
+			id: userId,
 		});
 
 		console.log({ userId }, user);

@@ -2,7 +2,6 @@ import { Handler } from 'express';
 import { CreateAndLoginUser } from '../../../schema';
 import { validate } from '../../../utils';
 import * as argon2 from 'argon2';
-import { appDataSource } from '../../../ormConfig';
 import { User } from '../../../entities';
 
 export const login: Handler = async (req, res) => {
@@ -16,10 +15,8 @@ export const login: Handler = async (req, res) => {
 	if (errorHandled) return;
 
 	try {
-		const user = await appDataSource.getRepository(User).findOne({
-			where: {
-				username,
-			},
+		const user = await req.em.findOne(User, {
+			username,
 		});
 
 		const validPassword = await argon2.verify(user.password, password);

@@ -2,7 +2,7 @@ import { Handler } from 'express';
 import * as argon2 from 'argon2';
 import { validate } from '../../../utils';
 import { User } from '../../../entities';
-import { appDataSource } from '../../../ormConfig';
+
 import { CreateAndLoginUser } from '../../../schema';
 
 export const register: Handler = async (req, res) => {
@@ -21,7 +21,7 @@ export const register: Handler = async (req, res) => {
 		user.username = username;
 		user.password = hashedPassword;
 
-		await appDataSource.manager.save(user);
+		await req.em.persistAndFlush(user);
 
 		req.session.userId = user.id;
 

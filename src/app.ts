@@ -6,8 +6,11 @@ import { env } from './env';
 import createMemoryStore from 'memorystore';
 import session from 'express-session';
 import { api } from './api/routes';
-import { appDataSource } from './ormConfig';
-import { MikroORM } from '@mikro-orm/postgresql';
+import {
+	EntityManager,
+	MikroORM,
+	PostgreSqlDriver,
+} from '@mikro-orm/postgresql';
 import mikroOrmConfig from './mikro-orm.config';
 
 console.log(`Node environment: ${env.nodeEnv}`);
@@ -17,14 +20,17 @@ const MemoryStore = createMemoryStore(session);
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-appDataSource
-	.initialize()
-	.then(async () => {
+const main = async () => {
+	try {
 		console.log(`Data Source has been initialized`);
 
 		const orm = await MikroORM.init(mikroOrmConfig);
 		await orm.getMigrator().up(); // WARN: Migrations: if table conflicts happen on app start up, comment out and debug
 
+		const includeEntityManager: express.Handler = (req, _res, next) => {
+			req.em = orm.em.fork() as EntityManager<PostgreSqlDriver>;
+			next();
+		};
 		app.prepare()
 			.then(async () => {
 				const server = express();
@@ -56,7 +62,7 @@ appDataSource
 
 				server.use(express.json());
 
-				server.use('/api', api);
+				server.use('/api', includeEntityManager, api);
 
 				server.get('/*', (req, res) => {
 					return handle(req, res);
@@ -71,7 +77,9 @@ appDataSource
 			.catch((error) => {
 				console.error(`App has crashed: ${error}`);
 			});
-	})
-	.catch((err) => {
-		console.error(`Data Source initialization error`, err);
-	});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+main();

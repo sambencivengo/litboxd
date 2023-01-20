@@ -1,10 +1,16 @@
 import { User } from '../../entities';
-// to make the file a module and avoid the TypeScript error
+import type {
+	EntityManager,
+	SqlEntityManager,
+	PostgreSqlDriver,
+	IDatabaseDriver,
+} from '@mikro-orm/postgresql';
 
 declare global {
 	namespace Express {
 		export interface Request {
 			user: User;
+			em: EntityManager<PostgreSqlDriver>;
 		}
 	}
 }

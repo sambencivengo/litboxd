@@ -1,10 +1,9 @@
 import { Handler } from 'express';
 import { User } from '../../../entities';
-import { appDataSource } from '../../../ormConfig';
 
 export const get: Handler = async (req, res) => {
 	try {
-		const users = await appDataSource.manager.find(User);
+		const users = await req.em.find(User, {});
 
 		res.status(200).send(users);
 	} catch (error) {
