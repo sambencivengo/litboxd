@@ -1,13 +1,6 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import {
-	Box,
-	Button,
-	Center,
-	Heading,
-	Spinner,
-	useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Button, Divider, Heading, Spinner } from '@chakra-ui/react';
 import { LIBRARY_SEARCH_URL } from '../constants';
 import React from 'react';
 import { colors } from '../theme';
@@ -47,6 +40,7 @@ export default function Home() {
 						A social platform for sharing your taste in literature
 						and books.
 					</Heading>
+					<Divider />
 
 					{isLoading ? (
 						<Spinner />

@@ -35,10 +35,10 @@ export const theme = extendTheme({
 	// 	},
 	// },
 	styles: {
-		global: (props: StyleFunctionProps) => ({
+		global: () => ({
 			body: {
-				backgroundColor: mode(colors.greyBlue, colors.darkBlue)(props),
-				color: mode(colors.darkBlue, colors.grey)(props),
+				backgroundColor: colors.darkBlue,
+				color: colors.grey,
 			},
 			'::-webkit-scrollbar': { display: 'none' },
 		}),
