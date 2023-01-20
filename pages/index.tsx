@@ -1,10 +1,24 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
-import { Heading, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Heading, Spinner, useDisclosure } from '@chakra-ui/react';
+import { LIBRARY_SEARCH_URL } from '../constants';
+import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+	const [isLoading, setIsLoading] = React.useState(false);
+
+	const fetchBooks = async () => {
+		setIsLoading(true);
+		const res = await fetch(
+			`${LIBRARY_SEARCH_URL}title=the+lord+of+the+rings`
+		);
+		const data = await res.json();
+
+		setIsLoading(false);
+		console.log(data);
+	};
 	return (
 		<>
 			<Head>
@@ -21,6 +35,11 @@ export default function Home() {
 			</Head>
 			<main>
 				<Heading>App</Heading>
+				{isLoading ? (
+					<Spinner />
+				) : (
+					<Button onClick={fetchBooks}>Fetch</Button>
+				)}
 			</main>
 		</>
 	);
