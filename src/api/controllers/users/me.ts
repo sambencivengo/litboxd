@@ -9,8 +9,6 @@ export const me: Handler = async (req, res) => {
 			id: userId,
 		});
 
-		console.log({ userId }, user);
-
 		if (!user) {
 			res.status(400).send('Unable to validate user');
 			return;

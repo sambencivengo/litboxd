@@ -22,8 +22,6 @@ const handle = app.getRequestHandler();
 
 const main = async () => {
 	try {
-		console.log(`Data Source has been initialized`);
-
 		const orm = await MikroORM.init(mikroOrmConfig);
 		await orm.getMigrator().up(); // WARN: Migrations: if table conflicts happen on app start up, comment out and debug
 
