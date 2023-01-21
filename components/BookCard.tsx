@@ -18,7 +18,7 @@ interface BookCardProps {
 }
 
 export const BookCard: React.FC<BookCardProps> = ({ book }) => {
-	const { author_name, cover_i, title, key } = book;
+	const { author_name, cover_i, title, key, isbn } = book;
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;
 
@@ -44,7 +44,7 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
 
 			<Stack>
 				<CardBody>
-					<Link href={`/book/${keySlug}`}>
+					<Link href={`/book/${keySlug}?cover=${cover_i}`}>
 						<Heading size="md">{title}</Heading>
 					</Link>
 
