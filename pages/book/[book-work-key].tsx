@@ -13,8 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { StarRatingButtonContainer } from '../../components/StarRating';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
-import { StarRatingButtons } from '../../components/StarRatingButtons';
 
 interface Book {
 	title: string;
@@ -98,7 +98,7 @@ export default function BookWorkKey() {
 							<CardFooter>
 								{/* TODO: review and fetch request to create review */}
 								<HStack>
-									<StarRatingButtons />
+									<StarRatingButtonContainer />
 								</HStack>
 							</CardFooter>
 						</Stack>
