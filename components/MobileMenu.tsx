@@ -10,12 +10,12 @@ import {
 import React from 'react';
 
 interface MobileMenuProps {
-	onOpen: () => void;
+	openLoginModal: () => void;
 	setFormPurpose: React.Dispatch<React.SetStateAction<'sign up' | 'log in'>>;
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({
-	onOpen,
+	openLoginModal,
 	setFormPurpose,
 }) => {
 	// TODO: FIX CHAKRA WARNINGS
@@ -27,7 +27,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 					icon={<FiLogIn />}
 					onClick={() => {
 						setFormPurpose('log in');
-						onOpen();
+						openLoginModal();
 					}}
 				>
 					Log In
@@ -36,7 +36,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
 					icon={<FiUserPlus />}
 					onClick={() => {
 						setFormPurpose('sign up');
-						onOpen();
+						openLoginModal();
 					}}
 				>
 					Sign Up

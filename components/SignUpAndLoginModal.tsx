@@ -18,8 +18,8 @@ import { InputField } from './InputField';
 import { useUser } from './UserProvider';
 
 interface SignUpAndLoginModalProps {
-	isOpen: boolean;
-	onClose: () => void;
+	loginModalIsOpen: boolean;
+	closeLoginModal: () => void;
 	purpose: 'sign up' | 'log in';
 }
 
@@ -29,14 +29,13 @@ export interface SignUpAndLoginFormArgs {
 }
 
 export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
-	isOpen,
-	onClose,
+	loginModalIsOpen,
+	closeLoginModal,
 	purpose,
 }) => {
-	const toast = useToast();
 	const { login, user, signUp } = useUser();
 	return (
-		<Modal isOpen={isOpen} onClose={onClose}>
+		<Modal isOpen={loginModalIsOpen} onClose={closeLoginModal}>
 			<ModalOverlay
 				bg="whiteAlpha.200"
 				backdropFilter="auto"
@@ -60,7 +59,7 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 							purpose === 'log in'
 								? await login(args)
 								: await signUp(args);
-							onClose();
+							closeLoginModal();
 							// TODO: update user store
 						}}
 					>
@@ -99,7 +98,7 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 				</ModalBody>
 
 				<ModalFooter bgColor={colors.darkBlue}>
-					<Button mr={3} onClick={onClose}>
+					<Button mr={3} onClick={closeLoginModal}>
 						Close
 					</Button>
 				</ModalFooter>

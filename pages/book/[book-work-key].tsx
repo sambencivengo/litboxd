@@ -12,15 +12,20 @@ import {
 	HStack,
 	Button,
 	useDisclosure,
+	IconButton,
+	useBreakpointValue,
+	Box,
 } from '@chakra-ui/react';
+import { AiFillEye } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { SignUpAndLoginModal } from '../../components/SignUpAndLoginModal';
 import { StarRatingButtonContainer } from '../../components/StarRating';
 import { useUser } from '../../components/UserProvider';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
+import { CreateReviewModal } from '../../components/CreateReviewModal';
 
-interface Book {
+export interface Book {
 	title: string;
 	covers: number[];
 	subjects: string[];
@@ -30,14 +35,27 @@ interface Book {
 }
 
 export default function BookWorkKey() {
+	const isMobile = useBreakpointValue({ base: true, md: false });
 	const [isLoading, setIsLoading] = React.useState(false);
 	const router = useRouter();
 	const [book, setBook] = React.useState<Book>(null);
 	const [author, setAuthor] = React.useState<string | string[] | null>(null);
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const bookWorkKey = router.query['book-work-key'];
 
+	const {
+		isOpen: loginModalIsOpen,
+		onOpen: openLoginModal,
+		onClose: closeLoginModal,
+	} = useDisclosure();
+
+	const {
+		isOpen: reviewModalIsOpen,
+		onOpen: openReviewModal,
+		onClose: closeReviewModal,
+	} = useDisclosure();
+
+	const bookWorkKey = router.query['book-work-key'];
 	const { user } = useUser();
+
 	React.useEffect(() => {
 		setIsLoading(true);
 		const getBookInfo = async () => {
@@ -102,19 +120,43 @@ export default function BookWorkKey() {
 							</CardBody>
 
 							<CardFooter>
-								{/* TODO: review and fetch request to create review */}
-								<HStack>
-									{!user ? (
-										<Button onClick={onOpen}>
-											Log in to give rating
-										</Button>
-									) : (
-										<StarRatingButtonContainer />
+								{/* TODO: review/rating and fetch request to create review */}
+								<Stack
+									alignItems="center"
+									w={'100%'}
+									direction={isMobile ? 'column' : 'row'}
+									spacing={5}
+								>
+									<Box>
+										{user ? (
+											<StarRatingButtonContainer />
+										) : (
+											<Button onClick={openLoginModal}>
+												Log in to give rating
+											</Button>
+										)}
+									</Box>
+									{user && (
+										<HStack>
+											<Button onClick={openReviewModal}>
+												Write Review?
+											</Button>
+											{/* TODO: create new table for "saved" books (books to read later) */}
+											<IconButton
+												aria-label="Add to reading list"
+												as={AiFillEye}
+											/>
+										</HStack>
 									)}
-								</HStack>
+								</Stack>
+								<CreateReviewModal
+									book={book}
+									closeReviewModal={closeReviewModal}
+									reviewModalIsOpen={reviewModalIsOpen}
+								/>
 								<SignUpAndLoginModal
-									isOpen={isOpen}
-									onClose={onClose}
+									loginModalIsOpen={loginModalIsOpen}
+									closeLoginModal={closeLoginModal}
 									purpose={'log in'}
 								/>
 							</CardFooter>

@@ -16,7 +16,12 @@ import { useUser } from '../UserProvider';
 
 export const NavBar: React.FC = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const {
+		isOpen: loginModalIsOpen,
+		onOpen: openLoginModal,
+		onClose: closeLoginModal,
+	} = useDisclosure();
+
 	const [formPurpose, setFormPurpose] = React.useState<
 		'sign up' | 'log in'
 	>();
@@ -48,7 +53,7 @@ export const NavBar: React.FC = () => {
 					variant="link"
 					onClick={() => {
 						setFormPurpose('log in');
-						onOpen();
+						openLoginModal();
 					}}
 				>
 					Login
@@ -59,7 +64,7 @@ export const NavBar: React.FC = () => {
 					variant="link"
 					onClick={() => {
 						setFormPurpose('sign up');
-						onOpen();
+						openLoginModal();
 					}}
 				>
 					Sign Up
@@ -85,7 +90,7 @@ export const NavBar: React.FC = () => {
 				<HStack>
 					{isMobile ? (
 						<MobileMenu
-							onOpen={onOpen}
+							openLoginModal={openLoginModal}
 							setFormPurpose={setFormPurpose}
 						/>
 					) : (
@@ -95,8 +100,8 @@ export const NavBar: React.FC = () => {
 			</Flex>
 			<SignUpAndLoginModal
 				purpose={formPurpose}
-				isOpen={isOpen}
-				onClose={onClose}
+				loginModalIsOpen={loginModalIsOpen}
+				closeLoginModal={closeLoginModal}
 			/>
 		</Box>
 	);
