@@ -13,12 +13,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<>
 			<NavBar />
-			<Box mt={5} px={[5, 20, 50, 100, 300]}>
-				<BookSearchBar />
-			</Box>
-
 			<Box
-				mt={isMobile ? 10 : 100}
+				mt={isMobile ? 10 : 10}
 				h="100vh"
 				w="full"
 				px={[5, 20, 50, 100, 300]}

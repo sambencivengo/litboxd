@@ -1,8 +1,6 @@
 import { Search2Icon } from '@chakra-ui/icons';
 import {
 	Box,
-	color,
-	Flex,
 	HStack,
 	IconButton,
 	Input,
@@ -16,15 +14,24 @@ import { LIBRARY_SEARCH_URL } from '../constants';
 import { colors } from '../theme';
 
 type SearchBarCategoryProps = 'title' | 'subject' | 'author' | 'text';
-interface BookSearchBarProps {}
 
-export const BookSearchBar: React.FC<BookSearchBarProps> = ({}) => {
+interface BookSearchBarProps {
+	setBookResults: React.Dispatch<React.SetStateAction<BookResult[]>>;
+}
+
+interface BookResult {
+	cover_i: string;
+	author_name: string[];
+	title: string;
+}
+
+export const BookSearchBar: React.FC<BookSearchBarProps> = ({
+	setBookResults,
+}) => {
 	const [searchCategory, setSearchCategory] =
 		React.useState<SearchBarCategoryProps>('title');
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
 	const [isLoading, setIsLoading] = React.useState(false);
-
-	console.log(searchBarInput);
 
 	const fetchBooks = async () => {
 		setIsLoading(true);
@@ -36,7 +43,8 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({}) => {
 		const data = await res.json();
 
 		setIsLoading(false);
-		console.log(data);
+
+		setBookResults(data.docs);
 	};
 
 	return (
@@ -65,7 +73,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({}) => {
 						borderLeftRadius={0}
 						onChange={(e) => setSearchBarInput(e.target.value)}
 					/>
-					<InputRightElement width="4.5rem">
+					<InputRightElement width="3rem">
 						{isLoading ? (
 							<Spinner />
 						) : (
@@ -73,7 +81,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({}) => {
 								icon={<Search2Icon />}
 								aria-label="Magnifying glass"
 								h="1.75rem"
-								onClick={fetchBooks}
+								onClick={!searchBarInput ? null : fetchBooks}
 							/>
 						)}
 					</InputRightElement>
