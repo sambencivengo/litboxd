@@ -1,8 +1,5 @@
-import { StarIcon } from '@chakra-ui/icons';
-import { ButtonGroup, Icon, IconButton } from '@chakra-ui/react';
+import { ButtonGroup } from '@chakra-ui/react';
 import React from 'react';
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
-import { colors } from '../../theme';
 import { StarButton } from './StarButton';
 
 export const StarRatingButtonContainer: React.FC = () => {
@@ -14,6 +11,8 @@ export const StarRatingButtonContainer: React.FC = () => {
 	// number state?
 	// Each star is a number value, if it's value is greater or equal to the state, change icon to filled in
 
+	// TODO: state for preview of value: hover/highlight
+	// TODO: state for chosen(clicked) value: highlight
 	return (
 		<ButtonGroup spacing={'0'}>
 			{[...new Array(5)].map((_, idx) => (

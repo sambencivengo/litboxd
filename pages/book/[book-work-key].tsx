@@ -10,10 +10,14 @@ import {
 	Stack,
 	Divider,
 	HStack,
+	Button,
+	useDisclosure,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { SignUpAndLoginModal } from '../../components/SignUpAndLoginModal';
 import { StarRatingButtonContainer } from '../../components/StarRating';
+import { useUser } from '../../components/UserProvider';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
 
 interface Book {
@@ -30,8 +34,10 @@ export default function BookWorkKey() {
 	const router = useRouter();
 	const [book, setBook] = React.useState<Book>(null);
 	const [author, setAuthor] = React.useState<string | string[] | null>(null);
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const bookWorkKey = router.query['book-work-key'];
 
+	const { user } = useUser();
 	React.useEffect(() => {
 		setIsLoading(true);
 		const getBookInfo = async () => {
@@ -98,8 +104,19 @@ export default function BookWorkKey() {
 							<CardFooter>
 								{/* TODO: review and fetch request to create review */}
 								<HStack>
-									<StarRatingButtonContainer />
+									{!user ? (
+										<Button onClick={onOpen}>
+											Log in to give rating
+										</Button>
+									) : (
+										<StarRatingButtonContainer />
+									)}
 								</HStack>
+								<SignUpAndLoginModal
+									isOpen={isOpen}
+									onClose={onClose}
+									purpose={'log in'}
+								/>
 							</CardFooter>
 						</Stack>
 					</Card>
