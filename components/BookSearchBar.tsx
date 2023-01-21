@@ -19,7 +19,7 @@ interface BookSearchBarProps {
 	setBookResults: React.Dispatch<React.SetStateAction<BookResult[]>>;
 }
 
-interface BookResult {
+export interface BookResult {
 	cover_i: string;
 	author_name: string[];
 	title: string;

@@ -1,21 +1,9 @@
 import Head from 'next/head';
-import { Inter } from '@next/font/google';
-import {
-	Box,
-	Text,
-	Image,
-	Divider,
-	Heading,
-	VStack,
-	Card,
-	CardBody,
-	CardFooter,
-	Stack,
-} from '@chakra-ui/react';
+import { Box, Divider, Heading, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../theme';
 import { BookSearchBar } from '../components/BookSearchBar';
-import { BOOK_COVER_BASE_URL } from '../constants';
+import { BookCard } from '../components/BookCard';
 
 interface BookResult {
 	cover_i: string;
@@ -25,19 +13,6 @@ interface BookResult {
 
 export default function Home() {
 	const [bookResults, setBookResults] = React.useState<BookResult[]>();
-
-	// const isbns = bookCovers.map((cover) => {
-	// 	let key =
-	// 		cover === undefined ? Math.min(Math.random() * 100000000) : cover;
-
-	// 	if (cover === undefined) {
-	// 		return 'Book Cover Unavailable';
-	// 	} else {
-	// 		return cover;
-	// 	}
-	// });
-
-	console.log(bookResults);
 
 	return (
 		<>
@@ -63,51 +38,18 @@ export default function Home() {
 						and books.
 					</Heading>
 					<Divider />
-					<VStack>
+					<VStack mt={10}>
 						{bookResults &&
-							bookResults.map(
-								({ author_name, cover_i, title }) => {
-									if (cover_i) {
-										return (
-											<Card
-												bgColor={colors.greyBlue}
-												w={'400px'}
-												key={cover_i}
-												direction={{
-													base: 'column',
-													sm: 'row',
-												}}
-												overflow="hidden"
-												variant="outline"
-											>
-												<Image
-													objectFit="cover"
-													maxW={{
-														base: '100%',
-														sm: '200px',
-													}}
-													src={`${BOOK_COVER_BASE_URL}${cover_i}-M.jpg`}
-													alt={`${title} Cover`}
-												/>
-
-												<Stack>
-													<CardBody>
-														<Heading size="md">
-															{title}
-														</Heading>
-
-														<Text py="2">
-															by {author_name}
-														</Text>
-													</CardBody>
-
-													<CardFooter></CardFooter>
-												</Stack>
-											</Card>
-										);
-									}
+							bookResults.map((book) => {
+								if (book.cover_i) {
+									return (
+										<BookCard
+											book={book}
+											key={book.cover_i}
+										/>
+									);
 								}
-							)}
+							})}
 					</VStack>
 				</Box>
 			</main>
