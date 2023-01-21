@@ -9,11 +9,12 @@ import {
 	CardFooter,
 	Stack,
 	Divider,
+	HStack,
 } from '@chakra-ui/react';
-
 import { useRouter } from 'next/router';
 import React from 'react';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
+import { StarRatingButtons } from '../../components/StarRatingButtons';
 
 interface Book {
 	title: string;
@@ -37,8 +38,6 @@ export default function BookWorkKey() {
 			const res = await fetch(`${BOOK_URL}${bookWorkKey}.json`);
 			const data = await res.json();
 
-			console.log(data);
-
 			setBook(data);
 			setAuthor(router.query.author);
 		};
@@ -53,7 +52,7 @@ export default function BookWorkKey() {
 		if (router.isReady) {
 			getBookInfo();
 		}
-	}, [bookWorkKey, router.isReady]);
+	}, [bookWorkKey, router.query.author, router.isReady]);
 
 	if (isLoading) {
 		return (
@@ -70,6 +69,7 @@ export default function BookWorkKey() {
 						direction={['column', 'column', 'row']}
 						overflow="hidden"
 						variant="outline"
+						w={'auto'}
 					>
 						<Center>
 							<Image
@@ -97,6 +97,9 @@ export default function BookWorkKey() {
 
 							<CardFooter>
 								{/* TODO: review and fetch request to create review */}
+								<HStack>
+									<StarRatingButtons />
+								</HStack>
 							</CardFooter>
 						</Stack>
 					</Card>

@@ -113,6 +113,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 											<Spinner />
 										) : (
 											<IconButton
+												isLoading={isSubmitting}
 												isDisabled={isSubmitting}
 												icon={<Search2Icon />}
 												aria-label="Magnifying glass"
