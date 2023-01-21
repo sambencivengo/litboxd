@@ -44,11 +44,11 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
 
 			<Stack>
 				<CardBody>
-					<Link href={`/book/${keySlug}?cover=${cover_i}`}>
+					<Link href={`/book/${keySlug}?author=${author_name[0]}`}>
 						<Heading size="md">{title}</Heading>
 					</Link>
 
-					<Text py="2">by {author_name}</Text>
+					{author_name && <Text py="2">by {author_name[0]}</Text>}
 				</CardBody>
 
 				<CardFooter></CardFooter>
