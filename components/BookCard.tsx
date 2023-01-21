@@ -7,6 +7,7 @@ import {
 	Text,
 	CardFooter,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
 import { colors } from '../theme';
@@ -17,7 +18,10 @@ interface BookCardProps {
 }
 
 export const BookCard: React.FC<BookCardProps> = ({ book }) => {
-	const { author_name, cover_i, title } = book;
+	const { author_name, cover_i, title, key } = book;
+	const keyArray = key.split('/');
+	const keySlug = `${keyArray[keyArray.length - 1]}`;
+
 	return (
 		<Card
 			bgColor={colors.greyBlue}
@@ -40,7 +44,9 @@ export const BookCard: React.FC<BookCardProps> = ({ book }) => {
 
 			<Stack>
 				<CardBody>
-					<Heading size="md">{title}</Heading>
+					<Link href={`/book/${keySlug}`}>
+						<Heading size="md">{title}</Heading>
+					</Link>
 
 					<Text py="2">by {author_name}</Text>
 				</CardBody>

@@ -7,10 +7,9 @@ import {
 	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React from 'react';
 import { colors } from '../../theme';
-import { BookSearchBar } from '../BookSearchBar';
 import { MobileMenu } from '../MobileMenu';
 import { SignUpAndLoginModal } from '../SignUpAndLoginModal';
 import { useUser } from '../UserProvider';
@@ -22,7 +21,6 @@ export const NavBar: React.FC = () => {
 		'sign up' | 'log in'
 	>();
 	const { user, getMe } = useUser();
-	const router = useRouter();
 
 	const navBarOptions = () =>
 		user ? (
@@ -82,7 +80,7 @@ export const NavBar: React.FC = () => {
 		>
 			<Flex alignItems={'center'} justifyContent={'space-between'}>
 				<Heading size="lg" color={'white'}>
-					Litboxd
+					<Link href={'/'}>Litboxd</Link>
 				</Heading>
 				<HStack>
 					{isMobile ? (

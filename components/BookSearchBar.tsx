@@ -20,6 +20,7 @@ interface BookSearchBarProps {
 }
 
 export interface BookResult {
+	key: string;
 	cover_i: string;
 	author_name: string[];
 	title: string;
@@ -41,6 +42,8 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 				.join('+')}`
 		);
 		const data = await res.json();
+
+		console.log(data);
 
 		setIsLoading(false);
 
