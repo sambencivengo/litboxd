@@ -16,31 +16,14 @@ export const StarRatingButtonContainer: React.FC = () => {
 
 	return (
 		<ButtonGroup spacing={'0'}>
-			<StarButton
-				ratingValue={1}
-				setStarRating={setStarRating}
-				starRating={starRating}
-			/>
-			<StarButton
-				ratingValue={2}
-				setStarRating={setStarRating}
-				starRating={starRating}
-			/>
-			<StarButton
-				ratingValue={3}
-				setStarRating={setStarRating}
-				starRating={starRating}
-			/>
-			<StarButton
-				ratingValue={4}
-				setStarRating={setStarRating}
-				starRating={starRating}
-			/>
-			<StarButton
-				ratingValue={5}
-				setStarRating={setStarRating}
-				starRating={starRating}
-			/>
+			{[...new Array(5)].map((_, idx) => (
+				<StarButton
+					key={idx}
+					ratingValue={(idx += 1)}
+					setStarRating={setStarRating}
+					starRating={starRating}
+				/>
+			))}
 		</ButtonGroup>
 	);
 };
