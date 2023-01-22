@@ -114,6 +114,25 @@
           "default": "clock_timestamp()",
           "mappedType": "datetime"
         },
+        "review_content": {
+          "name": "review_content",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "rating": {
+          "name": "rating",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "0",
+          "mappedType": "integer"
+        },
         "likes": {
           "name": "likes",
           "type": "int",

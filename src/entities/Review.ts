@@ -22,6 +22,12 @@ export class Review {
 	})
 	updatedAt = new Date();
 
+	@Property({ type: 'text' })
+	reviewContent: string;
+
+	@Property({ type: 'integer', default: 0 })
+	rating: number;
+
 	@Property({ type: 'integer', default: 0 })
 	likes: number;
 
