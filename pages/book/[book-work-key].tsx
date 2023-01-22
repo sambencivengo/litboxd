@@ -85,6 +85,7 @@ export default function BookWorkKey() {
 			</Center>
 		);
 	}
+
 	return (
 		<>
 			<main>
@@ -141,8 +142,31 @@ export default function BookWorkKey() {
 											<Button onClick={openReviewModal}>
 												Write Review?
 											</Button>
-											{/* TODO: create new table for "saved" books (books to read later) */}
 											<IconButton
+												onClick={async () => {
+													const res = await fetch(
+														`/api/readingList`,
+														{
+															method: 'POST',
+															headers: {
+																'content-type':
+																	'application/json',
+															},
+															body: JSON.stringify(
+																{
+																	bookKey:
+																		bookWorkKey,
+																}
+															),
+															credentials:
+																'include',
+														}
+													);
+													const data =
+														await res.json();
+													//  TODO: create reading list store
+													console.log(data);
+												}}
 												aria-label="Add to reading list"
 												as={AiFillEye}
 											/>

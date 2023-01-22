@@ -1,15 +1,15 @@
-import { User } from '../../entities';
 import type {
 	EntityManager,
 	SqlEntityManager,
 	PostgreSqlDriver,
 	IDatabaseDriver,
 } from '@mikro-orm/postgresql';
+import { SimpleUser } from '../SimpleUser';
 
 declare global {
 	namespace Express {
 		export interface Request {
-			user: User;
+			user: SimpleUser;
 			em: EntityManager<PostgreSqlDriver>;
 		}
 	}
