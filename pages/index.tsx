@@ -3,7 +3,7 @@ import { Box, Divider, Heading, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../theme';
 import { BookResult, BookSearchBar } from '../components/BookSearchBar';
-import { BookCard } from '../components/BookCard';
+import { BookCardSearchResult } from '../components/BookCardSearchResult';
 
 export default function Home() {
 	const [bookResults, setBookResults] = React.useState<BookResult[]>();
@@ -37,7 +37,10 @@ export default function Home() {
 							bookResults.map((book) => {
 								if (book.cover_i) {
 									return (
-										<BookCard book={book} key={book.key} />
+										<BookCardSearchResult
+											book={book}
+											key={book.key}
+										/>
 									);
 								}
 							})}

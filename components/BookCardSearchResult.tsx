@@ -13,11 +13,13 @@ import { BOOK_COVER_BASE_URL } from '../constants';
 import { colors } from '../theme';
 import { BookResult } from './BookSearchBar';
 
-interface BookCardProps {
+interface BookCardSearchResultProps {
 	book: BookResult;
 }
 
-export const BookCard: React.FC<BookCardProps> = ({ book }) => {
+export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
+	book,
+}) => {
 	const { author_name, cover_i, title, key, isbn } = book;
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;
