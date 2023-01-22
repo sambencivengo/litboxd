@@ -29,22 +29,27 @@ export const NavBar: React.FC = () => {
 
 	const navBarOptions = () =>
 		user ? (
-			<Button
-				color={colors.white}
-				size="lg"
-				variant="link"
-				onClick={async () => {
-					const res = await fetch('/api/users/logout', {
-						method: 'DELETE',
-					});
-					if (!res.ok) {
-						console.log('There was an issue logging out');
-					}
-					await getMe();
-				}}
-			>
-				Log Out
-			</Button>
+			<>
+				<Button color={colors.white} size="lg" variant="link">
+					<Link href={'/reading-list'}>Reading List</Link>
+				</Button>
+				<Button
+					color={colors.white}
+					size="lg"
+					variant="link"
+					onClick={async () => {
+						const res = await fetch('/api/users/logout', {
+							method: 'DELETE',
+						});
+						if (!res.ok) {
+							console.log('There was an issue logging out');
+						}
+						await getMe();
+					}}
+				>
+					Log Out
+				</Button>
+			</>
 		) : (
 			<>
 				<Button
