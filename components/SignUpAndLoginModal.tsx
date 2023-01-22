@@ -14,8 +14,8 @@ import { Formik, Form } from 'formik';
 import React from 'react';
 import { CreateAndLoginUser } from '../src/schema';
 import { colors } from '../theme';
+import { useUser } from './Context';
 import { InputField } from './InputField';
-import { useUser } from './UserProvider';
 
 interface SignUpAndLoginModalProps {
 	loginModalIsOpen: boolean;

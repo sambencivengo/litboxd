@@ -1,6 +1,5 @@
 import React from 'react';
-import { setSourceMapRange } from 'typescript';
-import { SimpleUser } from '../src/types';
+import { SimpleUser } from '../../src/types';
 
 interface UserProviderProps {
 	children: React.ReactNode;

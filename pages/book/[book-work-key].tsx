@@ -21,9 +21,9 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { SignUpAndLoginModal } from '../../components/SignUpAndLoginModal';
 import { StarRatingButtonContainer } from '../../components/StarRating';
-import { useUser } from '../../components/UserProvider';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
 import { CreateReviewModal } from '../../components/CreateReviewModal';
+import { useUser } from '../../components/Context';
 
 export interface Book {
 	title: string;

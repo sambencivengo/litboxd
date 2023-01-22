@@ -10,9 +10,9 @@ import {
 import Link from 'next/link';
 import React from 'react';
 import { colors } from '../../theme';
+import { useUser } from '../Context';
 import { MobileMenu } from '../MobileMenu';
 import { SignUpAndLoginModal } from '../SignUpAndLoginModal';
-import { useUser } from '../UserProvider';
 
 export const NavBar: React.FC = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
