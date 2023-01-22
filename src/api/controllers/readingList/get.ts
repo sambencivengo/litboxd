@@ -1,7 +1,18 @@
 import { Handler } from 'express';
+import { ReadingList } from '../../../entities';
 
 export const get: Handler = async (req, res) => {
-	console.log(req.user);
+	const { user } = req;
 
-	res.send('Hello');
+	try {
+		const readingList = await req.em.find(ReadingList, {
+			user: user.id,
+		});
+
+		res.send(readingList);
+	} catch (error) {
+		res.status(500).send(`Unable to fetch reading list: ${error}`);
+		console.log(error);
+		return;
+	}
 };

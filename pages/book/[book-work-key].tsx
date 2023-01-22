@@ -23,7 +23,7 @@ import { SignUpAndLoginModal } from '../../components/SignUpAndLoginModal';
 import { StarRatingButtonContainer } from '../../components/StarRating';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
 import { CreateReviewModal } from '../../components/CreateReviewModal';
-import { useUser } from '../../components/Context';
+import { useReadingList, useUser } from '../../components/Context';
 
 export interface Book {
 	title: string;
@@ -55,8 +55,10 @@ export default function BookWorkKey() {
 
 	const bookWorkKey = router.query['book-work-key'];
 	const { user } = useUser();
+	const { getReadingList } = useReadingList();
 
 	React.useEffect(() => {
+		getReadingList();
 		setIsLoading(true);
 		const getBookInfo = async () => {
 			const res = await fetch(`${BOOK_URL}${bookWorkKey}.json`);
