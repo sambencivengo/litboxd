@@ -1,5 +1,6 @@
 import React from 'react';
 import { SimpleUser } from '../../src/types';
+import { useReadingList } from './ReadingListProvider';
 
 interface UserProviderProps {
 	children: React.ReactNode;
@@ -29,6 +30,7 @@ const UserContext = React.createContext<UserContextData>({
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [user, setUser] = React.useState<SimpleUser | null>(null);
+	const { getReadingList } = useReadingList();
 
 	const getMe = async (): Promise<void> => {
 		try {
@@ -76,6 +78,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			}
 
 			const data: SimpleUser = await res.json();
+			getReadingList();
 			setUser(data);
 		} catch (error) {
 			setUser(null);

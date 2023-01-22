@@ -8,13 +8,13 @@ import { ReadingListProvider } from '../components/Context/ReadingListProvider';
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<ChakraProvider theme={theme}>
-			<UserProvider>
-				<ReadingListProvider>
+			<ReadingListProvider>
+				<UserProvider>
 					<Layout>
 						<Component {...pageProps} />
 					</Layout>
-				</ReadingListProvider>
-			</UserProvider>
+				</UserProvider>
+			</ReadingListProvider>
 		</ChakraProvider>
 	);
 }

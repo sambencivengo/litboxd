@@ -12,7 +12,6 @@ import {
 	HStack,
 	Button,
 	useDisclosure,
-	IconButton,
 	useBreakpointValue,
 	Box,
 } from '@chakra-ui/react';
@@ -56,7 +55,7 @@ export default function BookWorkKey() {
 
 	const bookWorkKey = router.query['book-work-key'];
 	const { user } = useUser();
-	const { readingList } = useReadingList();
+	const { getReadingList, readingList } = useReadingList();
 
 	React.useEffect(() => {
 		setIsLoading(true);
@@ -74,6 +73,8 @@ export default function BookWorkKey() {
 			getBookInfo();
 		}
 	}, [bookWorkKey, router.query.author, router.isReady]);
+
+	console.log({ readingList });
 
 	if (isLoading) {
 		return (
@@ -102,18 +103,19 @@ export default function BookWorkKey() {
 			credentials: 'include',
 		});
 
+		getReadingList();
 		await res.json();
 	};
 
 	const removeFromReadingList = async () => {
-		const res = await fetch(`/api/readingList?${bookWorkKey}`, {
+		const res = await fetch(`/api/readingList?bookWorkKey=${bookWorkKey}`, {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json',
 			},
 			credentials: 'include',
 		});
-
+		getReadingList();
 		await res.json();
 	};
 
