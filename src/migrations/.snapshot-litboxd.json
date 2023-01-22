@@ -247,6 +247,15 @@
       "schema": "public",
       "indexes": [
         {
+          "columnNames": [
+            "book_key"
+          ],
+          "composite": false,
+          "keyName": "reading_list_book_key_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "reading_list_pkey",
           "columnNames": [
             "id"
