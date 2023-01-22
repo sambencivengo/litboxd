@@ -34,13 +34,16 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 	const [readingList, setReadingList] = React.useState([]);
 
 	const getReadingList = async () => {
+		setIsLoading(true);
 		try {
 			const res = await fetch('/api/readingList');
 			const data = await res.json();
 			setReadingList(data);
+			setIsLoading(false);
 		} catch (error) {
 			setReadingList([]);
 			console.error(error);
+			setIsLoading(false);
 		}
 	};
 

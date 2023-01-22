@@ -40,9 +40,7 @@ export default function BookWorkKey() {
 	const router = useRouter();
 	const [book, setBook] = React.useState<Book>(null);
 	const [author, setAuthor] = React.useState<string | string[] | null>(null);
-
 	const bookWorkKey = router.query['book-work-key'];
-	const { getReadingList } = useReadingList();
 
 	React.useEffect(() => {
 		setIsLoading(true);
@@ -68,35 +66,6 @@ export default function BookWorkKey() {
 			</Center>
 		);
 	}
-
-	const addToReadingList = async () => {
-		const res = await fetch(`/api/readingList`, {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-			},
-			body: JSON.stringify({
-				bookKey: bookWorkKey,
-				author,
-			}),
-			credentials: 'include',
-		});
-
-		getReadingList();
-		await res.json();
-	};
-
-	const removeFromReadingList = async () => {
-		const res = await fetch(`/api/readingList?bookWorkKey=${bookWorkKey}`, {
-			method: 'DELETE',
-			headers: {
-				'content-type': 'application/json',
-			},
-			credentials: 'include',
-		});
-		getReadingList();
-		await res.json();
-	};
 
 	return (
 		<>

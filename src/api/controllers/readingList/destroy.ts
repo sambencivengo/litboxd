@@ -16,8 +16,6 @@ export const destroy: Handler = async (req, res) => {
 			return;
 		}
 
-		console.log(readingListItem);
-
 		await req.em.remove(readingListItem).flush();
 
 		res.send(readingListItem);
