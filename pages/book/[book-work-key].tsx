@@ -24,6 +24,7 @@ import { StarRatingButtonContainer } from '../../components/StarRating';
 import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
 import { CreateReviewModal } from '../../components/CreateReviewModal';
 import { useReadingList, useUser } from '../../components/Context';
+import { colors } from '../../theme';
 
 export interface Book {
 	title: string;
@@ -55,10 +56,9 @@ export default function BookWorkKey() {
 
 	const bookWorkKey = router.query['book-work-key'];
 	const { user } = useUser();
-	const { getReadingList } = useReadingList();
+	const { readingList } = useReadingList();
 
 	React.useEffect(() => {
-		getReadingList();
 		setIsLoading(true);
 		const getBookInfo = async () => {
 			const res = await fetch(`${BOOK_URL}${bookWorkKey}.json`);
@@ -68,11 +68,6 @@ export default function BookWorkKey() {
 			setAuthor(router.query.author);
 		};
 
-		// const getAuthorInfo = async () => {
-		// 	const res = await fetch(`${AUTHORS_URL}${book.authors.key}`);
-		// 	const data = await res.json();
-		// 	console.log(data);
-		// };
 		setIsLoading(false);
 
 		if (router.isReady) {
@@ -88,11 +83,46 @@ export default function BookWorkKey() {
 		);
 	}
 
+	const bookIsOnList = readingList.find(
+		(book) => book.bookKey === bookWorkKey
+	)
+		? colors.green
+		: null;
+
+	const addToReadingList = async () => {
+		const res = await fetch(`/api/readingList`, {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+			},
+			body: JSON.stringify({
+				bookKey: bookWorkKey,
+				author,
+			}),
+			credentials: 'include',
+		});
+
+		await res.json();
+	};
+
+	const removeFromReadingList = async () => {
+		const res = await fetch(`/api/readingList?${bookWorkKey}`, {
+			method: 'DELETE',
+			headers: {
+				'content-type': 'application/json',
+			},
+			credentials: 'include',
+		});
+
+		await res.json();
+	};
+
 	return (
 		<>
 			<main>
 				{book && (
 					<Card
+						bgColor={colors.darkBlue}
 						direction={['column', 'column', 'row']}
 						overflow="hidden"
 						variant="outline"
@@ -147,34 +177,25 @@ export default function BookWorkKey() {
 											<Button onClick={openReviewModal}>
 												Write Review?
 											</Button>
-											<IconButton
-												onClick={async () => {
-													const res = await fetch(
-														`/api/readingList`,
-														{
-															method: 'POST',
-															headers: {
-																'content-type':
-																	'application/json',
-															},
-															body: JSON.stringify(
-																{
-																	bookKey:
-																		bookWorkKey,
-																	author,
-																}
-															),
-															credentials:
-																'include',
-														}
-													);
-
-													await res.json();
-													//  TODO: create reading list store
-												}}
-												aria-label="Add to reading list"
-												as={AiFillEye}
-											/>
+											<Button
+												leftIcon={
+													<AiFillEye fontSize={30} />
+												}
+												color={
+													bookIsOnList
+														? colors.green
+														: null
+												}
+												onClick={
+													bookIsOnList
+														? removeFromReadingList
+														: addToReadingList
+												}
+											>
+												{bookIsOnList
+													? 'Remove'
+													: 'Read'}
+											</Button>
 										</HStack>
 									)}
 								</Stack>

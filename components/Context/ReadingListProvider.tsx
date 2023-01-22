@@ -26,12 +26,16 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 		try {
 			const res = await fetch('/api/readingList');
 			const data = await res.json();
-			console.log(data);
+			setReadingList(data);
 		} catch (error) {
 			setReadingList([]);
 			console.error(error);
 		}
 	};
+
+	React.useEffect(() => {
+		getReadingList();
+	}, []);
 
 	return (
 		<ReadingListContext.Provider
