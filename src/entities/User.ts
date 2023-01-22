@@ -5,6 +5,7 @@ import {
 	PrimaryKey,
 	Property,
 } from '@mikro-orm/core';
+import { ReadingList } from './ReadingList';
 import { Review } from './Review';
 
 @Entity()
@@ -31,4 +32,7 @@ export class User {
 
 	@OneToMany(() => Review, (review) => review.user)
 	reviews = new Collection<Review>(this);
+
+	@OneToMany(() => ReadingList, (readingList) => readingList.user)
+	readingList = new Collection<ReadingList>(this);
 }
