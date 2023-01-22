@@ -27,7 +27,7 @@ import { CreateReviewModal } from '../../components/CreateReviewModal';
 
 export interface Book {
 	title: string;
-	covers: number[];
+	covers?: number[];
 	subjects: string[];
 	description?: {
 		value: string;
@@ -97,12 +97,15 @@ export default function BookWorkKey() {
 						w={'auto'}
 					>
 						<Center>
-							<Image
-								objectFit="contain"
-								maxW={{ base: '100%', sm: '200px' }}
-								src={`${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`}
-								alt="Book Cover"
-							/>
+							{Object.hasOwn(book, 'covers') && (
+								<Image
+									objectFit="contain"
+									maxW={{ base: '100%', sm: '200px' }}
+									src={`${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`} // TODO: fix bug with lack of covers
+									alt="Book Cover"
+									fallbackSrc="https://via.placeholder.com/150"
+								/>
+							)}
 						</Center>
 
 						<Stack>
@@ -156,16 +159,16 @@ export default function BookWorkKey() {
 																{
 																	bookKey:
 																		bookWorkKey,
+																	author,
 																}
 															),
 															credentials:
 																'include',
 														}
 													);
-													const data =
-														await res.json();
+
+													await res.json();
 													//  TODO: create reading list store
-													console.log(data);
 												}}
 												aria-label="Add to reading list"
 												as={AiFillEye}

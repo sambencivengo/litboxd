@@ -4,7 +4,6 @@ export const logout: Handler = (req, res) => {
 	try {
 		if (req.session) {
 			req.session.destroy(() => res.sendStatus(200));
-			console.log('after');
 		} else {
 			res.status(400).send('Unable to log out');
 		}

@@ -47,8 +47,6 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 		);
 		const data = await res.json();
 
-		console.log(data);
-
 		setIsLoading(false);
 
 		setBookResults(data.docs);
