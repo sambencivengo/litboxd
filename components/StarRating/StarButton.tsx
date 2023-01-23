@@ -5,28 +5,34 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { colors } from '../../theme';
 
 interface StarButtonProps {
+	setStarRatingPreview: React.Dispatch<React.SetStateAction<number>>;
+	starRatingPreview: number;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
 	starRating: number;
 	ratingValue: number;
 }
 
 export const StarButton: React.FC<StarButtonProps> = ({
+	setStarRatingPreview,
+	starRatingPreview,
 	setStarRating,
 	starRating,
 	ratingValue,
 }) => {
+	const highlightStars =
+		starRating >= ratingValue || starRatingPreview >= ratingValue;
+
 	return (
 		<IconButton
+			onClick={() => setStarRating(ratingValue)}
 			fontSize={40}
 			aria-label="Star rating button"
-			onMouseEnter={() => setStarRating(ratingValue)}
-			onMouseLeave={() => setStarRating(0)}
+			onMouseEnter={() => setStarRatingPreview(ratingValue)}
+			onMouseLeave={() => setStarRatingPreview(0)}
 			value={ratingValue}
-			icon={
-				ratingValue <= starRating ? <AiFillStar /> : <AiOutlineStar />
-			}
+			icon={highlightStars ? <AiFillStar /> : <AiOutlineStar />}
 			variant="ghost"
-			color={ratingValue <= starRating ? colors.orange : colors.white}
+			color={highlightStars ? colors.orange : colors.white}
 			_hover={{
 				color: `${colors.orange}`,
 				backgroundColor: 'transparent',

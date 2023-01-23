@@ -1,8 +1,9 @@
-import { ButtonGroup } from '@chakra-ui/react';
+import { ButtonGroup, CloseButton, HStack } from '@chakra-ui/react';
 import React from 'react';
 import { StarButton } from './StarButton';
 
 export const StarRatingButtonContainer: React.FC = () => {
+	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const [starRating, setStarRating] = React.useState<number>(0);
 
 	// 5 stars total
@@ -14,15 +15,20 @@ export const StarRatingButtonContainer: React.FC = () => {
 	// TODO: state for preview of value: hover/highlight
 	// TODO: state for chosen(clicked) value: highlight
 	return (
-		<ButtonGroup spacing={'0'}>
-			{[...new Array(5)].map((_, idx) => (
-				<StarButton
-					key={idx}
-					ratingValue={(idx += 1)}
-					setStarRating={setStarRating}
-					starRating={starRating}
-				/>
-			))}
-		</ButtonGroup>
+		<HStack>
+			<ButtonGroup spacing={0} dir="row">
+				{[...new Array(5)].map((_, idx) => (
+					<StarButton
+						key={idx}
+						ratingValue={(idx += 1)}
+						setStarRatingPreview={setStarRatingPreview}
+						starRatingPreview={starRatingPreview}
+						setStarRating={setStarRating}
+						starRating={starRating}
+					/>
+				))}
+			</ButtonGroup>
+			{starRating && <CloseButton onClick={() => setStarRating(0)} />}
+		</HStack>
 	);
 };
