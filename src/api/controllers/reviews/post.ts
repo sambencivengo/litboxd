@@ -6,19 +6,28 @@ import { validate } from '../../../utils';
 export const post: Handler = async (req, res) => {
 	const { user } = req;
 
-	const { bookAuthor, bookWorkKey, rating, reviewContent, errorHandled } =
-		await validate<CreateBookReview.ApiValues>({
-			req,
-			res,
-			schema: CreateBookReview.apiSchema,
-		});
+	const {
+		author,
+		title,
+		cover,
+		bookWorkKey,
+		rating,
+		reviewContent,
+		errorHandled,
+	} = await validate<CreateBookReview.ApiValues>({
+		req,
+		res,
+		schema: CreateBookReview.apiSchema,
+	});
 
 	if (errorHandled) return;
 
 	try {
 		const review = req.em.create(Review, {
-			author: bookAuthor,
+			author,
 			bookWorkKey,
+			title,
+			cover,
 			rating,
 			reviewContent,
 			user: user.id,

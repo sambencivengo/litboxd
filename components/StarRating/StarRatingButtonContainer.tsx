@@ -8,11 +8,13 @@ import { StarButton } from './StarButton';
 interface StarRatingButtonContainerProps {
 	author: string | string[];
 	bookWorkKey: string | string[];
+	cover: number;
+	title: string;
 }
 
 export const StarRatingButtonContainer: React.FC<
 	StarRatingButtonContainerProps
-> = ({ author, bookWorkKey }) => {
+> = ({ author, title, cover, bookWorkKey }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
@@ -31,6 +33,8 @@ export const StarRatingButtonContainer: React.FC<
 			<ButtonGroup spacing={0} dir="row">
 				{[...new Array(5)].map((_, idx) => (
 					<StarButton
+						cover={cover}
+						title={title}
 						author={author}
 						bookWorkKey={bookWorkKey}
 						key={idx}

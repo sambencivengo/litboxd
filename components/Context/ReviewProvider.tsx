@@ -10,8 +10,10 @@ export interface RateBookArgs {
 	rating: number;
 	author: string;
 	bookWorkKey: string;
+	cover: string;
+	title: string;
 }
-interface EditReviewArgs extends Omit<RateBookArgs, 'author'> {
+interface EditReviewArgs {
 	rating: number;
 	bookWorkKey: string;
 }
@@ -33,9 +35,15 @@ const ReviewContext = React.createContext<ReviewContextData>({
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	const [reviews, setReviews] = React.useState<Review[]>([]);
 
-	const rateBook = async ({ rating, author, bookWorkKey }: RateBookArgs) => {
+	const rateBook = async ({
+		rating,
+		cover,
+		title,
+		author,
+		bookWorkKey,
+	}: RateBookArgs) => {
 		CreateBookReview.uiSchema
-			.validate({ rating, bookAuthor: author, bookWorkKey })
+			.validate({ rating, author, title, cover, bookWorkKey })
 			.catch((error) => console.log(error));
 
 		try {
@@ -46,7 +54,9 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 				},
 				body: JSON.stringify({
 					rating,
-					bookAuthor: author,
+					author,
+					cover,
+					title,
 					bookWorkKey,
 				}),
 			});

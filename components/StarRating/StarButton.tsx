@@ -14,6 +14,8 @@ interface StarButtonProps {
 	ratingValue: number;
 	author: string | string[];
 	bookWorkKey: string | string[];
+	cover: number;
+	title: string;
 }
 
 export const StarButton: React.FC<StarButtonProps> = ({
@@ -24,6 +26,8 @@ export const StarButton: React.FC<StarButtonProps> = ({
 	rateBook,
 	ratingValue,
 	author,
+	cover,
+	title,
 	bookWorkKey,
 }) => {
 	const { reviews, editReview } = useReview();
@@ -51,6 +55,8 @@ export const StarButton: React.FC<StarButtonProps> = ({
 						rating: ratingValue,
 						bookWorkKey: bookWorkKey as string,
 						author: author as string,
+						cover: String(cover),
+						title,
 					});
 				}
 			}}

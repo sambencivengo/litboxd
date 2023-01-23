@@ -3,7 +3,9 @@ import * as yup from 'yup';
 export const schema = yup.object({
 	reviewContent: yup.string().trim(),
 	bookWorkKey: yup.string().trim().required('Book work key is required'),
-	bookAuthor: yup.string().trim().required('Author is required'),
+	author: yup.string().trim().required('Author is required'),
+	title: yup.string().trim().required('Title is required'),
+	cover: yup.string().trim().required('Cover is required'),
 	rating: yup
 		.number()
 		.min(0, 'Rating cannot be lower than zero')

@@ -102,6 +102,8 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 						<Box>
 							{user ? (
 								<StarRatingButtonContainer
+									title={book.title}
+									cover={book.covers[0]}
 									author={author}
 									bookWorkKey={bookWorkKey}
 								/>
