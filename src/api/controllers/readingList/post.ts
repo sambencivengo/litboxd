@@ -14,6 +14,7 @@ export const post: Handler = async (req, res) => {
 		});
 
 	if (errorHandled) return;
+
 	try {
 		const bookForReadingList = req.em.create(ReadingList, {
 			bookKey,
