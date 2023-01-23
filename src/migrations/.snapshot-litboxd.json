@@ -123,6 +123,24 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "book_work_key": {
+          "name": "book_work_key",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "book_author": {
+          "name": "book_author",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
         "rating": {
           "name": "rating",
           "type": "int",

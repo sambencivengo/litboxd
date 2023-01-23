@@ -25,6 +25,12 @@ export class Review {
 	@Property({ type: 'text' })
 	reviewContent: string;
 
+	@Property({ type: 'text' })
+	bookWorkKey: string;
+
+	@Property({ type: 'text' })
+	bookAuthor: string;
+
 	@Property({ type: 'integer', default: 0 })
 	rating: number;
 
