@@ -8,7 +8,7 @@ export const destroy: Handler = async (req, res) => {
 	try {
 		const readingListItem = await req.em.find(ReadingList, {
 			user: user.id,
-			bookKey: bookWorkKey as string,
+			bookWorkKey: bookWorkKey as string,
 		});
 
 		if (!readingListItem) {

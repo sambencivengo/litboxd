@@ -29,7 +29,13 @@ export class Review {
 	bookWorkKey: string;
 
 	@Property({ type: 'text' })
-	bookAuthor: string;
+	author: string;
+
+	@Property({ type: 'text' })
+	title!: string;
+
+	@Property({ type: 'text' })
+	cover!: string;
 
 	@Property({ type: 'integer', default: 0 })
 	rating: number;

@@ -17,7 +17,7 @@ export const post: Handler = async (req, res) => {
 
 	try {
 		const bookForReadingList = req.em.create(ReadingList, {
-			bookKey,
+			bookWorkKey: bookKey,
 			user: user.id,
 			author,
 		});

@@ -17,7 +17,7 @@ export const post: Handler = async (req, res) => {
 
 	try {
 		const review = req.em.create(Review, {
-			bookAuthor,
+			author: bookAuthor,
 			bookWorkKey,
 			rating,
 			reviewContent,

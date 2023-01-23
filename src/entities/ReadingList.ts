@@ -23,13 +23,13 @@ export class ReadingList {
 	updatedAt = new Date();
 
 	@Property({ type: 'text', unique: true })
-	bookKey!: string;
+	bookWorkKey!: string;
 
 	@Property({ type: 'text' })
 	author!: string;
 
 	@Property({ type: 'text' })
-	bookTitle!: string;
+	title!: string;
 
 	@Property({ type: 'text' })
 	cover!: string;
