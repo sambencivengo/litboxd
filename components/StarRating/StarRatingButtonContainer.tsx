@@ -15,9 +15,17 @@ export const StarRatingButtonContainer: React.FC<
 > = ({ author, bookWorkKey }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const [starRating, setStarRating] = React.useState<number>(0);
-	const { rateBook } = useReview();
+	const { rateBook, reviews } = useReview();
 	// TODO: figure out styling for half value ratings
 
+	React.useEffect(() => {
+		const review = reviews.find(
+			(review) => review.bookWorkKey === bookWorkKey
+		);
+		if (review) {
+			setStarRating(review.rating);
+		}
+	}, [bookWorkKey, reviews]);
 	return (
 		<HStack>
 			<ButtonGroup spacing={0} dir="row">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Review } from '../../src/entities';
 import { CreateBookReview } from '../../src/schema';
 
 interface ReviewProviderProps {
@@ -13,13 +14,18 @@ export interface RateBookArgs {
 
 interface ReviewContextData {
 	rateBook: (a: RateBookArgs) => Promise<void>;
+	getReviews: () => Promise<void>;
+	reviews: Review[];
 }
 
 const ReviewContext = React.createContext<ReviewContextData>({
 	rateBook: async () => {},
+	reviews: [],
+	getReviews: async () => {},
 });
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
+	const [reviews, setReviews] = React.useState<Review[]>([]);
 	const rateBook = async ({ rating, author, bookWorkKey }: RateBookArgs) => {
 		CreateBookReview.uiSchema
 			.validate({ rating, bookAuthor: author, bookWorkKey })
@@ -48,10 +54,27 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 		}
 	};
 
+	React.useEffect(() => {
+		getReviews();
+	}, []);
+
+	const getReviews = async () => {
+		try {
+			const res = await fetch('/api/reviews');
+			const data = await res.json();
+			setReviews(data);
+		} catch (error) {
+			console.error(error);
+			return;
+		}
+	};
+
 	return (
 		<ReviewContext.Provider
 			value={{
 				rateBook,
+				getReviews,
+				reviews,
 			}}
 		>
 			{children}

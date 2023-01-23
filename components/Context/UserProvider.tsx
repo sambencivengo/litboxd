@@ -1,6 +1,7 @@
 import React from 'react';
 import { SimpleUser } from '../../src/types';
 import { useReadingList } from './ReadingListProvider';
+import { useReview } from './ReviewProvider';
 
 interface UserProviderProps {
 	children: React.ReactNode;
@@ -31,6 +32,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [user, setUser] = React.useState<SimpleUser | null>(null);
 	const { getReadingList } = useReadingList();
+	const { getReviews } = useReview();
 
 	const getMe = async (): Promise<void> => {
 		try {
@@ -79,6 +81,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 			const data: SimpleUser = await res.json();
 			getReadingList();
+			getReviews;
 			setUser(data);
 		} catch (error) {
 			setUser(null);
