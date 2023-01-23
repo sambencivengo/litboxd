@@ -19,26 +19,39 @@ export const StarRatingButtonContainer: React.FC<
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
 	// TODO: figure out styling for half value ratings
-
+	const existingReview = reviews.find(
+		(review) => review.bookWorkKey === bookWorkKey
+	);
 	React.useEffect(() => {
-		const review = reviews.find(
-			(review) => review.bookWorkKey === bookWorkKey
-		);
-		if (review) {
-			setStarRating(review.rating);
+		if (existingReview) {
+			setStarRating(existingReview.rating);
 		}
-	}, [bookWorkKey, reviews]);
+	}, [bookWorkKey, existingReview, reviews]);
+
+	const rateOrEditRating = async (ratingValue: number) => {
+		if (existingReview) {
+			editReview({
+				bookWorkKey: bookWorkKey as string,
+				rating: ratingValue,
+			});
+		} else {
+			rateBook({
+				rating: ratingValue,
+				bookWorkKey: bookWorkKey as string,
+				author: author as string,
+				cover: String(cover),
+				title,
+			});
+		}
+	};
+
 	return (
 		<HStack>
 			<ButtonGroup spacing={0} dir="row">
 				{[...new Array(5)].map((_, idx) => (
 					<StarButton
-						cover={cover}
-						title={title}
-						author={author}
-						bookWorkKey={bookWorkKey}
+						rateOrEditRating={rateOrEditRating}
 						key={idx}
-						rateBook={rateBook}
 						ratingValue={(idx += 1)}
 						setStarRatingPreview={setStarRatingPreview}
 						starRatingPreview={starRatingPreview}

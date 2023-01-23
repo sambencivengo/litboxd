@@ -10,31 +10,19 @@ interface StarButtonProps {
 	starRatingPreview: number;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
 	starRating: number;
-	rateBook: (a: RateBookArgs) => Promise<void>;
 	ratingValue: number;
-	author: string | string[];
-	bookWorkKey: string | string[];
-	cover: number;
-	title: string;
+	rateOrEditRating: (a: number) => void;
 }
 
 export const StarButton: React.FC<StarButtonProps> = ({
 	setStarRatingPreview,
+	rateOrEditRating,
 	starRatingPreview,
 	setStarRating,
 	starRating,
-	rateBook,
 	ratingValue,
-	author,
-	cover,
-	title,
-	bookWorkKey,
 }) => {
 	const { reviews, editReview } = useReview();
-
-	const reviewExists = reviews.find(
-		(review) => review.bookWorkKey === bookWorkKey
-	);
 
 	const highlightStars =
 		starRating >= ratingValue || starRatingPreview >= ratingValue;
@@ -43,22 +31,9 @@ export const StarButton: React.FC<StarButtonProps> = ({
 		<IconButton
 			type="submit"
 			onClick={async () => {
+				rateOrEditRating(ratingValue);
 				setStarRating(ratingValue);
 				// TODO: use one controller for this
-				if (reviewExists) {
-					editReview({
-						bookWorkKey: bookWorkKey as string,
-						rating: ratingValue,
-					});
-				} else {
-					rateBook({
-						rating: ratingValue,
-						bookWorkKey: bookWorkKey as string,
-						author: author as string,
-						cover: String(cover),
-						title,
-					});
-				}
 			}}
 			fontSize={40}
 			aria-label="Star rating button"
