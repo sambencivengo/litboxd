@@ -175,6 +175,15 @@
       "schema": "public",
       "indexes": [
         {
+          "columnNames": [
+            "book_work_key"
+          ],
+          "composite": false,
+          "keyName": "review_book_work_key_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "review_pkey",
           "columnNames": [
             "id"

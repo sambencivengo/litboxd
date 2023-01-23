@@ -26,6 +26,7 @@ const ReviewContext = React.createContext<ReviewContextData>({
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	const [reviews, setReviews] = React.useState<Review[]>([]);
+
 	const rateBook = async ({ rating, author, bookWorkKey }: RateBookArgs) => {
 		CreateBookReview.uiSchema
 			.validate({ rating, bookAuthor: author, bookWorkKey })
@@ -47,8 +48,8 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 				console.log(await res.text());
 				return;
 			}
-			const data = await res.json();
-			console.log(data);
+			await res.json();
+			getReviews();
 		} catch (error) {
 			console.error(error);
 		}

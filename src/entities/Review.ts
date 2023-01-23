@@ -25,7 +25,7 @@ export class Review {
 	@Property({ type: 'text', nullable: true })
 	reviewContent: string;
 
-	@Property({ type: 'text' })
+	@Property({ type: 'text', unique: true })
 	bookWorkKey: string;
 
 	@Property({ type: 'text' })
