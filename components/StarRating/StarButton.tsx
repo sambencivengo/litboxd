@@ -9,6 +9,7 @@ interface StarButtonProps {
 	starRatingPreview: number;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
 	starRating: number;
+	rateBook: (a: number) => Promise<void>;
 	ratingValue: number;
 }
 
@@ -17,6 +18,7 @@ export const StarButton: React.FC<StarButtonProps> = ({
 	starRatingPreview,
 	setStarRating,
 	starRating,
+	rateBook,
 	ratingValue,
 }) => {
 	const highlightStars =
@@ -24,7 +26,11 @@ export const StarButton: React.FC<StarButtonProps> = ({
 
 	return (
 		<IconButton
-			onClick={() => setStarRating(ratingValue)}
+			type="submit"
+			onClick={async () => {
+				setStarRating(ratingValue);
+				rateBook(ratingValue);
+			}}
 			fontSize={40}
 			aria-label="Star rating button"
 			onMouseEnter={() => setStarRatingPreview(ratingValue)}
