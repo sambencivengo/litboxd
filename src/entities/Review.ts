@@ -22,8 +22,8 @@ export class Review {
 	})
 	updatedAt = new Date();
 
-	@Property({ type: 'text' })
-	reviewContent?: string;
+	@Property({ type: 'text', nullable: true })
+	reviewContent: string;
 
 	@Property({ type: 'text' })
 	bookWorkKey: string;
