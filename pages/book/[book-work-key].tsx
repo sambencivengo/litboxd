@@ -1,29 +1,7 @@
-import {
-	Image,
-	Center,
-	Spinner,
-	Heading,
-	Card,
-	CardBody,
-	Text,
-	CardFooter,
-	Stack,
-	Divider,
-	HStack,
-	Button,
-	useDisclosure,
-	useBreakpointValue,
-	Box,
-} from '@chakra-ui/react';
-import { AiFillEye } from 'react-icons/ai';
+import { Center, Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { SignUpAndLoginModal } from '../../components/SignUpAndLoginModal';
-import { StarRatingButtonContainer } from '../../components/StarRating';
-import { BOOK_COVER_BASE_URL, BOOK_URL } from '../../constants';
-import { CreateReviewModal } from '../../components/CreateReviewModal';
-import { useReadingList, useUser } from '../../components/Context';
-import { colors } from '../../theme';
+import { BOOK_URL } from '../../constants';
 import { BookWithDetails } from '../../components/BookWithDetails';
 
 export interface Book {

@@ -24,7 +24,7 @@ interface BookSearchBarProps {
 
 export interface BookResult {
 	key: string;
-	cover_i: string;
+	cover_i?: string;
 	isbn: string[];
 	author_name: string[];
 	title: string;
