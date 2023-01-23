@@ -1,22 +1,27 @@
-import {
-	ButtonGroup,
-	CloseButton,
-	FormControl,
-	HStack,
-} from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import { ButtonGroup, CloseButton, HStack } from '@chakra-ui/react';
+
 import React from 'react';
 import { CreateBookReview } from '../../src/schema';
 import { StarButton } from './StarButton';
 
-export const StarRatingButtonContainer: React.FC = () => {
+interface StarRatingButtonContainerProps {
+	author: string | string[];
+	bookWorkKey: string | string[];
+}
+
+export const StarRatingButtonContainer: React.FC<
+	StarRatingButtonContainerProps
+> = ({ author, bookWorkKey }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const [starRating, setStarRating] = React.useState<number>(0);
 
 	// TODO: figure out styling for half value ratings
 
 	const rateBook = async (rating: number) => {
-		console.log(rating);
+		CreateBookReview.uiSchema
+			.validate({ rating, bookAuthor: author, bookWorkKey })
+			.catch((error) => console.log(error));
+
 		try {
 			const res = await fetch('/api/reviews', {
 				method: 'POST',
@@ -25,6 +30,8 @@ export const StarRatingButtonContainer: React.FC = () => {
 				},
 				body: JSON.stringify({
 					rating,
+					bookAuthor: author,
+					bookWorkKey,
 				}),
 			});
 			const data = await res.json();

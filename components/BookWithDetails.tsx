@@ -101,7 +101,10 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 					>
 						<Box>
 							{user ? (
-								<StarRatingButtonContainer />
+								<StarRatingButtonContainer
+									author={author}
+									bookWorkKey={bookWorkKey}
+								/>
 							) : (
 								<Button onClick={openLoginModal}>
 									Log in to give rating
