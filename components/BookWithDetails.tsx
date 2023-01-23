@@ -53,7 +53,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	} = useDisclosure();
 
 	const bookIsOnList = readingList.find(
-		(book) => book.bookKey === bookWorkKey
+		(book) => book.bookWorkKey === bookWorkKey
 	)
 		? colors.green
 		: null;
