@@ -15,7 +15,7 @@ export const StarRatingButtonContainer: React.FC<
 > = ({ author, bookWorkKey }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const [starRating, setStarRating] = React.useState<number>(0);
-	const { rateBook, reviews } = useReview();
+	const { rateBook, reviews, editReview } = useReview();
 	// TODO: figure out styling for half value ratings
 
 	React.useEffect(() => {
@@ -47,6 +47,10 @@ export const StarRatingButtonContainer: React.FC<
 				<CloseButton
 					onClick={() => {
 						setStarRating(0);
+						editReview({
+							rating: 0,
+							bookWorkKey: bookWorkKey as string,
+						});
 					}}
 				/>
 			)}

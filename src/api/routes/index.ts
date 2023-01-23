@@ -4,7 +4,7 @@ import { reviews } from './reviews';
 
 import { users } from './users';
 
-export const api = Router();
+export const api = Router({ mergeParams: true });
 
 api.use('/users', users);
 api.use('/reviews', reviews);

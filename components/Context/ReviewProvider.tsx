@@ -1,6 +1,6 @@
 import React from 'react';
 import { Review } from '../../src/entities';
-import { CreateBookReview } from '../../src/schema';
+import { CreateBookReview, EditBookReview } from '../../src/schema';
 
 interface ReviewProviderProps {
 	children: React.ReactNode;
@@ -11,10 +11,15 @@ export interface RateBookArgs {
 	author: string;
 	bookWorkKey: string;
 }
+interface EditReviewArgs extends Omit<RateBookArgs, 'author'> {
+	rating: number;
+	bookWorkKey: string;
+}
 
 interface ReviewContextData {
 	rateBook: (a: RateBookArgs) => Promise<void>;
 	getReviews: () => Promise<void>;
+	editReview: (a: EditReviewArgs) => Promise<void>;
 	reviews: Review[];
 }
 
@@ -22,6 +27,7 @@ const ReviewContext = React.createContext<ReviewContextData>({
 	rateBook: async () => {},
 	reviews: [],
 	getReviews: async () => {},
+	editReview: async () => {},
 });
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
@@ -55,6 +61,32 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 		}
 	};
 
+	const editReview = async ({ rating, bookWorkKey }: EditReviewArgs) => {
+		EditBookReview.uiSchema
+			.validate({ rating })
+			.catch((error) => console.log(error));
+
+		try {
+			const res = await fetch(`/api/reviews/${bookWorkKey}`, {
+				method: 'PUT',
+				headers: {
+					'content-type': 'application/json',
+				},
+				body: JSON.stringify({
+					rating,
+				}),
+			});
+			if (!res.ok) {
+				console.log(await res.text());
+				return;
+			}
+			await res.json();
+			getReviews();
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	React.useEffect(() => {
 		getReviews();
 	}, []);
@@ -73,6 +105,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	return (
 		<ReviewContext.Provider
 			value={{
+				editReview,
 				rateBook,
 				getReviews,
 				reviews,

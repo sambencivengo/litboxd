@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import Controllers from '../../controllers';
 import { userMiddleware } from '../../middleware';
-import { reviewId } from './[:reviewId]';
+import { bookWorkKey } from './[:bookWorkKey]';
 
-export const reviews = Router();
+export const reviews = Router({ mergeParams: true });
 
 reviews.use(userMiddleware);
-reviews.use('/:reviewId', reviewId);
+reviews.use('/:bookWorkKey', bookWorkKey);
 reviews.get('/', Controllers.Reviews.get);
 reviews.post('/', Controllers.Reviews.post);
