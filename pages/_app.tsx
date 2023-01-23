@@ -4,16 +4,19 @@ import { theme } from '../theme';
 import { Layout } from '../components/Layout/Layout';
 import { UserProvider } from '../components/Context';
 import { ReadingListProvider } from '../components/Context/ReadingListProvider';
+import { ReviewProvider } from '../components/Context/ReviewProvider';
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<ChakraProvider theme={theme}>
 			<ReadingListProvider>
-				<UserProvider>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</UserProvider>
+				<ReviewProvider>
+					<UserProvider>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</UserProvider>
+				</ReviewProvider>
 			</ReadingListProvider>
 		</ChakraProvider>
 	);

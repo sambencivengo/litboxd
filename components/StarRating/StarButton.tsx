@@ -3,14 +3,17 @@ import { IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { colors } from '../../theme';
+import { RateBookArgs } from '../Context/ReviewProvider';
 
 interface StarButtonProps {
 	setStarRatingPreview: React.Dispatch<React.SetStateAction<number>>;
 	starRatingPreview: number;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
 	starRating: number;
-	rateBook: (a: number) => Promise<void>;
+	rateBook: (a: RateBookArgs) => Promise<void>;
 	ratingValue: number;
+	author: string | string[];
+	bookWorkKey: string | string[];
 }
 
 export const StarButton: React.FC<StarButtonProps> = ({
@@ -20,6 +23,8 @@ export const StarButton: React.FC<StarButtonProps> = ({
 	starRating,
 	rateBook,
 	ratingValue,
+	author,
+	bookWorkKey,
 }) => {
 	const highlightStars =
 		starRating >= ratingValue || starRatingPreview >= ratingValue;
@@ -29,7 +34,11 @@ export const StarButton: React.FC<StarButtonProps> = ({
 			type="submit"
 			onClick={async () => {
 				setStarRating(ratingValue);
-				rateBook(ratingValue);
+				rateBook({
+					rating: ratingValue,
+					bookWorkKey: bookWorkKey as string,
+					author: author as string,
+				});
 			}}
 			fontSize={40}
 			aria-label="Star rating button"
