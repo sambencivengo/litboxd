@@ -269,6 +269,15 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "cover": {
+          "name": "cover",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
         "user_id": {
           "name": "user_id",
           "type": "int",

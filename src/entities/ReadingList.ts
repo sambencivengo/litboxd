@@ -31,6 +31,9 @@ export class ReadingList {
 	@Property({ type: 'text' })
 	bookTitle!: string;
 
+	@Property({ type: 'text' })
+	cover!: string;
+
 	@ManyToOne({ entity: () => User })
 	user: IdentifiedReference<User>;
 }
