@@ -28,6 +28,9 @@ export class ReadingList {
 	@Property({ type: 'text' })
 	author!: string;
 
+	@Property({ type: 'text' })
+	bookTitle!: string;
+
 	@ManyToOne({ entity: () => User })
 	user: IdentifiedReference<User>;
 }
