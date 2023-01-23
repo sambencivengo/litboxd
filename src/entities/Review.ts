@@ -23,7 +23,7 @@ export class Review {
 	updatedAt = new Date();
 
 	@Property({ type: 'text' })
-	reviewContent: string;
+	reviewContent?: string;
 
 	@Property({ type: 'text' })
 	bookWorkKey: string;

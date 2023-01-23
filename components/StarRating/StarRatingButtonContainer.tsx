@@ -22,11 +22,13 @@ export const StarRatingButtonContainer: React.FC<
 			.validate({ rating, bookAuthor: author, bookWorkKey })
 			.catch((error) => console.log(error));
 
+		console.log(rating, author, bookWorkKey);
+
 		try {
 			const res = await fetch('/api/reviews', {
 				method: 'POST',
 				headers: {
-					'content-type': 'application-json',
+					'content-type': 'application/json',
 				},
 				body: JSON.stringify({
 					rating,
@@ -34,6 +36,10 @@ export const StarRatingButtonContainer: React.FC<
 					bookWorkKey,
 				}),
 			});
+			if (!res.ok) {
+				console.log(await res.text());
+				return;
+			}
 			const data = await res.json();
 			console.log(data);
 		} catch (error) {

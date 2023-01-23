@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import { get } from '../controllers/reviews';
+import Controllers from '../controllers';
+import { userMiddleware } from '../middleware';
 
 export const reviews = Router();
 
-reviews.get('/', get);
+reviews.use(userMiddleware);
+reviews.get('/', Controllers.Reviews.get);
+reviews.post('/', Controllers.Reviews.post);
