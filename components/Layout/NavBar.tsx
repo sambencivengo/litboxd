@@ -4,6 +4,7 @@ import {
 	Flex,
 	Heading,
 	HStack,
+	Image,
 	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
@@ -89,9 +90,16 @@ export const NavBar: React.FC = () => {
 			px={[5, 20, 50, 100, 300]}
 		>
 			<Flex alignItems={'center'} justifyContent={'space-between'}>
-				<Heading size="lg" color={'white'}>
-					<Link href={'/'}>Litboxd</Link>
-				</Heading>
+				<HStack>
+					<Image
+						h={8}
+						aria-label="litboxd logo"
+						src="/litboxd-logo.png"
+					/>
+					<Heading size="lg" color={'white'}>
+						<Link href={'/'}>Litboxd</Link>
+					</Heading>
+				</HStack>
 				<HStack>
 					{isMobile ? (
 						<MobileMenu
