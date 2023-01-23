@@ -11,6 +11,8 @@ interface RemoveFromReadingListArgs {
 
 interface AddToReadingListArgs extends RemoveFromReadingListArgs {
 	author: string | string[];
+	title: string;
+	cover: string;
 }
 interface ReadingListContextData {
 	isLoading: boolean;
@@ -49,6 +51,8 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 
 	const addToReadingList = async ({
 		bookWorkKey,
+		cover,
+		title,
 		author,
 	}: AddToReadingListArgs) => {
 		const res = await fetch(`/api/readingList`, {
@@ -57,8 +61,10 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 				'content-type': 'application/json',
 			},
 			body: JSON.stringify({
-				bookKey: bookWorkKey,
+				bookWorkKey,
 				author,
+				cover,
+				title,
 			}),
 			credentials: 'include',
 		});

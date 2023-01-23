@@ -6,7 +6,7 @@ import { validate } from '../../../utils';
 export const post: Handler = async (req, res) => {
 	const { user } = req;
 
-	const { bookKey, author, errorHandled } =
+	const { bookWorkKey, title, cover, author, errorHandled } =
 		await validate<AddBookToReadingList.ApiValues>({
 			req,
 			res,
@@ -17,7 +17,9 @@ export const post: Handler = async (req, res) => {
 
 	try {
 		const bookForReadingList = req.em.create(ReadingList, {
-			bookWorkKey: bookKey,
+			bookWorkKey,
+			title,
+			cover,
 			user: user.id,
 			author,
 		});

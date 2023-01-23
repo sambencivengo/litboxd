@@ -127,6 +127,10 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 											: addToReadingList({
 													author,
 													bookWorkKey,
+													cover: String(
+														book.covers[0]
+													),
+													title: book.title,
 											  })
 									}
 								>
