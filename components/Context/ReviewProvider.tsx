@@ -12,6 +12,7 @@ export interface RateBookArgs {
 	bookWorkKey: string;
 	cover: number | undefined;
 	title: string;
+	reviewContent?: string;
 }
 interface EditReviewArgs {
 	rating: number;

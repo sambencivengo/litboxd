@@ -1,44 +1,43 @@
 import { ButtonGroup, CloseButton, HStack } from '@chakra-ui/react';
 import React from 'react';
+import { BookForDatabase } from '../../src/types';
 import { useReview } from '../Context/ReviewProvider';
 import { StarButton } from './StarButton';
 
 interface StarRatingButtonContainerProps {
-	author: string | string[];
-	bookWorkKey: string | string[];
-	cover: number | undefined;
-	title: string;
+	book: BookForDatabase;
 }
 
 export const StarRatingButtonContainer: React.FC<
 	StarRatingButtonContainerProps
-> = ({ author, title, cover, bookWorkKey }) => {
+> = ({ book }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
 	// TODO: figure out styling for half value ratings
 	const existingReview = reviews.find(
-		(review) => review.bookWorkKey === bookWorkKey
+		(review) => review.bookWorkKey === book.bookWorkKey
 	);
+
 	React.useEffect(() => {
 		if (existingReview) {
 			setStarRating(existingReview.rating);
 		}
-	}, [bookWorkKey, existingReview, reviews]);
+	}, [existingReview, reviews]);
 
 	const rateOrEditRating = async (ratingValue: number) => {
 		if (existingReview) {
 			editReview({
-				bookWorkKey: bookWorkKey as string,
+				bookWorkKey: book.bookWorkKey as string,
 				rating: ratingValue,
 			});
 		} else {
 			rateBook({
 				rating: ratingValue,
-				bookWorkKey: bookWorkKey as string,
-				author: author as string,
-				cover: cover,
-				title,
+				bookWorkKey: book.bookWorkKey as string,
+				author: book.author as string,
+				cover: book.cover,
+				title: book.title,
 			});
 		}
 	};
@@ -64,7 +63,7 @@ export const StarRatingButtonContainer: React.FC<
 						setStarRating(0);
 						editReview({
 							rating: 0,
-							bookWorkKey: bookWorkKey as string,
+							bookWorkKey: book.bookWorkKey as string,
 						});
 					}}
 				/>

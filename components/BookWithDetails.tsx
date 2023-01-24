@@ -6,7 +6,6 @@ import {
 	Heading,
 	Divider,
 	Image,
-	Text,
 	CardFooter,
 	Button,
 	Box,
@@ -20,20 +19,16 @@ import { BOOK_COVER_BASE_URL } from '../constants';
 import { CreateReviewModal } from './CreateReviewModal';
 import { SignUpAndLoginModal } from './SignUpAndLoginModal';
 import { StarRatingButtonContainer } from './StarRating';
-import { Book } from '../pages/book/[book-work-key]';
 import { useReadingList, useUser } from './Context';
+import { BookForDatabase } from '../src/types';
 
 interface BookWithDetailsProps {
-	book: Book;
-	author: string | string[] | null;
-	bookWorkKey: string | string[];
+	book: BookForDatabase;
 	imageSize: 'S' | 'M' | 'L';
 }
 
 export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
-	bookWorkKey,
 	book,
-	author,
 	imageSize,
 }) => {
 	const { user } = useUser();
@@ -54,13 +49,11 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	} = useDisclosure();
 
 	const bookIsOnList = readingList.find(
-		(book) => book.bookWorkKey === bookWorkKey
-	)
-		? colors.green
-		: null;
+		(readingListBook) => readingListBook.bookWorkKey === book.bookWorkKey
+	);
 
-	const coverImage = Object.hasOwn(book, 'covers')
-		? `${BOOK_COVER_BASE_URL}${book.covers[0]}-${imageSize}.jpg`
+	const coverImage = book.cover
+		? `${BOOK_COVER_BASE_URL}${book.cover}-${imageSize}.jpg`
 		: '/no-cover.png';
 
 	return (
@@ -85,13 +78,16 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 				<CardBody>
 					<Stack gap={1}>
 						<Heading size="md">{book.title}</Heading>
-						{author && <Heading size="sm">by {author}</Heading>}
+						{book.author && (
+							<Heading size="sm">by {book.author}</Heading>
+						)}
 					</Stack>
 					<Divider />
 
-					{book.description && (
+					{/* TODO: update how description is managed... */}
+					{/* {book.description && (
 						<Text py="2">{book.description.value}</Text>
-					)}
+					)} */}
 				</CardBody>
 
 				<CardFooter>
@@ -104,16 +100,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 					>
 						<Box>
 							{user ? (
-								<StarRatingButtonContainer
-									title={book.title}
-									cover={
-										Object.hasOwn(book, 'covers')
-											? book.covers[0]
-											: undefined
-									}
-									author={author}
-									bookWorkKey={bookWorkKey}
-								/>
+								<StarRatingButtonContainer book={book} />
 							) : (
 								<Button onClick={openLoginModal}>
 									Log in to give rating
@@ -131,17 +118,14 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 									onClick={() =>
 										bookIsOnList
 											? removeFromReadingList({
-													bookWorkKey,
+													bookWorkKey:
+														book.bookWorkKey,
 											  })
 											: addToReadingList({
-													author,
-													bookWorkKey,
-													cover: Object.hasOwn(
-														book,
-														'covers'
-													)
-														? book.covers[0]
-														: undefined,
+													author: book.author,
+													bookWorkKey:
+														book.bookWorkKey,
+													cover: book.cover,
 													title: book.title,
 											  })
 									}

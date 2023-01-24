@@ -40,6 +40,7 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 		try {
 			const res = await fetch('/api/readingList');
 			const data = await res.json();
+
 			setReadingList(data);
 			setIsLoading(false);
 		} catch (error) {

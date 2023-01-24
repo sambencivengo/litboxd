@@ -5,25 +5,27 @@ import {
 	ModalHeader,
 	ModalCloseButton,
 	ModalBody,
-	VStack,
 	Image,
 	Button,
 	ModalFooter,
-	Card,
 	Flex,
+	Textarea,
+	VStack,
+	FormControl,
+	FormErrorMessage,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
-import { Book } from '../pages/book/[book-work-key]';
-import { CreateAndLoginUser } from '../src/schema';
+import { CreateBookReview } from '../src/schema';
+import { BookForDatabase } from '../src/types';
 import { colors } from '../theme';
-import { InputField } from './InputField';
-import { SignUpAndLoginFormArgs } from './SignUpAndLoginModal';
+import { useReview } from './Context/ReviewProvider';
+import { StarRatingButtonContainer } from './StarRating';
 
 interface CreateReviewModalProps {
 	reviewModalIsOpen: boolean;
-	book: Book;
+	book: BookForDatabase;
 	closeReviewModal: () => void;
 }
 
@@ -32,11 +34,20 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	reviewModalIsOpen,
 	book,
 }) => {
-	const coverImage = Object.hasOwn(book, 'covers')
-		? `${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`
+	const { rateBook, reviews } = useReview();
+
+	const existingReview = reviews.find(
+		(review) => review.bookWorkKey === book.bookWorkKey
+	);
+	const coverImage = book.cover
+		? `${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`
 		: '/no-cover.png';
 	return (
-		<Modal isOpen={reviewModalIsOpen} onClose={closeReviewModal}>
+		<Modal
+			size={'xl'}
+			isOpen={reviewModalIsOpen}
+			onClose={closeReviewModal}
+		>
 			<ModalOverlay
 				bg="whiteAlpha.200"
 				backdropFilter="auto"
@@ -50,51 +61,83 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 				<ModalCloseButton />
 				<ModalBody bgColor={colors.darkBlue}>
 					<Flex
-						justifyContent={'space-between'}
+						gap={100}
+						justifyContent={'space-around'}
 						direction={{ base: 'column', sm: 'row' }}
 					>
 						<Image
 							objectFit="contain"
-							maxW={{ base: '100%', sm: '200px' }}
+							maxW="100px"
 							src={coverImage}
 							alt="Book Cover"
 							fallbackSrc="https://via.placeholder.com/150"
 						/>
+
 						<Formik
 							validateOnChange={false}
 							validateOnBlur={false}
-							initialValues={{ username: '', password: '' }}
-							validationSchema={CreateAndLoginUser.uiSchema}
-							onSubmit={async (args: SignUpAndLoginFormArgs) => {
-								console.log(args);
+							initialValues={{ reviewContent: '' }}
+							validationSchema={CreateBookReview.uiSchema}
+							onSubmit={async ({ reviewContent }) => {
+								// const success = await rateBook({
+								// 	author,
+								// 	bookWorkKey,
+								// 	cover: book.covers[0],
+								// 	rating: existingReview.rating,
+								// 	title: book.title,
+								// 	reviewContent,
+								// });
 							}}
 						>
-							{({ isSubmitting }) => (
-								<Form>
-									<VStack spacing={10}>
-										{/* TODO: build review */}
+							{({ isSubmitting, errors, handleChange }) => {
+								return (
+									<Form>
+										<VStack>
+											<FormControl
+												isInvalid={
+													!!errors.reviewContent
+												}
+												id="reviewContent"
+											>
+												<Textarea
+													onChange={handleChange}
+													id="reviewContent"
+													placeholder="Write your review here..."
+													name="reviewContent"
+												/>
 
-										<InputField
-											label="Description"
-											name="description"
-											isRequired={true}
-										/>
+												<FormErrorMessage
+													color={colors.deepRed}
+												>
+													{errors.reviewContent}
+												</FormErrorMessage>
+											</FormControl>
 
-										<Button
-											bgColor={colors.green}
-											color={colors.white}
-											_hover={{
-												backgroundColor:
-													colors.greyBlue,
-											}}
-											isLoading={isSubmitting}
-											type="submit"
-										>
-											Submit
-										</Button>
-									</VStack>
-								</Form>
-							)}
+											<StarRatingButtonContainer
+												book={book}
+											/>
+
+											<Button
+												isDisabled={
+													existingReview
+														? false
+														: true
+												}
+												bgColor={colors.green}
+												color={colors.white}
+												_hover={{
+													backgroundColor:
+														colors.greyBlue,
+												}}
+												isLoading={isSubmitting}
+												type="submit"
+											>
+												Submit
+											</Button>
+										</VStack>
+									</Form>
+								);
+							}}
 						</Formik>
 					</Flex>
 				</ModalBody>
