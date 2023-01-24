@@ -67,15 +67,13 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 			w={'auto'}
 		>
 			<Center>
-				{Object.hasOwn(book, 'covers') && (
-					<Image
-						objectFit="contain"
-						maxW={{ base: '100%', sm: '200px' }}
-						src={`${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`} // TODO: fix bug with lack of covers
-						alt="Book Cover"
-						fallbackSrc="https://via.placeholder.com/150"
-					/>
-				)}
+				<Image
+					objectFit="contain"
+					maxW={{ base: '100%', sm: '200px' }}
+					src={`${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`} // TODO: fix bug with lack of covers
+					alt="Book Cover"
+					fallbackSrc="https://via.placeholder.com/150"
+				/>
 			</Center>
 
 			<Stack>
