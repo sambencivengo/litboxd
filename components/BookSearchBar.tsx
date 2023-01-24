@@ -38,20 +38,6 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
 	const [isLoading, setIsLoading] = React.useState(false);
 
-	const fetchBooks = async () => {
-		setIsLoading(true);
-		const res = await fetch(
-			`${LIBRARY_SEARCH_URL}${searchCategory}=${searchBarInput
-				.split(' ')
-				.join('+')}`
-		);
-		const data = await res.json();
-
-		setIsLoading(false);
-
-		setBookResults(data.docs);
-	};
-
 	return (
 		<Box ml={2}>
 			<Formik
@@ -116,11 +102,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 												icon={<Search2Icon />}
 												aria-label="Magnifying glass"
 												h="1.75rem"
-												onClick={
-													!searchBarInput
-														? null
-														: fetchBooks
-												}
+												type="submit"
 											/>
 										)}
 									</InputRightElement>
