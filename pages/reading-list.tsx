@@ -1,4 +1,12 @@
-import { Box, Heading, list, Text, VStack } from '@chakra-ui/react';
+import {
+	Box,
+	Center,
+	Heading,
+	list,
+	Spinner,
+	Text,
+	VStack,
+} from '@chakra-ui/react';
 import React from 'react';
 import { BookWithDetails } from '../components/BookWithDetails';
 import { useReadingList } from '../components/Context';
@@ -11,19 +19,18 @@ export default function ReadingList() {
 		getReadingList();
 	}, []);
 
-	console.log(readingList);
-
 	return (
 		<Box>
 			<Heading p={10} color={colors.white}>
 				Reading List
 			</Heading>
 			<VStack spacing={5}>
-				{readingList &&
+				{isLoading ? (
+					<Center>
+						<Spinner size="xl" />
+					</Center>
+				) : (
 					readingList.map((listItem, idx) => (
-						// <Box key={idx}>
-						// 	<Text>{listItem.author}</Text>
-						// </Box>
 						<BookWithDetails
 							imageSize="M"
 							bookWorkKey={listItem.bookWorkKey}
@@ -34,7 +41,8 @@ export default function ReadingList() {
 								covers: [listItem.cover],
 							}}
 						/>
-					))}
+					))
+				)}
 			</VStack>
 		</Box>
 	);
