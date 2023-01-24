@@ -3,13 +3,11 @@ import {
 	Box,
 	Flex,
 	FormControl,
-	HStack,
 	IconButton,
 	Input,
 	InputGroup,
 	InputRightElement,
 	Select,
-	Spinner,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
@@ -17,15 +15,16 @@ import React from 'react';
 import { LIBRARY_SEARCH_URL } from '../constants';
 import { colors } from '../theme';
 
-type SearchBarCategoryProps = 'title' | 'subject' | 'author' | 'text';
+type SearchBarCategoryProps = 'title' | 'author';
 
 interface BookSearchBarProps {
+	setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 	setBookResults: React.Dispatch<React.SetStateAction<BookResult[]>>;
 }
 
 export interface BookResult {
 	key: string;
-	cover_i?: number;
+	cover_i: number;
 	isbn: string[];
 	author_name: string[];
 	title: string;
@@ -33,13 +32,13 @@ export interface BookResult {
 
 export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 	setBookResults,
+	setIsLoading,
 }) => {
 	const router = useRouter();
 
 	const [searchCategory, setSearchCategory] =
 		React.useState<SearchBarCategoryProps>('title');
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
-	const [isLoading, setIsLoading] = React.useState(false);
 
 	React.useEffect(() => {
 		const fetchFromQuery = async () => {
@@ -47,22 +46,19 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 				if (!router.query.search) {
 					return;
 				}
+				setIsLoading(true);
 				const res = await fetch(
 					`${LIBRARY_SEARCH_URL}${searchCategory}=${router.query.search}`
 				);
 				const data = await res.json();
+				// TODO: request error
 				const reducedResults = data.docs.slice(0, 5);
 				setBookResults(reducedResults);
+				setIsLoading(false);
 			}
 		};
 		fetchFromQuery();
-	}, [
-		router.isReady,
-		router.query,
-		searchCategory,
-		searchBarInput,
-		setBookResults,
-	]);
+	}, [setIsLoading, router.isReady, router.query, setBookResults]);
 
 	return (
 		<Box ml={2}>
@@ -74,6 +70,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 					searchCategory: 'title',
 				}}
 				onSubmit={async () => {
+					setIsLoading(true);
 					router.push({
 						query: {
 							search: searchBarInput,
@@ -86,9 +83,9 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 					);
 					const data = await res.json();
 
-					setIsLoading(false);
 					const reducedResults = data.docs.slice(0, 5);
 					setBookResults(reducedResults);
+					setIsLoading(false);
 
 					// NOTE: removed extra fetch, maybe come back to it? Otherwise, control for lack of cover image on click
 				}}
@@ -113,8 +110,6 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 								>
 									<option value="title">Title</option>
 									<option value="author">Author</option>
-									<option value="text">Text</option>
-									<option value="subject">Subject</option>
 								</Select>
 							</FormControl>
 							<FormControl id="searchBarInput" w={'5000px'}>
@@ -126,18 +121,14 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 										}
 									/>
 									<InputRightElement width="3rem">
-										{isLoading ? (
-											<Spinner />
-										) : (
-											<IconButton
-												isLoading={isSubmitting}
-												isDisabled={isSubmitting}
-												icon={<Search2Icon />}
-												aria-label="Magnifying glass"
-												h="1.75rem"
-												type="submit"
-											/>
-										)}
+										<IconButton
+											isLoading={isSubmitting}
+											isDisabled={isSubmitting}
+											icon={<Search2Icon />}
+											aria-label="Magnifying glass"
+											h="1.75rem"
+											type="submit"
+										/>
 									</InputRightElement>
 								</InputGroup>
 							</FormControl>

@@ -1,5 +1,12 @@
 import Head from 'next/head';
-import { Box, Divider, Heading, VStack } from '@chakra-ui/react';
+import {
+	Box,
+	Center,
+	Divider,
+	Heading,
+	Spinner,
+	VStack,
+} from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../theme';
 import { BookResult, BookSearchBar } from '../components/BookSearchBar';
@@ -7,6 +14,7 @@ import { BookCardSearchResult } from '../components/BookCardSearchResult';
 
 export default function Home() {
 	const [bookResults, setBookResults] = React.useState<BookResult[]>();
+	const [isLoading, setIsLoading] = React.useState(false);
 
 	return (
 		<>
@@ -25,26 +33,35 @@ export default function Home() {
 			<main>
 				<Box>
 					<Box pb={10} px={20}>
-						<BookSearchBar setBookResults={setBookResults} />
+						<BookSearchBar
+							setIsLoading={setIsLoading}
+							setBookResults={setBookResults}
+						/>
 					</Box>
 					<Heading size={'md'} color={colors.white}>
 						A social platform for sharing your taste in literature
 						and books.
 					</Heading>
 					<Divider />
-					<VStack mt={10}>
-						{bookResults &&
-							bookResults.map((book) => {
-								if (book.cover_i) {
-									return (
-										<BookCardSearchResult
-											book={book}
-											key={book.key}
-										/>
-									);
-								}
-							})}
-					</VStack>
+					{isLoading ? (
+						<Center mt={100}>
+							<Spinner size="xl" />
+						</Center>
+					) : (
+						<VStack mt={10}>
+							{bookResults &&
+								bookResults.map((book) => {
+									if (book.cover_i) {
+										return (
+											<BookCardSearchResult
+												book={book}
+												key={book.key}
+											/>
+										);
+									}
+								})}
+						</VStack>
+					)}
 				</Box>
 			</main>
 		</>
