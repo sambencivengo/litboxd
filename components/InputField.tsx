@@ -34,7 +34,7 @@ export const InputField: React.FC<InputFieldProps> = ({
 					</FormLabel>
 				</>
 			)}
-			<Input variant={'filled'} {...field} {...props} id={field.name} />
+			<Input {...field} {...props} id={field.name} />
 			{error && (
 				<FormErrorMessage color={colors.deepRed}>
 					{error}
