@@ -13,6 +13,8 @@ import {
 	VStack,
 	FormControl,
 	FormErrorMessage,
+	Input,
+	Checkbox,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import React from 'react';
@@ -37,7 +39,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	const { rateBook, reviews } = useReview();
 
 	const existingReview = reviews.find(
-		(review) => review.bookWorkKey === book.bookWorkKey
+		(review) => review.bookWorkKey === book.bookWorkKey && review.rating > 0
 	);
 	const coverImage = book.cover
 		? `${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`
@@ -112,6 +114,15 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 													{errors.reviewContent}
 												</FormErrorMessage>
 											</FormControl>
+
+											{existingReview && (
+												<Checkbox
+													defaultChecked
+													type="checkbox"
+												>
+													Remove from reading list?
+												</Checkbox>
+											)}
 
 											<StarRatingButtonContainer
 												book={book}
