@@ -7,7 +7,7 @@ import { BookWithDetails } from '../../components/BookWithDetails';
 export interface Book {
 	title: string;
 	covers?: number[];
-	subjects: string[];
+	subjects?: string[];
 	description?: {
 		value: string;
 	};
@@ -50,6 +50,7 @@ export default function BookWorkKey() {
 			<main>
 				{book && (
 					<BookWithDetails
+						imageSize="L"
 						author={author}
 						book={book}
 						bookWorkKey={bookWorkKey}

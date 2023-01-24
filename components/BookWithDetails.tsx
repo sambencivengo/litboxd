@@ -27,12 +27,14 @@ interface BookWithDetailsProps {
 	book: Book;
 	author: string | string[] | null;
 	bookWorkKey: string | string[];
+	imageSize: 'S' | 'M' | 'L';
 }
 
 export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	bookWorkKey,
 	book,
 	author,
+	imageSize,
 }) => {
 	const { user } = useUser();
 	const { addToReadingList, removeFromReadingList, readingList } =
@@ -58,7 +60,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		: null;
 
 	const coverImage = Object.hasOwn(book, 'covers')
-		? `${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`
+		? `${BOOK_COVER_BASE_URL}${book.covers[0]}-${imageSize}.jpg`
 		: '/no-cover.png';
 
 	return (
