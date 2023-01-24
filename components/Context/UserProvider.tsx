@@ -15,17 +15,17 @@ interface LoginAndSignUpArgs {
 interface UserContextData {
 	isLoading: boolean;
 	user: SimpleUser | null;
-	signUp: (a: LoginAndSignUpArgs) => Promise<void>;
-	login: (a: LoginAndSignUpArgs) => Promise<void>;
+	signUp: (a: LoginAndSignUpArgs) => Promise<boolean>;
+	login: (a: LoginAndSignUpArgs) => Promise<boolean>;
 	getMe: () => Promise<void>;
 }
 
 const UserContext = React.createContext<UserContextData>({
 	user: null,
 	isLoading: false,
-	signUp: async () => {},
+	signUp: async () => false,
 	getMe: async () => {},
-	login: async () => {},
+	login: async () => false,
 });
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
@@ -42,6 +42,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			});
 
 			if (!res.ok) {
+				console.error(await res.text());
 				setUser(null);
 			}
 
@@ -61,7 +62,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const login = async ({
 		username,
 		password,
-	}: LoginAndSignUpArgs): Promise<void> => {
+	}: LoginAndSignUpArgs): Promise<boolean> => {
 		try {
 			const res = await fetch('/api/users/login', {
 				method: 'POST',
@@ -77,23 +78,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 			if (!res.ok) {
 				setUser(null);
-				return;
+				return false;
 			}
 
 			const data: SimpleUser = await res.json();
 			getReadingList();
 			getReviews;
 			setUser(data);
+			return true;
 		} catch (error) {
 			setUser(null);
 			console.error(error);
+			return false;
 		}
 	};
 
 	const signUp = async ({
 		username,
 		password,
-	}: LoginAndSignUpArgs): Promise<void> => {
+	}: LoginAndSignUpArgs): Promise<boolean> => {
 		try {
 			const res = await fetch('/api/users/register', {
 				method: 'POST',
@@ -106,13 +109,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 			if (!res.ok) {
 				setUser(null);
-				return;
+				return false;
 			}
 			const data: SimpleUser = await res.json();
 			setUser(data);
+			return true;
 		} catch (error) {
 			setUser(null);
 			console.error(error);
+			return false;
 		}
 	};
 

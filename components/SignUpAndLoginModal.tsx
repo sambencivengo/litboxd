@@ -33,7 +33,9 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 	closeLoginModal,
 	purpose,
 }) => {
-	const { login, user, signUp } = useUser();
+	const { login, signUp } = useUser();
+	const toast = useToast();
+
 	return (
 		<Modal isOpen={loginModalIsOpen} onClose={closeLoginModal}>
 			<ModalOverlay
@@ -56,10 +58,26 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 						initialValues={{ username: '', password: '' }}
 						validationSchema={CreateAndLoginUser.uiSchema}
 						onSubmit={async (args: SignUpAndLoginFormArgs) => {
+							let success: boolean;
 							purpose === 'log in'
-								? await login(args)
-								: await signUp(args);
-							closeLoginModal();
+								? (success = await login(args))
+								: (success = await signUp(args));
+							if (success) {
+								closeLoginModal();
+							} else {
+								toast({
+									title: `Unable to ${
+										purpose === 'log in'
+											? 'log in.'
+											: 'sign up.'
+									} `,
+									status: 'error',
+									variant: 'solid',
+									duration: 2000,
+									isClosable: true,
+									position: 'top',
+								});
+							}
 							// TODO: update user store
 						}}
 					>

@@ -19,6 +19,10 @@ export const login: Handler = async (req, res) => {
 			username,
 		});
 
+		if (!user) {
+			res.status(403).send("User doesn't exist");
+			return;
+		}
 		const validPassword = await argon2.verify(user.password, password);
 
 		if (!validPassword) {
