@@ -108,7 +108,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 									cover={
 										Object.hasOwn(book, 'covers')
 											? book.covers[0]
-											: null
+											: undefined
 									}
 									author={author}
 									bookWorkKey={bookWorkKey}
@@ -135,8 +135,12 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 											: addToReadingList({
 													author,
 													bookWorkKey,
-													cover:
-														book.covers[0] ?? null,
+													cover: Object.hasOwn(
+														book,
+														'covers'
+													)
+														? book.covers[0]
+														: undefined,
 													title: book.title,
 											  })
 									}

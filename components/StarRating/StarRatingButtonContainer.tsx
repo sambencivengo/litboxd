@@ -6,7 +6,7 @@ import { StarButton } from './StarButton';
 interface StarRatingButtonContainerProps {
 	author: string | string[];
 	bookWorkKey: string | string[];
-	cover: number;
+	cover: number | undefined;
 	title: string;
 }
 
@@ -37,7 +37,7 @@ export const StarRatingButtonContainer: React.FC<
 				rating: ratingValue,
 				bookWorkKey: bookWorkKey as string,
 				author: author as string,
-				cover: String(cover),
+				cover: cover,
 				title,
 			});
 		}
