@@ -1,9 +1,8 @@
 import { IconButton } from '@chakra-ui/react';
-
 import React from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { colors } from '../../theme';
-import { RateBookArgs, useReview } from '../Context/ReviewProvider';
+import { useReview } from '../Context/ReviewProvider';
 
 interface StarButtonProps {
 	setStarRatingPreview: React.Dispatch<React.SetStateAction<number>>;
@@ -22,8 +21,6 @@ export const StarButton: React.FC<StarButtonProps> = ({
 	starRating,
 	ratingValue,
 }) => {
-	const { reviews, editReview } = useReview();
-
 	const highlightStars =
 		starRating >= ratingValue || starRatingPreview >= ratingValue;
 
@@ -33,7 +30,7 @@ export const StarButton: React.FC<StarButtonProps> = ({
 			onClick={async () => {
 				rateOrEditRating(ratingValue);
 				setStarRating(ratingValue);
-				// TODO: use one controller for this
+				// TODO: use one controller for this?
 			}}
 			fontSize={40}
 			aria-label="Star rating button"

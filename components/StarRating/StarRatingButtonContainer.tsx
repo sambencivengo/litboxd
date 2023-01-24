@@ -1,7 +1,5 @@
 import { ButtonGroup, CloseButton, HStack } from '@chakra-ui/react';
-
 import React from 'react';
-import { CreateBookReview } from '../../src/schema';
 import { useReview } from '../Context/ReviewProvider';
 import { StarButton } from './StarButton';
 
