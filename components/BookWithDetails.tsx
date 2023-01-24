@@ -10,7 +10,6 @@ import {
 	CardFooter,
 	Button,
 	Box,
-	HStack,
 	useDisclosure,
 	useBreakpointValue,
 } from '@chakra-ui/react';
@@ -65,7 +64,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	return (
 		<Card
 			bgColor={colors.darkBlue}
-			direction={['column', 'column', 'row']}
+			direction={['column', 'column', 'row', 'row']}
 			overflow="hidden"
 			variant="outline"
 			w={'auto'}
@@ -120,7 +119,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 							)}
 						</Box>
 						{user && (
-							<HStack>
+							<Stack direction={['row', 'row', 'column', 'row']}>
 								<Button onClick={openReviewModal}>
 									Write Review?
 								</Button>
@@ -147,7 +146,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 								>
 									{bookIsOnList ? 'Remove' : 'Read'}
 								</Button>
-							</HStack>
+							</Stack>
 						)}
 					</Stack>
 					<CreateReviewModal
