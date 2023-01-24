@@ -39,6 +39,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 	const [searchCategory, setSearchCategory] =
 		React.useState<SearchBarCategoryProps>('title');
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
+	const searchQuery = `${LIBRARY_SEARCH_URL}${searchCategory}=${router.query.search}`;
 
 	React.useEffect(() => {
 		const fetchFromQuery = async () => {
@@ -47,9 +48,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 					return;
 				}
 				setIsLoading(true);
-				const res = await fetch(
-					`${LIBRARY_SEARCH_URL}${searchCategory}=${router.query.search}`
-				);
+				const res = await fetch(searchQuery);
 				const data = await res.json();
 				// TODO: request error
 				const reducedResults = data.docs.slice(0, 5);
@@ -58,7 +57,13 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 			}
 		};
 		fetchFromQuery();
-	}, [setIsLoading, router.isReady, router.query, setBookResults]);
+	}, [
+		setIsLoading,
+		router.isReady,
+		router.query,
+		setBookResults,
+		searchQuery,
+	]);
 
 	return (
 		<Box ml={2}>
