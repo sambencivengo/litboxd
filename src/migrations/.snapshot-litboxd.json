@@ -152,12 +152,12 @@
         },
         "cover": {
           "name": "cover",
-          "type": "text",
+          "type": "int",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
-          "mappedType": "text"
+          "nullable": true,
+          "mappedType": "integer"
         },
         "rating": {
           "name": "rating",
@@ -289,12 +289,12 @@
         },
         "cover": {
           "name": "cover",
-          "type": "text",
+          "type": "int",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
-          "mappedType": "text"
+          "nullable": true,
+          "mappedType": "integer"
         },
         "user_id": {
           "name": "user_id",

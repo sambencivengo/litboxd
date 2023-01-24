@@ -32,6 +32,9 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	reviewModalIsOpen,
 	book,
 }) => {
+	const coverImage = Object.hasOwn(book, 'covers')
+		? `${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`
+		: '/no-cover.png';
 	return (
 		<Modal isOpen={reviewModalIsOpen} onClose={closeReviewModal}>
 			<ModalOverlay
@@ -53,8 +56,9 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 						<Image
 							objectFit="contain"
 							maxW={{ base: '100%', sm: '200px' }}
-							src={`${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`}
+							src={coverImage}
 							alt="Book Cover"
+							fallbackSrc="https://via.placeholder.com/150"
 						/>
 						<Formik
 							validateOnChange={false}

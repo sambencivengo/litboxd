@@ -34,8 +34,8 @@ export class Review {
 	@Property({ type: 'text' })
 	title!: string;
 
-	@Property({ type: 'text' })
-	cover!: string;
+	@Property({ type: 'integer', nullable: true })
+	cover: number;
 
 	@Property({ type: 'integer', default: 0 })
 	rating: number;

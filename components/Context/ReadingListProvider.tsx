@@ -12,7 +12,7 @@ interface RemoveFromReadingListArgs {
 interface AddToReadingListArgs extends RemoveFromReadingListArgs {
 	author: string | string[];
 	title: string;
-	cover: string;
+	cover: number | null;
 }
 interface ReadingListContextData {
 	isLoading: boolean;

@@ -58,6 +58,10 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		? colors.green
 		: null;
 
+	const coverImage = Object.hasOwn(book, 'covers')
+		? `${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`
+		: '/no-cover.png';
+
 	return (
 		<Card
 			bgColor={colors.darkBlue}
@@ -70,7 +74,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 				<Image
 					objectFit="contain"
 					maxW={{ base: '100%', sm: '200px' }}
-					src={`${BOOK_COVER_BASE_URL}${book.covers[0]}-L.jpg`} // TODO: fix bug with lack of covers
+					src={coverImage} // TODO: fix bug with lack of covers
 					alt="Book Cover"
 					fallbackSrc="https://via.placeholder.com/150"
 				/>
@@ -101,7 +105,11 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 							{user ? (
 								<StarRatingButtonContainer
 									title={book.title}
-									cover={book.covers[0]}
+									cover={
+										Object.hasOwn(book, 'covers')
+											? book.covers[0]
+											: null
+									}
 									author={author}
 									bookWorkKey={bookWorkKey}
 								/>
@@ -127,9 +135,8 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 											: addToReadingList({
 													author,
 													bookWorkKey,
-													cover: String(
-														book.covers[0]
-													),
+													cover:
+														book.covers[0] ?? null,
 													title: book.title,
 											  })
 									}
