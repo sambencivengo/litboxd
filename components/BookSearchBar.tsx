@@ -12,6 +12,7 @@ import {
 	Spinner,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { LIBRARY_SEARCH_URL } from '../constants';
 import { colors } from '../theme';
@@ -24,7 +25,7 @@ interface BookSearchBarProps {
 
 export interface BookResult {
 	key: string;
-	cover_i?: string;
+	cover_i?: number;
 	isbn: string[];
 	author_name: string[];
 	title: string;
@@ -33,10 +34,35 @@ export interface BookResult {
 export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 	setBookResults,
 }) => {
+	const router = useRouter();
+
 	const [searchCategory, setSearchCategory] =
 		React.useState<SearchBarCategoryProps>('title');
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
 	const [isLoading, setIsLoading] = React.useState(false);
+
+	React.useEffect(() => {
+		const fetchFromQuery = async () => {
+			if (router.isReady) {
+				if (!router.query.search) {
+					return;
+				}
+				const res = await fetch(
+					`${LIBRARY_SEARCH_URL}${searchCategory}=${router.query.search}`
+				);
+				const data = await res.json();
+				const reducedResults = data.docs.slice(0, 5);
+				setBookResults(reducedResults);
+			}
+		};
+		fetchFromQuery();
+	}, [
+		router.isReady,
+		router.query,
+		searchCategory,
+		searchBarInput,
+		setBookResults,
+	]);
 
 	return (
 		<Box ml={2}>
@@ -48,16 +74,23 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 					searchCategory: 'title',
 				}}
 				onSubmit={async () => {
+					router.push({
+						query: {
+							search: searchBarInput,
+						},
+					});
 					const res = await fetch(
 						`${LIBRARY_SEARCH_URL}${searchCategory}=${searchBarInput
 							.split(' ')
-							.join('+')}`
+							.join('+')}&limit=5`
 					);
 					const data = await res.json();
 
 					setIsLoading(false);
+					const reducedResults = data.docs.slice(0, 5);
+					setBookResults(reducedResults);
 
-					setBookResults(data.docs);
+					// NOTE: removed extra fetch, maybe come back to it? Otherwise, control for lack of cover image on click
 				}}
 			>
 				{({ isSubmitting }) => (
