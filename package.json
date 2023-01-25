@@ -13,6 +13,9 @@
 		"start": "yarn dev",
 		"build": "yarn && yarn tsc && yarn migrate && yarn next build"
 	},
+	"engines": {
+		"node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+	},
 	"mikro-orm": {
 		"useTsNode": true,
 		"configPaths": [
