@@ -43,9 +43,17 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 		title,
 		author,
 		bookWorkKey,
+		reviewContent,
 	}: RateBookArgs) => {
 		CreateBookReview.uiSchema
-			.validate({ rating, author, title, cover, bookWorkKey })
+			.validate({
+				rating,
+				author,
+				title,
+				cover,
+				bookWorkKey,
+				reviewContent,
+			})
 			.catch((error) => console.log(error));
 
 		try {
@@ -59,6 +67,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 					author,
 					cover,
 					title,
+					reviewContent,
 					bookWorkKey,
 				}),
 			});
