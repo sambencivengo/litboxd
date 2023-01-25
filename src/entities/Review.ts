@@ -44,5 +44,5 @@ export class Review {
 	likes: number;
 
 	@ManyToOne({ entity: () => User })
-	user: IdentifiedReference<User>;
+	user: User;
 }

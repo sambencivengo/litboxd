@@ -9,6 +9,7 @@ export default function Reviews() {
 
 	React.useEffect(() => {
 		getReviews();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const ratedReviews = reviews.filter((review) => review.rating > 0);

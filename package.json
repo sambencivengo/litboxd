@@ -7,11 +7,11 @@
 		"dev2": "nodemon dist/app.js",
 		"next dev": "next dev",
 		"watch": "tsc -w",
-		"build": "next build",
-		"start": "next start",
 		"lint": "next lint",
 		"migration:create": "mikro-orm migration:create",
-		"migrate": "mikro-orm migration:up"
+		"migrate": "mikro-orm migration:up",
+		"start": "yarn dev",
+		"build": "yarn && yarn tsc && yarn migrate && yarn next build"
 	},
 	"mikro-orm": {
 		"useTsNode": true,

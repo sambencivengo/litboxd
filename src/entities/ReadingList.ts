@@ -1,10 +1,4 @@
-import {
-	Entity,
-	ManyToOne,
-	IdentifiedReference,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { User } from './User';
 
 @Entity()
@@ -35,5 +29,5 @@ export class ReadingList {
 	cover!: number;
 
 	@ManyToOne({ entity: () => User })
-	user: IdentifiedReference<User>;
+	user: User;
 }

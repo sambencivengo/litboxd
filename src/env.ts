@@ -1,7 +1,6 @@
 import setEnv from '@americanairlines/simple-env';
-import { config } from 'dotenv-flow';
-
-config();
+import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config();
 
 export const env = setEnv({
 	required: {},
