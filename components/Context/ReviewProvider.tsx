@@ -21,6 +21,7 @@ interface EditReviewArgs {
 }
 
 interface ReviewContextData {
+	isLoading: boolean;
 	rateBook: (a: RateBookArgs) => Promise<void>;
 	getReviews: () => Promise<void>;
 	editReview: (a: EditReviewArgs) => Promise<void>;
@@ -29,12 +30,14 @@ interface ReviewContextData {
 
 const ReviewContext = React.createContext<ReviewContextData>({
 	rateBook: async () => {},
+	isLoading: false,
 	reviews: [],
 	getReviews: async () => {},
 	editReview: async () => {},
 });
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
+	const [isLoading, setIsLoading] = React.useState(false);
 	const [reviews, setReviews] = React.useState<Review[]>([]);
 
 	const rateBook = async ({
@@ -118,12 +121,15 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	}, []);
 
 	const getReviews = async () => {
+		setIsLoading(true);
 		try {
 			const res = await fetch('/api/reviews');
 			const data = await res.json();
 			setReviews(data);
+			setIsLoading(false);
 		} catch (error) {
 			console.error(error);
+			setIsLoading(false);
 			return;
 		}
 	};
@@ -131,6 +137,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	return (
 		<ReviewContext.Provider
 			value={{
+				isLoading,
 				editReview,
 				rateBook,
 				getReviews,

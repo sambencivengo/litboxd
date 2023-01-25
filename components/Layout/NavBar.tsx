@@ -32,11 +32,15 @@ export const NavBar: React.FC = () => {
 		user ? (
 			<>
 				<Button color={colors.white} size="lg" variant="link">
+					<Link href={'/reviews'}>Reviews</Link>
+				</Button>
+				<Button color={colors.white} size="lg" variant="link">
 					<Link href={'/reading-list'}>Reading List</Link>
 				</Button>
 				<Button color={colors.white} size="lg" variant="link">
 					<Link href={'/about'}>About</Link>
 				</Button>
+
 				<Button
 					color={colors.white}
 					size="lg"

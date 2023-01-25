@@ -100,7 +100,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 			direction={['column', 'column', 'row', 'row']}
 			overflow="hidden"
 			variant="outline"
-			w={'auto'}
+			width="70%"
 		>
 			<Center>
 				<Image
