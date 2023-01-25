@@ -19,6 +19,7 @@ import {
 import { Formik, Form } from 'formik';
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
+import { Review } from '../src/entities';
 import { CreateBookReview } from '../src/schema';
 import { BookForDatabase } from '../src/types';
 import { colors } from '../theme';
@@ -27,6 +28,7 @@ import { StarRatingButtonContainer } from './StarRating';
 
 interface CreateReviewModalProps {
 	reviewModalIsOpen: boolean;
+	existingReview: Review;
 	book: BookForDatabase;
 	closeReviewModal: () => void;
 }
@@ -34,14 +36,12 @@ interface CreateReviewModalProps {
 export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	closeReviewModal,
 	reviewModalIsOpen,
+	existingReview,
 	book,
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, createOrEditReview, editReview } = useReview();
 
-	const existingReview = reviews.find(
-		(review) => review.bookWorkKey === book.bookWorkKey && review.rating > 0
-	);
 	const coverImage = book.cover
 		? `${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`
 		: '/no-cover.png';

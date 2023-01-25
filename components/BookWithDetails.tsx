@@ -188,6 +188,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 						)}
 					</Stack>
 					<CreateReviewModal
+						existingReview={existingReview}
 						book={book}
 						closeReviewModal={closeReviewModal}
 						reviewModalIsOpen={reviewModalIsOpen}
