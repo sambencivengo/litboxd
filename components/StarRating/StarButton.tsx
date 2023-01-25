@@ -7,7 +7,10 @@ interface StarButtonProps {
 	setStarRatingPreview: React.Dispatch<React.SetStateAction<number>>;
 	starRatingPreview: number;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
-	rateOrReviewBook: (ratingValue: number) => Promise<void>;
+	rateOrReviewBook: (a: {
+		ratingValue: number;
+		reviewContent?: string;
+	}) => Promise<void>;
 	starRating: number;
 	ratingValue: number;
 	submitOnStarClick: boolean;
@@ -27,10 +30,10 @@ export const StarButton: React.FC<StarButtonProps> = ({
 
 	return (
 		<IconButton
-			type="submit"
+			type={submitOnStarClick ? 'submit' : 'button'}
 			onClick={async () => {
 				if (submitOnStarClick) {
-					rateOrReviewBook(ratingValue);
+					rateOrReviewBook({ ratingValue });
 					setStarRating(ratingValue);
 				} else {
 					setStarRating(ratingValue);

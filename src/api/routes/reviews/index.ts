@@ -9,4 +9,5 @@ reviews.use(userMiddleware);
 reviews.use('/:bookWorkKey', bookWorkKey);
 reviews.get('/', Controllers.Reviews.get);
 reviews.post('/', Controllers.Reviews.post);
+reviews.post('/', Controllers.Reviews.put);
 // reviews.post('/', Controllers.Reviews.postOrPut);

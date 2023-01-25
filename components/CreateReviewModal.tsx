@@ -40,7 +40,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	book,
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
-	const { rateBook, reviews, createOrEditReview, editReview } = useReview();
+	const { rateBook, reviews, editReview } = useReview();
 
 	const coverImage = book.cover
 		? `${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`
@@ -52,15 +52,22 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 		}
 	}, [existingReview, setStarRating, reviews]);
 
-	const rateOrReviewBook = async (ratingValue: number) => {
+	const rateOrReviewBook = async ({
+		ratingValue,
+		reviewContent,
+	}: {
+		ratingValue: number;
+		reviewContent?: string;
+	}) => {
 		if (existingReview) {
 			editReview({
+				reviewContent,
 				bookWorkKey: book.bookWorkKey as string,
 				rating: ratingValue,
 			});
 		} else {
 			rateBook({
-				reviewContent: undefined,
+				reviewContent,
 				rating: ratingValue,
 				bookWorkKey: book.bookWorkKey as string,
 				author: book.author as string,
@@ -104,27 +111,46 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 						<Formik
 							validateOnChange={false}
 							validateOnBlur={false}
-							initialValues={{ reviewContent: '' }}
+							initialValues={{
+								reviewContent: '',
+								author: book.author as string,
+								bookWorkKey: book.bookWorkKey as string,
+								cover: book.cover,
+								rating: 0,
+								title: book.title,
+							}}
 							validationSchema={CreateBookReview.uiSchema}
 							onSubmit={async ({ reviewContent }) => {
-								const res = await fetch('/api/reviews', {
-									method: 'POST',
-									headers: {
-										'content-type': 'application/json',
-									},
-									body: JSON.stringify({
-										author: book.author as string,
-										bookWorkKey: book.bookWorkKey as string,
-										cover: book.cover,
-										rating: existingReview.rating,
-										title: book.title,
-										reviewContent,
-									}),
-									credentials: 'include',
+								rateOrReviewBook({
+									reviewContent,
+									ratingValue: starRating,
 								});
-								const data = await res.json();
-								console.log(data);
+								// console.log('from submit form', {
+								// 	author: book.author as string,
+								// 	bookWorkKey: book.bookWorkKey as string,
+								// 	cover: book.cover,
+								// 	rating: starRating,
+								// 	title: book.title,
+								// 	reviewContent,
+								// });
 
+								// const res = await fetch('/api/reviews', {
+								// 	method: 'POST',
+								// 	headers: {
+								// 		'content-type': 'application/json',
+								// 	},
+								// 	body: JSON.stringify({
+								// 		author: book.author as string,
+								// 		bookWorkKey: book.bookWorkKey as string,
+								// 		cover: book.cover,
+								// 		rating: existingReview.rating,
+								// 		title: book.title,
+								// 		reviewContent,
+								// 	}),
+								// 	credentials: 'include',
+								// });
+								// const data = await res.json();
+								// console.log(data);
 								// const success = await rateBook({
 								// 	author: book.author as string,
 								// 	bookWorkKey: book.bookWorkKey as string,
@@ -159,14 +185,17 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 												</FormErrorMessage>
 											</FormControl>
 
-											{existingReview && (
+											{/* TODO: Remove from reading list checkbox 
+											that sends a query parameter to post, this query param then finds 
+											and deletes the book from the reading list */}
+											{/* {existingReview && (
 												<Checkbox
 													defaultChecked
 													type="checkbox"
 												>
 													Remove from reading list?
 												</Checkbox>
-											)}
+											)} */}
 
 											<StarRatingButtonContainer
 												rateOrReviewBook={

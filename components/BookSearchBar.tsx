@@ -84,11 +84,11 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 					const res = await fetch(
 						`${LIBRARY_SEARCH_URL}${searchCategory}=${searchBarInput
 							.split(' ')
-							.join('+')}&limit=5`
+							.join('+')}&limit=10`
 					);
 					const data = await res.json();
 
-					const reducedResults = data.docs.slice(0, 5);
+					const reducedResults = data.docs.slice(0, 10);
 					setBookResults(reducedResults);
 					setIsLoading(false);
 

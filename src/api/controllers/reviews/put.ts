@@ -7,11 +7,12 @@ export const put: Handler = async (req, res) => {
 	const { user } = req;
 	const { bookWorkKey } = req.params;
 
-	const { rating, errorHandled } = await validate<EditBookReview.ApiValues>({
-		req,
-		res,
-		schema: EditBookReview.apiSchema,
-	});
+	const { rating, errorHandled, reviewContent } =
+		await validate<EditBookReview.ApiValues>({
+			req,
+			res,
+			schema: EditBookReview.apiSchema,
+		});
 
 	if (errorHandled) return;
 
@@ -27,6 +28,7 @@ export const put: Handler = async (req, res) => {
 		}
 
 		review.rating = rating;
+		review.reviewContent = reviewContent;
 
 		await req.em.persistAndFlush(review);
 

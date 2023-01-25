@@ -68,23 +68,15 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		}
 	}, [existingReview, setStarRating, reviews]);
 
-	// const rateOrEditRating = async (ratingValue: number) => {
-	// 	if (existingReview) {
-	// 		editReview({
-	// 			bookWorkKey: book.bookWorkKey as string,
-	// 			rating: ratingValue,
-	// 		});
-	// 	} else {
-	// 		rateBook({
-	// 			rating: ratingValue,
-	// 			bookWorkKey: book.bookWorkKey as string,
-	// 			author: book.author as string,
-	// 			cover: book.cover,
-	// 			title: book.title,
-	// 		});
-	// 	}
-	// };
-	const rateOrReviewBook = async (ratingValue: number) => {
+	const rateOrReviewBook = async ({
+		ratingValue,
+		reviewContent,
+	}: {
+		ratingValue: number;
+		reviewContent?: string;
+	}) => {
+		console.log('In rate or review for Fetch');
+
 		if (existingReview) {
 			editReview({
 				bookWorkKey: book.bookWorkKey as string,
@@ -92,7 +84,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 			});
 		} else {
 			rateBook({
-				reviewContent: undefined,
+				reviewContent,
 				rating: ratingValue,
 				bookWorkKey: book.bookWorkKey as string,
 				author: book.author as string,

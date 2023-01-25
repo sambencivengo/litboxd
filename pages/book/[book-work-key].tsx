@@ -24,8 +24,10 @@ export default function BookWorkKey() {
 			const res = await fetch(`${BOOK_URL}${bookWorkKey}.json`);
 			const data = await res.json();
 
+			console.log(data);
+
 			setBook({
-				cover: data.covers[0],
+				cover: data.covers ? data.covers[0] : undefined,
 				bookWorkKey,
 				author: router.query.author,
 				title: data.title,

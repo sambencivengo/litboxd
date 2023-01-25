@@ -5,7 +5,10 @@ import { useReview } from '../Context';
 import { StarButton } from './StarButton';
 
 interface StarRatingButtonContainerProps {
-	rateOrReviewBook: (ratingValue: number) => Promise<void>;
+	rateOrReviewBook: (a: {
+		ratingValue: number;
+		reviewContent?: string;
+	}) => Promise<void>;
 	book: BookForDatabase;
 	submitOnStarClick: boolean;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;

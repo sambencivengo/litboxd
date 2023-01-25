@@ -17,6 +17,7 @@ export interface RateBookArgs {
 interface EditReviewArgs {
 	rating: number;
 	bookWorkKey: string;
+	reviewContent?: string;
 }
 
 interface ReviewContextData {
@@ -74,7 +75,11 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 		}
 	};
 
-	const editReview = async ({ rating, bookWorkKey }: EditReviewArgs) => {
+	const editReview = async ({
+		rating,
+		bookWorkKey,
+		reviewContent,
+	}: EditReviewArgs) => {
 		EditBookReview.uiSchema
 			.validate({ rating })
 			.catch((error) => console.log(error));
@@ -87,6 +92,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 				},
 				body: JSON.stringify({
 					rating,
+					reviewContent,
 				}),
 			});
 			if (!res.ok) {
