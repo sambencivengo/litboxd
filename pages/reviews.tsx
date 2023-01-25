@@ -1,18 +1,15 @@
 import { Heading, Box, Center, Spinner, VStack } from '@chakra-ui/react';
+import React from 'react';
 import { useReview } from '../components/Context';
 import { ReviewCard } from '../components/ReviewCard';
 import { colors } from '../theme';
 
 export default function Reviews() {
-	const { reviews, isLoading } = useReview();
+	const { reviews, isLoading, getReviews } = useReview();
 
-	if (isLoading) {
-		return (
-			<Center>
-				<Spinner />
-			</Center>
-		);
-	}
+	React.useEffect(() => {
+		getReviews();
+	}, []);
 
 	const ratedReviews = reviews.filter((review) => review.rating > 0);
 
@@ -22,9 +19,17 @@ export default function Reviews() {
 				Your Reviews
 			</Heading>
 			<VStack>
-				{ratedReviews.map((review, idx) => (
-					<ReviewCard key={idx} review={review} />
-				))}
+				{
+					// isLoading ? (
+					// 	<Center>
+					// 		<Spinner size="xl" />
+					// 	</Center>
+					// ) : (
+					ratedReviews.map((review, idx) => (
+						<ReviewCard key={idx} review={review} />
+					))
+					// )
+				}
 			</VStack>
 		</Box>
 	);

@@ -4,9 +4,15 @@ import { Review } from '../../../entities/Review';
 export const get: Handler = async (req, res) => {
 	const { user } = req;
 	try {
-		const reviews = await req.em.find(Review, {
-			user: user.id,
-		});
+		const reviews = await req.em.find(
+			Review,
+			{
+				user: user.id,
+			},
+			{
+				orderBy: [{ title: 'DESC' }],
+			}
+		);
 
 		res.status(200).send(reviews);
 	} catch (error) {

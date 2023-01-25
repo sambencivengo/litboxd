@@ -49,7 +49,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	const { addToReadingList, removeFromReadingList, readingList } =
 		useReadingList();
 
-	const { rateBook, reviews, editReview } = useReview();
+	const { reviews } = useReview();
 	const bookIsOnList = readingList.find(
 		(readingListBook) => readingListBook.bookWorkKey === book.bookWorkKey
 	);
@@ -103,7 +103,6 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 				</CardBody>
 
 				<CardFooter>
-					{/* TODO: review/rating and fetch request to create review */}
 					<Stack
 						alignItems="center"
 						w={'100%'}

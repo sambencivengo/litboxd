@@ -25,33 +25,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 
 	React.useEffect(() => {
 		setStarRating(review.rating);
-	}, []);
-
-	const rateOrReviewBook = async ({
-		ratingValue,
-		reviewContent,
-	}: {
-		ratingValue: number;
-		reviewContent?: string;
-	}) => {
-		console.log('In rate or review for Fetch');
-
-		if (existingReview) {
-			editReview({
-				bookWorkKey: book.bookWorkKey as string,
-				rating: ratingValue,
-			});
-		} else {
-			rateBook({
-				reviewContent,
-				rating: ratingValue,
-				bookWorkKey: book.bookWorkKey as string,
-				author: book.author as string,
-				cover: book.cover,
-				title: book.title,
-			});
-		}
-	};
+	}, [review]);
 
 	const coverImage = review.cover
 		? `${BOOK_COVER_BASE_URL}${review.cover}-M.jpg`
