@@ -36,7 +36,8 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	reviewModalIsOpen,
 	book,
 }) => {
-	const { rateBook, reviews } = useReview();
+	const [starRating, setStarRating] = React.useState<number>(0);
+	const { rateBook, reviews, createOrEditReview, editReview } = useReview();
 
 	const existingReview = reviews.find(
 		(review) => review.bookWorkKey === book.bookWorkKey && review.rating > 0
@@ -44,6 +45,31 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	const coverImage = book.cover
 		? `${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`
 		: '/no-cover.png';
+
+	React.useEffect(() => {
+		if (existingReview) {
+			setStarRating(existingReview.rating);
+		}
+	}, [existingReview, setStarRating, reviews]);
+
+	const rateOrReviewBook = async (ratingValue: number) => {
+		if (existingReview) {
+			editReview({
+				bookWorkKey: book.bookWorkKey as string,
+				rating: ratingValue,
+			});
+		} else {
+			rateBook({
+				reviewContent: undefined,
+				rating: ratingValue,
+				bookWorkKey: book.bookWorkKey as string,
+				author: book.author as string,
+				cover: book.cover,
+				title: book.title,
+			});
+		}
+	};
+
 	return (
 		<Modal
 			size={'xl'}
@@ -79,7 +105,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 							validateOnChange={false}
 							validateOnBlur={false}
 							initialValues={{ reviewContent: '' }}
-							// validationSchema={CreateBookReview.uiSchema}
+							validationSchema={CreateBookReview.uiSchema}
 							onSubmit={async ({ reviewContent }) => {
 								const res = await fetch('/api/reviews', {
 									method: 'POST',
@@ -143,15 +169,21 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 											)}
 
 											<StarRatingButtonContainer
+												rateOrReviewBook={
+													rateOrReviewBook
+												}
+												setStarRating={setStarRating}
+												starRating={starRating}
 												book={book}
+												submitOnStarClick={false}
 											/>
 
 											<Button
-												// isDisabled={
-												// 	existingReview
-												// 		? false
-												// 		: true
-												// }
+												isDisabled={
+													starRating > 0
+														? false
+														: true
+												}
 												bgColor={colors.green}
 												color={colors.white}
 												_hover={{

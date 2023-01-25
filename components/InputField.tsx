@@ -24,7 +24,6 @@ export const InputField: React.FC<InputFieldProps> = ({
 	...props
 }) => {
 	const [field, { error }] = useField(props);
-	console.log(error);
 
 	return (
 		<FormControl isInvalid={!!error}>

@@ -19,7 +19,7 @@ import { BOOK_COVER_BASE_URL } from '../constants';
 import { CreateReviewModal } from './CreateReviewModal';
 import { SignUpAndLoginModal } from './SignUpAndLoginModal';
 import { StarRatingButtonContainer } from './StarRating';
-import { useReadingList, useUser } from './Context';
+import { useReadingList, useReview, useUser } from './Context';
 import { BookForDatabase } from '../src/types';
 
 interface BookWithDetailsProps {
@@ -31,23 +31,25 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	book,
 	imageSize,
 }) => {
-	const { user } = useUser();
-	const { addToReadingList, removeFromReadingList, readingList } =
-		useReadingList();
-
+	const [starRating, setStarRating] = React.useState<number>(0);
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	const {
 		isOpen: reviewModalIsOpen,
 		onOpen: openReviewModal,
 		onClose: closeReviewModal,
 	} = useDisclosure();
-
 	const {
 		isOpen: loginModalIsOpen,
 		onOpen: openLoginModal,
 		onClose: closeLoginModal,
 	} = useDisclosure();
 
+	const { user } = useUser();
+
+	const { addToReadingList, removeFromReadingList, readingList } =
+		useReadingList();
+
+	const { rateBook, reviews, editReview } = useReview();
 	const bookIsOnList = readingList.find(
 		(readingListBook) => readingListBook.bookWorkKey === book.bookWorkKey
 	);
@@ -55,6 +57,50 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	const coverImage = book.cover
 		? `${BOOK_COVER_BASE_URL}${book.cover}-${imageSize}.jpg`
 		: '/no-cover.png';
+
+	const existingReview = reviews.find(
+		(review) => review.bookWorkKey === book.bookWorkKey
+	);
+
+	React.useEffect(() => {
+		if (existingReview) {
+			setStarRating(existingReview.rating);
+		}
+	}, [existingReview, setStarRating, reviews]);
+
+	// const rateOrEditRating = async (ratingValue: number) => {
+	// 	if (existingReview) {
+	// 		editReview({
+	// 			bookWorkKey: book.bookWorkKey as string,
+	// 			rating: ratingValue,
+	// 		});
+	// 	} else {
+	// 		rateBook({
+	// 			rating: ratingValue,
+	// 			bookWorkKey: book.bookWorkKey as string,
+	// 			author: book.author as string,
+	// 			cover: book.cover,
+	// 			title: book.title,
+	// 		});
+	// 	}
+	// };
+	const rateOrReviewBook = async (ratingValue: number) => {
+		if (existingReview) {
+			editReview({
+				bookWorkKey: book.bookWorkKey as string,
+				rating: ratingValue,
+			});
+		} else {
+			rateBook({
+				reviewContent: undefined,
+				rating: ratingValue,
+				bookWorkKey: book.bookWorkKey as string,
+				author: book.author as string,
+				cover: book.cover,
+				title: book.title,
+			});
+		}
+	};
 
 	return (
 		<Card
@@ -100,7 +146,13 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 					>
 						<Box>
 							{user ? (
-								<StarRatingButtonContainer book={book} />
+								<StarRatingButtonContainer
+									rateOrReviewBook={rateOrReviewBook}
+									setStarRating={setStarRating}
+									starRating={starRating}
+									submitOnStarClick={true}
+									book={book}
+								/>
 							) : (
 								<Button onClick={openLoginModal}>
 									Log in to give rating

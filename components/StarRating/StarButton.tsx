@@ -2,24 +2,25 @@ import { IconButton } from '@chakra-ui/react';
 import React from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { colors } from '../../theme';
-import { useReview } from '../Context/ReviewProvider';
 
 interface StarButtonProps {
 	setStarRatingPreview: React.Dispatch<React.SetStateAction<number>>;
 	starRatingPreview: number;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
+	rateOrReviewBook: (ratingValue: number) => Promise<void>;
 	starRating: number;
 	ratingValue: number;
-	rateOrEditRating: (a: number) => void;
+	submitOnStarClick: boolean;
 }
 
 export const StarButton: React.FC<StarButtonProps> = ({
 	setStarRatingPreview,
-	rateOrEditRating,
 	starRatingPreview,
 	setStarRating,
 	starRating,
 	ratingValue,
+	rateOrReviewBook,
+	submitOnStarClick,
 }) => {
 	const highlightStars =
 		starRating >= ratingValue || starRatingPreview >= ratingValue;
@@ -28,8 +29,12 @@ export const StarButton: React.FC<StarButtonProps> = ({
 		<IconButton
 			type="submit"
 			onClick={async () => {
-				rateOrEditRating(ratingValue);
-				setStarRating(ratingValue);
+				if (submitOnStarClick) {
+					rateOrReviewBook(ratingValue);
+					setStarRating(ratingValue);
+				} else {
+					setStarRating(ratingValue);
+				}
 				// TODO: use one controller for this?
 			}}
 			fontSize={40}

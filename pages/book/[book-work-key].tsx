@@ -47,8 +47,6 @@ export default function BookWorkKey() {
 		);
 	}
 
-	console.log(book);
-
 	return (
 		<>
 			<main>{book && <BookWithDetails book={book} imageSize="L" />}</main>
