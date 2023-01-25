@@ -31,6 +31,8 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	book,
 	imageSize,
 }) => {
+	const [starRating, setStarRating] = React.useState<number>(0);
+
 	const { user } = useUser();
 	const { addToReadingList, removeFromReadingList, readingList } =
 		useReadingList();
@@ -100,7 +102,11 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 					>
 						<Box>
 							{user ? (
-								<StarRatingButtonContainer book={book} />
+								<StarRatingButtonContainer
+									starRating={starRating}
+									setStarRating={setStarRating}
+									book={book}
+								/>
 							) : (
 								<Button onClick={openLoginModal}>
 									Log in to give rating

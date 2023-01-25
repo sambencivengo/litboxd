@@ -79,12 +79,30 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 							validateOnChange={false}
 							validateOnBlur={false}
 							initialValues={{ reviewContent: '' }}
-							validationSchema={CreateBookReview.uiSchema}
+							// validationSchema={CreateBookReview.uiSchema}
 							onSubmit={async ({ reviewContent }) => {
+								const res = await fetch('/api/reviews', {
+									method: 'POST',
+									headers: {
+										'content-type': 'application/json',
+									},
+									body: JSON.stringify({
+										author: book.author as string,
+										bookWorkKey: book.bookWorkKey as string,
+										cover: book.cover,
+										rating: existingReview.rating,
+										title: book.title,
+										reviewContent,
+									}),
+									credentials: 'include',
+								});
+								const data = await res.json();
+								console.log(data);
+
 								// const success = await rateBook({
-								// 	author,
-								// 	bookWorkKey,
-								// 	cover: book.covers[0],
+								// 	author: book.author as string,
+								// 	bookWorkKey: book.bookWorkKey as string,
+								// 	cover: book.cover,
 								// 	rating: existingReview.rating,
 								// 	title: book.title,
 								// 	reviewContent,
@@ -129,11 +147,11 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 											/>
 
 											<Button
-												isDisabled={
-													existingReview
-														? false
-														: true
-												}
+												// isDisabled={
+												// 	existingReview
+												// 		? false
+												// 		: true
+												// }
 												bgColor={colors.green}
 												color={colors.white}
 												_hover={{

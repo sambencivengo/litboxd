@@ -6,13 +6,14 @@ import { StarButton } from './StarButton';
 
 interface StarRatingButtonContainerProps {
 	book: BookForDatabase;
+	setStarRating: React.Dispatch<React.SetStateAction<number>>;
+	starRating: number;
 }
 
 export const StarRatingButtonContainer: React.FC<
 	StarRatingButtonContainerProps
-> = ({ book }) => {
+> = ({ book, setStarRating, starRating }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
-	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
 	// TODO: figure out styling for half value ratings
 	const existingReview = reviews.find(
@@ -23,7 +24,7 @@ export const StarRatingButtonContainer: React.FC<
 		if (existingReview) {
 			setStarRating(existingReview.rating);
 		}
-	}, [existingReview, reviews]);
+	}, [existingReview, setStarRating, reviews]);
 
 	const rateOrEditRating = async (ratingValue: number) => {
 		if (existingReview) {
