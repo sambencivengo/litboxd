@@ -11,8 +11,6 @@ export default function ReadingList() {
 		getReadingList();
 	}, []);
 
-	console.log({ readingList });
-
 	return (
 		<Box>
 			<Heading p={10} color={colors.white}>
