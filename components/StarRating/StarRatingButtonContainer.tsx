@@ -6,13 +6,13 @@ import { StarButton } from './StarButton';
 
 interface StarRatingButtonContainerProps {
 	book: BookForDatabase;
-	setStarRating: React.Dispatch<React.SetStateAction<number>>;
-	starRating: number;
+	// TODO: function for fetch
 }
 
 export const StarRatingButtonContainer: React.FC<
 	StarRatingButtonContainerProps
-> = ({ book, setStarRating, starRating }) => {
+> = ({ book }) => {
+	const [starRating, setStarRating] = React.useState<number>(0);
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
 	// TODO: figure out styling for half value ratings
