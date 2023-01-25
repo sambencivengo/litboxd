@@ -11,6 +11,7 @@ export const env = setEnv({
 		postgresPassword: 'POSTGRES_PASSWORD',
 		cookieName: 'COOKIE_NAME',
 		dbName: 'DB_NAME',
+		pgClientURL: 'PG_CLIENT_URL',
 		cookieSecret: 'COOKIE_SECRET',
 	},
 });

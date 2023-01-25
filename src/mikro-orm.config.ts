@@ -12,6 +12,7 @@ export default {
 	entities: ['./src/entities/**/*.ts'], // Any new entities must be added here
 	// debug: !__prod__,
 	type: 'postgresql',
+	clientUrl: env.pgClientURL,
 	highlighter: new SqlHighlighter(),
 	allowGlobalContext: true,
 } as Parameters<typeof MikroORM.init>[0];
