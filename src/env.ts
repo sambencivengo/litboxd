@@ -10,6 +10,7 @@ export const env = setEnv({
 		postgresUsername: 'POSTGRES_USERNAME',
 		postgresPassword: 'POSTGRES_PASSWORD',
 		cookieName: 'COOKIE_NAME',
+		dbName: 'DB_NAME',
 		cookieSecret: 'COOKIE_SECRET',
 	},
 });
