@@ -6,12 +6,17 @@ import {
 	Image,
 	Text,
 	CardFooter,
+	Button,
+	Center,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { AiFillEye } from 'react-icons/ai';
 import { BOOK_COVER_BASE_URL } from '../constants';
 import { colors } from '../theme';
 import { BookResult } from './BookSearchBar';
+import { useReadingList } from './Context';
 
 interface BookCardSearchResultProps {
 	book: BookResult;
@@ -23,11 +28,14 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	const { author_name, cover_i, title, key, isbn } = book;
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;
-
+	const { readingList, addToReadingList, removeFromReadingList } =
+		useReadingList();
+	const router = useRouter();
+	const bookIsOnList = readingList.find(
+		(readingListBook) => readingListBook.bookWorkKey === book.key // Result from search will have the work key labelled as "key"
+	);
 	return (
 		<Card
-			bgColor={colors.greyBlue}
-			w={['300px', '400px']}
 			key={cover_i}
 			direction={{
 				base: 'column',
@@ -37,6 +45,10 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 			variant="outline"
 		>
 			<Image
+				cursor={'pointer'}
+				onClick={() =>
+					router.push(`/book/${keySlug}?author=${author_name[0]}`)
+				}
 				alignSelf={'center'}
 				objectFit="cover"
 				maxW="200px"
@@ -53,7 +65,28 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 					{author_name && <Text py="2">by {author_name[0]}</Text>}
 				</CardBody>
 
-				<CardFooter></CardFooter>
+				<Center>
+					<CardFooter>
+						<Button
+							leftIcon={<AiFillEye fontSize={30} />}
+							color={bookIsOnList ? colors.green : null}
+							onClick={() =>
+								bookIsOnList
+									? removeFromReadingList({
+											bookWorkKey: book.key,
+									  })
+									: addToReadingList({
+											author: book.author_name[0],
+											bookWorkKey: book.key,
+											cover: book.cover_i,
+											title: book.title,
+									  })
+							}
+						>
+							{bookIsOnList ? 'Remove' : 'Read'}
+						</Button>
+					</CardFooter>
+				</Center>
 			</Stack>
 		</Card>
 	);
