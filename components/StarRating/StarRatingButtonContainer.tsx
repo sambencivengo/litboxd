@@ -5,10 +5,6 @@ import { useReview } from '../Context';
 import { StarButton } from './StarButton';
 
 interface StarRatingButtonContainerProps {
-	rateOrReviewBook: (a: {
-		ratingValue: number;
-		reviewContent?: string;
-	}) => Promise<void>;
 	book: BookForDatabase;
 	submitOnStarClick: boolean;
 	setStarRating: React.Dispatch<React.SetStateAction<number>>;
@@ -17,13 +13,7 @@ interface StarRatingButtonContainerProps {
 
 export const StarRatingButtonContainer: React.FC<
 	StarRatingButtonContainerProps
-> = ({
-	book,
-	submitOnStarClick,
-	rateOrReviewBook,
-	setStarRating,
-	starRating,
-}) => {
+> = ({ book, submitOnStarClick, setStarRating, starRating }) => {
 	const [starRatingPreview, setStarRatingPreview] = React.useState<number>(0);
 	const { editReview } = useReview();
 
@@ -32,9 +22,9 @@ export const StarRatingButtonContainer: React.FC<
 			<ButtonGroup spacing={0} dir="row">
 				{[...new Array(5)].map((_, idx) => (
 					<StarButton
-						rateOrReviewBook={rateOrReviewBook}
 						submitOnStarClick={submitOnStarClick}
 						key={idx}
+						book={book}
 						ratingValue={(idx += 1)}
 						setStarRatingPreview={setStarRatingPreview}
 						starRatingPreview={starRatingPreview}

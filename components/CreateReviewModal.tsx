@@ -52,31 +52,6 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 		}
 	}, [existingReview, setStarRating, reviews]);
 
-	const rateOrReviewBook = async ({
-		ratingValue,
-		reviewContent,
-	}: {
-		ratingValue: number;
-		reviewContent?: string;
-	}) => {
-		if (existingReview) {
-			editReview({
-				reviewContent,
-				bookWorkKey: book.bookWorkKey as string,
-				rating: ratingValue,
-			});
-		} else {
-			rateBook({
-				reviewContent,
-				rating: ratingValue,
-				bookWorkKey: book.bookWorkKey as string,
-				author: book.author as string,
-				cover: book.cover,
-				title: book.title,
-			});
-		}
-	};
-
 	return (
 		<Modal
 			size={'xl'}
@@ -121,44 +96,14 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 							}}
 							validationSchema={CreateBookReview.uiSchema}
 							onSubmit={async ({ reviewContent }) => {
-								rateOrReviewBook({
+								rateBook({
+									author: book.author as string,
+									bookWorkKey: book.bookWorkKey as string,
+									cover: book.cover,
+									rating: starRating,
+									title: book.title,
 									reviewContent,
-									ratingValue: starRating,
 								});
-								// console.log('from submit form', {
-								// 	author: book.author as string,
-								// 	bookWorkKey: book.bookWorkKey as string,
-								// 	cover: book.cover,
-								// 	rating: starRating,
-								// 	title: book.title,
-								// 	reviewContent,
-								// });
-
-								// const res = await fetch('/api/reviews', {
-								// 	method: 'POST',
-								// 	headers: {
-								// 		'content-type': 'application/json',
-								// 	},
-								// 	body: JSON.stringify({
-								// 		author: book.author as string,
-								// 		bookWorkKey: book.bookWorkKey as string,
-								// 		cover: book.cover,
-								// 		rating: existingReview.rating,
-								// 		title: book.title,
-								// 		reviewContent,
-								// 	}),
-								// 	credentials: 'include',
-								// });
-								// const data = await res.json();
-								// console.log(data);
-								// const success = await rateBook({
-								// 	author: book.author as string,
-								// 	bookWorkKey: book.bookWorkKey as string,
-								// 	cover: book.cover,
-								// 	rating: existingReview.rating,
-								// 	title: book.title,
-								// 	reviewContent,
-								// });
 							}}
 						>
 							{({ isSubmitting, errors, handleChange }) => {
@@ -198,9 +143,6 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 											)} */}
 
 											<StarRatingButtonContainer
-												rateOrReviewBook={
-													rateOrReviewBook
-												}
 												setStarRating={setStarRating}
 												starRating={starRating}
 												book={book}

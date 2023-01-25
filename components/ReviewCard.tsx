@@ -25,7 +25,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 
 	React.useEffect(() => {
 		setStarRating(review.rating);
-	}, [review]);
+	}, []);
 
 	const rateOrReviewBook = async ({
 		ratingValue,

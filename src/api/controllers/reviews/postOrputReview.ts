@@ -14,19 +14,32 @@ export const postOrPut: Handler = async (req, res) => {
 		});
 
 	try {
-		const review = req.em.create(Review, {
-			author,
-			bookWorkKey,
-			title,
-			cover,
-			rating,
-			reviewContent,
+		const existingReview = await req.em.findOne(Review, {
+			bookWorkKey: bookWorkKey as string,
 			user: user.id,
 		});
 
-		await req.em.persistAndFlush(review);
+		if (existingReview) {
+			existingReview.reviewContent = reviewContent;
+			existingReview.rating = rating;
+			await req.em.persistAndFlush(existingReview);
 
-		res.status(200).send(review);
+			res.status(200).send(existingReview);
+			return;
+		} else {
+			const newReview = req.em.create(Review, {
+				author,
+				bookWorkKey,
+				title,
+				cover,
+				rating,
+				reviewContent,
+				user: user.id,
+			});
+
+			await req.em.persistAndFlush(newReview);
+			res.status(200).send(newReview);
+		}
 	} catch (error) {
 		res.status(500).send(`Unable to review book: ${error}`);
 		return;
