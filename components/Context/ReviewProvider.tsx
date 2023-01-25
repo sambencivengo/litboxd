@@ -25,7 +25,6 @@ interface ReviewContextData {
 	getReviews: () => Promise<void>;
 	editReview: (a: EditReviewArgs) => Promise<void>;
 	reviews: Review[];
-	createOrEditReview: (a: RateBookArgs) => Promise<void>;
 }
 
 const ReviewContext = React.createContext<ReviewContextData>({
@@ -33,7 +32,6 @@ const ReviewContext = React.createContext<ReviewContextData>({
 	reviews: [],
 	getReviews: async () => {},
 	editReview: async () => {},
-	createOrEditReview: async () => {},
 });
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
@@ -106,40 +104,6 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 		}
 	};
 
-	const createOrEditReview = async ({
-		author,
-		bookWorkKey,
-		cover,
-		rating,
-		title,
-		reviewContent,
-	}: RateBookArgs) => {
-		try {
-			const res = await fetch('/api/reviews', {
-				method: 'POST',
-				headers: {
-					'content-type': 'application/json',
-				},
-				body: JSON.stringify({
-					rating,
-					author,
-					cover,
-					title,
-					bookWorkKey,
-					reviewContent,
-				}),
-			});
-			if (!res.ok) {
-				console.log(await res.text());
-				return;
-			}
-			await res.json();
-			getReviews();
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
 	React.useEffect(() => {
 		getReviews();
 	}, []);
@@ -158,7 +122,6 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	return (
 		<ReviewContext.Provider
 			value={{
-				createOrEditReview,
 				editReview,
 				rateBook,
 				getReviews,
