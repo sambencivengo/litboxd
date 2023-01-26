@@ -1,4 +1,12 @@
-import { DeepPartial, extendTheme, Theme, ThemeConfig } from '@chakra-ui/react';
+import { inputAnatomy } from '@chakra-ui/anatomy';
+import {
+	color,
+	createMultiStyleConfigHelpers,
+	DeepPartial,
+	extendTheme,
+	Theme,
+	ThemeConfig,
+} from '@chakra-ui/react';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 const config: ThemeConfig = {
@@ -16,26 +24,45 @@ export const colors = {
 	white: '#FFFFFF',
 };
 
+const Input = {
+	variants: {
+		auth: {
+			field: {
+				border: '1px solid',
+				borderColor: 'gray.400',
+				color: 'black',
+				_focus: {
+					boxShadow: '0 0 2px 2px #38B2AC',
+				},
+			},
+		},
+	},
+};
+
 //  TODO: Work on styling (later, stop wasting time with it)
-// const { definePartsStyle, defineMultiStyleConfig } =
-// 	createMultiStyleConfigHelpers(inputAnatomy.keys);
+const { definePartsStyle, defineMultiStyleConfig } =
+	createMultiStyleConfigHelpers(inputAnatomy.keys);
 
-// const baseStyle = definePartsStyle({
-// 	addon: {},
-// 	field: {
-// 		borderColor: colors.white,
-// 		_hover: {
-// 			borderColor: colors.greyBlue,
-// 		},
-// 	},
-// });
+const baseStyle = definePartsStyle({
+	// define the part you're going to style
+	field: {
+		backgroundColor: colors.greyBlue,
+		color: colors.greyBlue, // change the input text color
+		_hover: {
+			borderColor: colors.grey,
+		},
+		_focus: {
+			backgroundColor: colors.darkBlue,
+		},
+	},
+});
 
-// const inputTheme = defineMultiStyleConfig({ baseStyle });
+export const inputTheme = defineMultiStyleConfig({ baseStyle });
 
 export const theme = extendTheme({
 	...config,
 	components: {
-		// Input: inputTheme,
+		Input: inputTheme,
 		Button: {
 			variants: {
 				solid: {
