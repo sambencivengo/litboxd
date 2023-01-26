@@ -4,13 +4,18 @@ import { Review } from '../../../entities';
 
 export const getBooksReviews: Handler = async (req, res) => {
 	const { bookWorkKey } = req.params;
+	const { userId } = req.session;
 
 	try {
 		const reviews = await req.em.find(
 			Review,
 			{
 				bookWorkKey,
+				user: {
+					id: { $nin: [userId] },
+				},
 			},
+
 			{
 				populate: ['user'],
 				fields: [
