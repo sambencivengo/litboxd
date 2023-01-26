@@ -46,8 +46,9 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle({
 	// define the part you're going to style
 	field: {
-		backgroundColor: colors.greyBlue,
+		backgroundColor: colors.darkBlue,
 		color: colors.greyBlue, // change the input text color
+		// borderColor:
 		_hover: {
 			borderColor: colors.grey,
 		},
@@ -57,12 +58,17 @@ const baseStyle = definePartsStyle({
 	},
 });
 
-export const inputTheme = defineMultiStyleConfig({ baseStyle });
-
 export const theme = extendTheme({
 	...config,
 	components: {
-		Input: inputTheme,
+		Input: {
+			baseStyle: {
+				field: {
+					background: colors.deepRed,
+					color: colors.white, // change the input text color
+				},
+			},
+		},
 		Button: {
 			variants: {
 				solid: {
@@ -90,4 +96,4 @@ export const theme = extendTheme({
 		}),
 	},
 	colors,
-}) as DeepPartial<Theme>;
+} as DeepPartial<Theme>);

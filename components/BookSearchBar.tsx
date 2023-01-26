@@ -130,6 +130,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 										// 	borderColor: colors.greyBlue,
 										// }}
 										// bgColor={colors.darkBlue}
+
 										borderLeftRadius={0}
 										onChange={(e) =>
 											setSearchBarInput(e.target.value)
@@ -137,11 +138,11 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 									/>
 									<InputRightElement width="3rem">
 										<IconButton
-											variant={'outline'}
-											// _hover={{
-											// 	backgroundColor:
-											// 		colors.greyBlue,
-											// }}
+											bgColor={colors.darkBlue}
+											_hover={{
+												backgroundColor:
+													colors.greyBlue,
+											}}
 											// borderColor={colors.greyBlue}
 											isLoading={isSubmitting}
 											isDisabled={isSubmitting}
