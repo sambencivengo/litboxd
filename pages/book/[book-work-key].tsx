@@ -51,7 +51,11 @@ export default function BookWorkKey() {
 
 	return (
 		<>
-			<main>{book && <BookWithDetails book={book} imageSize="L" />}</main>
+			<main>
+				<Center>
+					{book && <BookWithDetails book={book} imageSize="L" />}
+				</Center>
+			</main>
 		</>
 	);
 }

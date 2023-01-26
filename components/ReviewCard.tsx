@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
 import { Review } from '../src/entities';
+import { colors } from '../theme';
 import { useReview } from './Context';
 import { StarRatingButtonContainer } from './StarRating';
 
@@ -28,9 +29,10 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 
 	return (
 		<Card
-			width="70%"
-			direction={{ base: 'column', sm: 'row' }}
+			w={'100%'}
+			direction={['column', 'column', 'row']}
 			overflow="hidden"
+			bgColor={colors.darkBlue}
 			variant="outline"
 		>
 			<Image
@@ -49,9 +51,13 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 				<CardBody>
 					<Flex direction="column">
 						<Stack gap={1}>
-							<Heading size="md">{review.title}</Heading>
+							<Heading color={colors.white} size="md">
+								{review.title}
+							</Heading>
 							{review.author && (
-								<Heading size="sm">by {review.author}</Heading>
+								<Heading color={colors.white} size="sm">
+									by {review.author}
+								</Heading>
 							)}
 						</Stack>
 						<Divider pt={2} />

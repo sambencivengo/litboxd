@@ -37,11 +37,7 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	return (
 		<Card
 			w="70%"
-			key={cover_i}
-			direction={{
-				base: 'column',
-				sm: 'row',
-			}}
+			direction={['column', 'column', 'row']}
 			overflow="hidden"
 			bgColor={colors.darkBlue}
 			variant="outline"

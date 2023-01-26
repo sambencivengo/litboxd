@@ -66,11 +66,11 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 
 	return (
 		<Card
+			w={'100%'}
+			direction={['column', 'column', 'row']}
+			overflow="scroll"
 			bgColor={colors.darkBlue}
-			direction={['column', 'column', 'row', 'row']}
-			overflow="hidden"
 			variant="outline"
-			width="70%"
 		>
 			<Center>
 				<Image
@@ -89,9 +89,13 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 			<Stack>
 				<CardBody>
 					<Stack gap={1}>
-						<Heading size="md">{book.title}</Heading>
+						<Heading color={colors.white} size="md">
+							{book.title}
+						</Heading>
 						{book.author && (
-							<Heading size="sm">by {book.author}</Heading>
+							<Heading color={colors.white} size="sm">
+								by {book.author}
+							</Heading>
 						)}
 					</Stack>
 					<Divider />
