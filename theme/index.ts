@@ -44,13 +44,14 @@ export const theme = extendTheme({
 	...config,
 	components: {
 		// Input: inputTheme,
-		// 	Button: {
-		// 		variants: {
-		// 			solid: () => ({
-		//
-		// 			}),
-		// 		},
-		// 	},
+		Button: {
+			variants: {
+				solid: {
+					backgroundColor: colors.greyBlue,
+					color: colors.white,
+				},
+			},
+		},
 		// 	Input: {
 		// 		variants: {
 		// 			filled: {
@@ -63,7 +64,7 @@ export const theme = extendTheme({
 		global: () => ({
 			body: {
 				backgroundColor: colors.darkBlue,
-				color: colors.grey,
+				color: colors.white,
 			},
 			'::-webkit-scrollbar': { display: 'none' },
 		}),

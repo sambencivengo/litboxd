@@ -106,9 +106,13 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 												.value as SearchBarCategoryProps
 										)
 									}
+									_hover={{
+										borderColor: colors.greyBlue,
+									}}
+									borderColor={colors.greyBlue}
 									color={colors.white}
 									textAlign="center"
-									bgColor={colors.greyBlue}
+									bgColor={colors.darkBlue}
 									w="200px"
 									borderRight={0}
 									borderRightRadius={0}
@@ -120,6 +124,11 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 							<FormControl id="searchBarInput" w={'5000px'}>
 								<InputGroup>
 									<Input
+										borderColor={colors.greyBlue}
+										_hover={{
+											borderColor: colors.greyBlue,
+										}}
+										bgColor={colors.darkBlue}
 										borderLeftRadius={0}
 										onChange={(e) =>
 											setSearchBarInput(e.target.value)
@@ -127,6 +136,12 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 									/>
 									<InputRightElement width="3rem">
 										<IconButton
+											variant={'outline'}
+											_hover={{
+												backgroundColor:
+													colors.greyBlue,
+											}}
+											borderColor={colors.greyBlue}
 											isLoading={isSubmitting}
 											isDisabled={isSubmitting}
 											icon={<Search2Icon />}

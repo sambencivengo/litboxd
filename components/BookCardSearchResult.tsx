@@ -36,6 +36,7 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	);
 	return (
 		<Card
+			bgColor={'transparent'}
 			w="70%"
 			key={cover_i}
 			direction={{
@@ -44,6 +45,7 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 			}}
 			overflow="hidden"
 			variant="outline"
+			color={colors.grey}
 		>
 			<Image
 				cursor={'pointer'}
@@ -61,7 +63,9 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 			<Stack>
 				<CardBody>
 					<Link href={`/book/${keySlug}?author=${author_name[0]}`}>
-						<Heading size="md">{title}</Heading>
+						<Heading color={colors.white} size="md">
+							{title}
+						</Heading>
 					</Link>
 
 					{author_name && <Text py="2">by {author_name[0]}</Text>}
