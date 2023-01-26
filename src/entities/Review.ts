@@ -25,7 +25,7 @@ export class Review {
 	@Property({ type: 'text', nullable: true })
 	reviewContent: string;
 
-	@Property({ type: 'text', unique: true })
+	@Property({ type: 'text' })
 	bookWorkKey: string;
 
 	@Property({ type: 'text' })
@@ -43,6 +43,6 @@ export class Review {
 	@Property({ type: 'integer', default: 0 })
 	likes: number;
 
-	@ManyToOne({ entity: () => User })
+	@ManyToOne({ entity: () => User, unique: true })
 	user: User;
 }

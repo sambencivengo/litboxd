@@ -194,10 +194,10 @@
       "indexes": [
         {
           "columnNames": [
-            "book_work_key"
+            "user_id"
           ],
           "composite": false,
-          "keyName": "review_book_work_key_unique",
+          "keyName": "review_user_id_unique",
           "primary": false,
           "unique": true
         },
