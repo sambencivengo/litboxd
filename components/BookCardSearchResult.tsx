@@ -71,8 +71,8 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 					)}
 				</CardBody>
 
-				<Center>
-					<CardFooter>
+				<CardFooter>
+					<Center>
 						{user && (
 							<Button
 								leftIcon={<AiFillEye fontSize={30} />}
@@ -93,8 +93,8 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 								{bookIsOnList ? 'Remove' : 'Read'}
 							</Button>
 						)}
-					</CardFooter>
-				</Center>
+					</Center>
+				</CardFooter>
 			</Stack>
 		</Card>
 	);
