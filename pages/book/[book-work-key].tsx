@@ -1,7 +1,7 @@
 import {
 	Box,
-	Button,
 	Card,
+	chakra,
 	CardBody,
 	Text,
 	CardFooter,
@@ -9,6 +9,9 @@ import {
 	Center,
 	Heading,
 	Spinner,
+	HStack,
+	Divider,
+	Wrap,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -17,8 +20,10 @@ import { BookWithDetails } from '../../components/BookWithDetails';
 import { BookForDatabase } from '../../src/types';
 import { Review } from '../../src/entities';
 import { ReadOnlyRating } from '../../components/StarRating';
+import { colors } from '../../theme';
+import { ReadOnlyReviewCard } from '../../components/ReadOnlyReviewCard';
 
-interface ReviewWithUser extends Review {
+export interface ReviewWithUser extends Review {
 	username: string;
 	userId: number;
 }
@@ -77,29 +82,29 @@ export default function BookWorkKey() {
 	return (
 		<>
 			<main>
-				<Center>
-					{book && <BookWithDetails book={book} imageSize="L" />}
-				</Center>
+				{book && (
+					<>
+						<BookWithDetails book={book} imageSize="L" />
+						<Heading
+							textAlign="center"
+							fontWeight={400}
+							size={'md'}
+							m={10}
+						>
+							User reviews of{' '}
+							<chakra.span fontStyle={'italic'}>
+								{book.title}
+							</chakra.span>
+						</Heading>
+						<Divider />
+					</>
+				)}
 				{reviews ? (
-					<Box>
-						{reviews.map((review, idx) => {
-							return (
-								<Card key={idx}>
-									<CardHeader>
-										<Heading size="md">Heading</Heading>
-									</CardHeader>
-									<CardBody>
-										<Text>{review.reviewContent}</Text>
-									</CardBody>
-									<CardFooter>
-										<ReadOnlyRating
-											ratingValue={review.rating}
-										/>
-									</CardFooter>
-								</Card>
-							);
-						})}
-					</Box>
+					<Wrap align={'left'} justify={'center'} spacing={2} mt={10}>
+						{reviews.map((review, idx) => (
+							<ReadOnlyReviewCard key={idx} review={review} />
+						))}
+					</Wrap>
 				) : (
 					<Box>
 						There are no reviews for this book yet, sign up and be
