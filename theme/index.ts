@@ -1,12 +1,4 @@
-import { inputAnatomy } from '@chakra-ui/anatomy';
-import {
-	color,
-	createMultiStyleConfigHelpers,
-	DeepPartial,
-	extendTheme,
-	Theme,
-	ThemeConfig,
-} from '@chakra-ui/react';
+import { DeepPartial, extendTheme, Theme, ThemeConfig } from '@chakra-ui/react';
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 const config: ThemeConfig = {
@@ -52,13 +44,14 @@ export const theme = extendTheme({
 				},
 			},
 		},
-		// 	Input: {
-		// 		variants: {
-		// 			filled: {
-		// 				field: {
-		// 			},
+		// Input: {
+		// 	variants: {
+		// 		filled: {
+		// 			field: {
+		// 				bgCO
 		// 		},
 		// 	},
+		// },
 	},
 	styles: {
 		global: () => ({
