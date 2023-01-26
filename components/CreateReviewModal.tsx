@@ -74,7 +74,11 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 						<Image
 							objectFit="contain"
 							maxW="100px"
-							src={`${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`}
+							src={
+								book.cover
+									? `${BOOK_COVER_BASE_URL}${book.cover}-L.jpg`
+									: 'https://via.placeholder.com/150'
+							}
 							alt="Book Cover"
 							fallbackSrc="https://via.placeholder.com/150"
 						/>

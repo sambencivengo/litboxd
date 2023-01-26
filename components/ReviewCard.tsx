@@ -36,7 +36,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 			<Image
 				objectFit="contain"
 				maxW="150px"
-				src={`${BOOK_COVER_BASE_URL}${review.cover}-M.jpg`}
+				src={
+					review.cover
+						? `${BOOK_COVER_BASE_URL}${review.cover}-L.jpg`
+						: 'https://via.placeholder.com/150'
+				}
 				alt="Book cover"
 				fallbackSrc="https://via.placeholder.com/150"
 			/>

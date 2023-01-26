@@ -1,9 +1,4 @@
-import type {
-	EntityManager,
-	SqlEntityManager,
-	PostgreSqlDriver,
-	IDatabaseDriver,
-} from '@mikro-orm/postgresql';
+import type { EntityManager, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SimpleUser } from '../SimpleUser';
 
 declare global {
