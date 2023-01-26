@@ -25,10 +25,7 @@ export const ReadOnlyReviewCard: React.FC<ReadOnlyReviewCardProps> = ({
 				<Heading size="sm">@{review.user.username}</Heading>
 			</CardHeader>
 			<CardBody>
-				<Text>
-					{review.reviewContent} askjsad akjhasdj askjdjh asdkjd
-					kasdjk as kasjask jasdkj{' '}
-				</Text>
+				<Text>{review.reviewContent}</Text>
 			</CardBody>
 			<CardFooter>
 				<HStack>
