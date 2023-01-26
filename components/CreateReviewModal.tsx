@@ -42,10 +42,6 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
 
-	const coverImage = book.cover
-		? `${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`
-		: '/no-cover.png';
-
 	React.useEffect(() => {
 		if (existingReview) {
 			setStarRating(existingReview.rating);
@@ -78,7 +74,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 						<Image
 							objectFit="contain"
 							maxW="100px"
-							src={coverImage}
+							src={`${BOOK_COVER_BASE_URL}${book.cover}-M.jpg`}
 							alt="Book Cover"
 							fallbackSrc="https://via.placeholder.com/150"
 						/>

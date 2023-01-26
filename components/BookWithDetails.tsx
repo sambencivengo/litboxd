@@ -54,10 +54,6 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		(readingListBook) => readingListBook.bookWorkKey === book.bookWorkKey
 	);
 
-	const coverImage = book.cover
-		? `${BOOK_COVER_BASE_URL}${book.cover}-${imageSize}.jpg`
-		: '/no-cover.png';
-
 	const existingReview = reviews.find(
 		(review) => review.bookWorkKey === book.bookWorkKey
 	);
@@ -80,7 +76,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 				<Image
 					objectFit="contain"
 					maxW={{ base: '100%', sm: '200px' }}
-					src={coverImage} // TODO: fix bug with lack of covers
+					src={`${BOOK_COVER_BASE_URL}${book.cover}-${imageSize}.jpg`} // TODO: fix bug with lack of covers
 					alt="Book Cover"
 					fallbackSrc="https://via.placeholder.com/150"
 				/>

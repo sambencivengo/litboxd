@@ -21,15 +21,10 @@ interface ReviewCardProps {
 
 export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
-	const { editReview, rateBook } = useReview();
 
 	React.useEffect(() => {
 		setStarRating(review.rating);
 	}, [review]);
-
-	const coverImage = review.cover
-		? `${BOOK_COVER_BASE_URL}${review.cover}-M.jpg`
-		: '/no-cover.png';
 
 	return (
 		<Card
@@ -41,8 +36,9 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 			<Image
 				objectFit="contain"
 				maxW="150px"
-				src={coverImage}
+				src={`${BOOK_COVER_BASE_URL}${review.cover}-M.jpg`}
 				alt="Book cover"
+				fallbackSrc="https://via.placeholder.com/150"
 			/>
 
 			<Stack w={'100%'}>

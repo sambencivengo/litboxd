@@ -54,6 +54,7 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 				objectFit="cover"
 				maxW="200px"
 				src={`${BOOK_COVER_BASE_URL}${cover_i}-M.jpg`}
+				fallbackSrc="https://via.placeholder.com/150"
 				alt={`${title} Cover`}
 			/>
 
