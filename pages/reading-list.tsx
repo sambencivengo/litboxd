@@ -9,7 +9,6 @@ export default function ReadingList() {
 
 	React.useEffect(() => {
 		getReadingList();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
