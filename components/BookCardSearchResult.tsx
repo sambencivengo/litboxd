@@ -16,7 +16,7 @@ import { AiFillEye } from 'react-icons/ai';
 import { BOOK_COVER_BASE_URL } from '../constants';
 import { colors } from '../theme';
 import { BookResult } from './BookSearchBar';
-import { useReadingList } from './Context';
+import { useReadingList, useUser } from './Context';
 
 interface BookCardSearchResultProps {
 	book: BookResult;
@@ -25,7 +25,8 @@ interface BookCardSearchResultProps {
 export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	book,
 }) => {
-	const { author_name, cover_i, title, key, isbn } = book;
+	const { author_name, cover_i, title, key } = book;
+	const { user } = useUser();
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;
 	const { readingList, addToReadingList, removeFromReadingList } =
@@ -72,24 +73,26 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 
 				<Center>
 					<CardFooter>
-						<Button
-							leftIcon={<AiFillEye fontSize={30} />}
-							color={bookIsOnList ? colors.green : null}
-							onClick={() =>
-								bookIsOnList
-									? removeFromReadingList({
-											bookWorkKey: book.key,
-									  })
-									: addToReadingList({
-											author: book.author_name[0],
-											bookWorkKey: book.key,
-											cover: book.cover_i,
-											title: book.title,
-									  })
-							}
-						>
-							{bookIsOnList ? 'Remove' : 'Read'}
-						</Button>
+						{user && (
+							<Button
+								leftIcon={<AiFillEye fontSize={30} />}
+								color={bookIsOnList ? colors.green : null}
+								onClick={() =>
+									bookIsOnList
+										? removeFromReadingList({
+												bookWorkKey: book.key,
+										  })
+										: addToReadingList({
+												author: book.author_name[0],
+												bookWorkKey: book.key,
+												cover: book.cover_i,
+												title: book.title,
+										  })
+								}
+							>
+								{bookIsOnList ? 'Remove' : 'Read'}
+							</Button>
+						)}
 					</CardFooter>
 				</Center>
 			</Stack>
