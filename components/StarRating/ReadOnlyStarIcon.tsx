@@ -20,7 +20,7 @@ export const ReadOnlyStarIcon: React.FC<ReadOnlyStarIconProps> = ({
 			{highlightStar ? (
 				<AiFillStar color={colors.orange} />
 			) : (
-				<AiOutlineStar />
+				<AiOutlineStar color={colors.white} />
 			)}
 		</Icon>
 	);

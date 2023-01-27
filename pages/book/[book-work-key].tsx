@@ -89,7 +89,7 @@ export default function BookWorkKey() {
 							size={'md'}
 							m={10}
 						>
-							User reviews of{' '}
+							Here is what people are saying about{' '}
 							<chakra.span fontStyle={'italic'}>
 								{book.title}
 							</chakra.span>

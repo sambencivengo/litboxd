@@ -1,6 +1,5 @@
 import { Box, useBreakpointValue } from '@chakra-ui/react';
 import React from 'react';
-import { BookSearchBar } from '../BookSearchBar';
 import { NavBar } from './NavBar';
 
 interface LayoutProps {
