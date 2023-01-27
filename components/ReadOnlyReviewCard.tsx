@@ -22,10 +22,12 @@ export const ReadOnlyReviewCard: React.FC<ReadOnlyReviewCardProps> = ({
 	return (
 		<Card variant={'outline'} bgColor={colors.darkBlue} w={'290px'}>
 			<CardHeader>
-				<Heading size="sm">@{review.user.username}</Heading>
+				<Heading color={colors.white} size="sm">
+					@{review.user.username}
+				</Heading>
 			</CardHeader>
 			<CardBody>
-				<Text>{review.reviewContent}</Text>
+				<Text color={colors.white}>{review.reviewContent}</Text>
 			</CardBody>
 			<CardFooter>
 				<HStack>
