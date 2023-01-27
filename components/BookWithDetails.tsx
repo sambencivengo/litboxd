@@ -11,6 +11,7 @@ import {
 	Box,
 	useDisclosure,
 	useBreakpointValue,
+	Colors,
 } from '@chakra-ui/react';
 import React from 'react';
 import { colors } from '../theme';
@@ -21,6 +22,7 @@ import { SignUpAndLoginModal } from './SignUpAndLoginModal';
 import { StarRatingButtonContainer } from './StarRating';
 import { useReadingList, useReview, useUser } from './Context';
 import { BookForDatabase } from '../src/types';
+import { getBooksReviews } from '../src/api/controllers/reviews';
 
 interface BookWithDetailsProps {
 	book: BookForDatabase;
@@ -32,6 +34,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	imageSize,
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
+	const { getReadingList } = useReadingList();
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	const {
 		isOpen: reviewModalIsOpen,
@@ -54,9 +57,18 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		(readingListBook) => readingListBook.bookWorkKey === book.bookWorkKey
 	);
 
+	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
+		React.useState(false);
+
 	const existingReview = reviews.find(
 		(review) => review.bookWorkKey === book.bookWorkKey
 	);
+
+	React.useEffect(() => {
+		if (bookIsOnList) {
+			setReadingListButtonColorIsGreen(true);
+		}
+	}, [bookIsOnList]);
 
 	React.useEffect(() => {
 		if (existingReview) {
@@ -134,21 +146,29 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 								</Button>
 								<Button
 									leftIcon={<AiFillEye fontSize={30} />}
-									color={bookIsOnList ? colors.green : null}
-									onClick={() =>
-										bookIsOnList
-											? removeFromReadingList({
-													bookWorkKey:
-														book.bookWorkKey,
-											  })
-											: addToReadingList({
-													author: book.author,
-													bookWorkKey:
-														book.bookWorkKey,
-													cover: book.cover,
-													title: book.title,
-											  })
+									color={
+										readingListButtonColorIsGreen
+											? colors.green
+											: null
 									}
+									onClick={() => {
+										setReadingListButtonColorIsGreen(
+											!readingListButtonColorIsGreen
+										);
+
+										if (bookIsOnList) {
+											removeFromReadingList({
+												bookWorkKey: book.bookWorkKey,
+											});
+										} else {
+											addToReadingList({
+												author: book.author,
+												bookWorkKey: book.bookWorkKey,
+												cover: book.cover,
+												title: book.title,
+											});
+										}
+									}}
 								>
 									{bookIsOnList ? 'Remove' : 'Read'}
 								</Button>

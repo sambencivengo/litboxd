@@ -70,7 +70,6 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 			credentials: 'include',
 		});
 
-		getReadingList();
 		await res.json();
 	};
 
@@ -84,7 +83,7 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 			},
 			credentials: 'include',
 		});
-		getReadingList();
+
 		await res.json();
 	};
 

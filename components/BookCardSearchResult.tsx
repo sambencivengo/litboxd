@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { BOOK_COVER_BASE_URL } from '../constants';
+import { ReadingList } from '../src/entities';
 import { colors } from '../theme';
 import { BookResult } from './BookSearchBar';
 import { useReadingList, useUser } from './Context';
@@ -35,6 +36,7 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	const bookIsOnList = readingList.find(
 		(readingListBook) => readingListBook.bookWorkKey === book.key // Result from search will have the work key labelled as "key"
 	);
+
 	return (
 		<Card
 			w="70%"
