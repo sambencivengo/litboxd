@@ -52,7 +52,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 				const res = await fetch(searchQuery);
 				const data = await res.json();
 				// TODO: request error
-				const reducedResults = data.docs.slice(0, 5);
+				const reducedResults = data.docs;
 				setBookResults(reducedResults);
 				setIsLoading(false);
 			}
