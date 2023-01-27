@@ -85,12 +85,12 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 					const res = await fetch(
 						`${LIBRARY_SEARCH_URL}${searchCategory}=${searchBarInput
 							.split(' ')
-							.join('+')}&limit=10`
+							.join('+')}`
 					);
 					const data = await res.json();
 
 					const reducedResults = data.docs.slice(0, 10);
-					setBookResults(reducedResults);
+					setBookResults(data.docs);
 					setIsLoading(false);
 
 					// NOTE: removed extra fetch, maybe come back to it? Otherwise, control for lack of cover image on click
@@ -114,7 +114,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 									// color={colors.white}
 									// textAlign="center"
 									// bgColor={colors.darkBlue}
-									w="200px"
+									w="100px"
 									borderRight={0}
 									borderRightRadius={0}
 								>
@@ -122,8 +122,8 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 									<option value="author">Author</option>
 								</Select>
 							</FormControl>
-							<FormControl id="searchBarInput" w={'5000px'}>
-								<InputGroup>
+							<InputGroup>
+								<FormControl id="searchBarInput" w={'5000px'}>
 									<Input
 										// borderColor={colors.greyBlue}
 										// _hover={{
@@ -155,8 +155,8 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 											type="submit"
 										/>
 									</InputRightElement>
-								</InputGroup>
-							</FormControl>
+								</FormControl>
+							</InputGroup>
 						</Flex>
 					</Form>
 				)}
