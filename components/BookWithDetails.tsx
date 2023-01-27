@@ -156,7 +156,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 											!readingListButtonColorIsGreen
 										);
 
-										if (bookIsOnList) {
+										if (readingListButtonColorIsGreen) {
 											removeFromReadingList({
 												bookWorkKey: book.bookWorkKey,
 											});
