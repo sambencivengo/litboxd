@@ -105,6 +105,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 					reviewContent,
 				}),
 			});
+
 			if (!res.ok) {
 				console.log(await res.text());
 				return;
