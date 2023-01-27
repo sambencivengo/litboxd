@@ -18,6 +18,9 @@ import {
 	useToast,
 	Box,
 	Link,
+	Center,
+	Container,
+	Heading,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import React from 'react';
@@ -66,99 +69,113 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 			/>
 
 			<ModalContent top={50}>
-				<ModalHeader color={colors.white} bgColor={colors.darkBlue}>
-					Review Modal Header
-				</ModalHeader>
+				<ModalHeader
+					color={colors.white}
+					bgColor={colors.darkBlue}
+				></ModalHeader>
 				<ModalCloseButton />
 				<ModalBody bgColor={colors.darkBlue}>
 					<Flex
-						gap={100}
-						justifyContent={'space-around'}
+						gap={5}
+						justify="center"
+						justifyContent={'space-evenly'}
 						direction={{ base: 'column', sm: 'row' }}
 					>
-						<Image
-							objectFit="contain"
-							maxW="100px"
-							src={
-								book.cover
-									? `${BOOK_COVER_BASE_URL}${book.cover}-L.jpg`
-									: 'https://via.placeholder.com/150'
-							}
-							alt="Book Cover"
-							fallbackSrc="https://via.placeholder.com/150"
-						/>
-
-						<Formik
-							validateOnChange={false}
-							validateOnBlur={false}
-							initialValues={{
-								reviewContent: '',
-								author: book.author as string,
-								bookWorkKey: book.bookWorkKey as string,
-								cover: book.cover,
-								rating: 0,
-								title: book.title,
-							}}
-							validationSchema={CreateBookReview.uiSchema}
-							onSubmit={async ({ reviewContent }) => {
-								rateBook({
+						<VStack>
+							<Image
+								objectFit="contain"
+								maxW="100px"
+								src={
+									book.cover
+										? `${BOOK_COVER_BASE_URL}${book.cover}-L.jpg`
+										: 'https://via.placeholder.com/150'
+								}
+								alt="Book Cover"
+								fallbackSrc="https://via.placeholder.com/150"
+							/>
+							<Heading
+								textAlign="center"
+								size={'sm'}
+								fontStyle="italic"
+							>
+								{book.title}
+							</Heading>
+							<Heading size="sm">by {book.author}</Heading>
+						</VStack>
+						<Container w={'70%'}>
+							<Formik
+								validateOnChange={false}
+								validateOnBlur={false}
+								initialValues={{
+									reviewContent: '',
 									author: book.author as string,
 									bookWorkKey: book.bookWorkKey as string,
 									cover: book.cover,
-									rating: starRating,
+									rating: 0,
 									title: book.title,
-									reviewContent,
-								});
-								closeReviewModal();
-								toast({
-									position: 'top',
-									duration: 4000,
-									render: () => (
-										<Box p={2} bgColor={colors.green}>
-											<Text>
-												<chakra.span fontStyle="italic">
-													{book.title} added to{' '}
-												</chakra.span>
-												<Link
-													textDecoration={'underline'}
-													href={`reviews/${book.bookWorkKey}`}
-												>
-													your reviews
-												</Link>
-											</Text>
-										</Box>
-									),
-								});
-							}}
-						>
-							{({ isSubmitting, errors, handleChange }) => {
-								return (
-									<Form>
-										<VStack>
-											<FormControl
-												isInvalid={
-													!!errors.reviewContent
-												}
-												id="reviewContent"
-											>
-												<Textarea
-													onChange={handleChange}
+								}}
+								validationSchema={CreateBookReview.uiSchema}
+								onSubmit={async ({ reviewContent }) => {
+									rateBook({
+										author: book.author as string,
+										bookWorkKey: book.bookWorkKey as string,
+										cover: book.cover,
+										rating: starRating,
+										title: book.title,
+										reviewContent,
+									});
+									closeReviewModal();
+									toast({
+										position: 'top',
+										duration: 4000,
+										render: () => (
+											<Box p={2} bgColor={colors.green}>
+												<Text>
+													<chakra.span fontStyle="italic">
+														{book.title} added to{' '}
+													</chakra.span>
+													<Link
+														textDecoration={
+															'underline'
+														}
+														href={`/reviews`}
+													>
+														your reviews
+													</Link>
+												</Text>
+											</Box>
+										),
+									});
+								}}
+							>
+								{({ isSubmitting, errors, handleChange }) => {
+									return (
+										<Form>
+											<VStack>
+												<FormControl
+													isInvalid={
+														!!errors.reviewContent
+													}
 													id="reviewContent"
-													placeholder="Write your review here..."
-													name="reviewContent"
-												/>
-
-												<FormErrorMessage
-													color={colors.deepRed}
 												>
-													{errors.reviewContent}
-												</FormErrorMessage>
-											</FormControl>
+													<Textarea
+														onChange={handleChange}
+														id="reviewContent"
+														placeholder="Write your review here..."
+														name="reviewContent"
+													/>
 
-											{/* TODO: Remove from reading list checkbox 
+													<FormErrorMessage
+														color={colors.deepRed}
+													>
+														{errors.reviewContent}
+													</FormErrorMessage>
+												</FormControl>
+
+												{/* TODO: Remove from reading list checkbox 
 											that sends a query parameter to post, this query param then finds 
 											and deletes the book from the reading list */}
-											{/* {existingReview && (
+												{/* {existingReview && (
 												<Checkbox
 													defaultChecked
 													type="checkbox"
@@ -167,43 +184,42 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 												</Checkbox>
 											)} */}
 
-											<StarRatingButtonContainer
-												setStarRating={setStarRating}
-												starRating={starRating}
-												book={book}
-												submitOnStarClick={false}
-											/>
+												<StarRatingButtonContainer
+													setStarRating={
+														setStarRating
+													}
+													starRating={starRating}
+													book={book}
+													submitOnStarClick={false}
+												/>
 
-											<Button
-												isDisabled={
-													starRating > 0
-														? false
-														: true
-												}
-												bgColor={colors.green}
-												color={colors.white}
-												_hover={{
-													backgroundColor:
-														colors.greyBlue,
-												}}
-												isLoading={isSubmitting}
-												type="submit"
-											>
-												Submit
-											</Button>
-										</VStack>
-									</Form>
-								);
-							}}
-						</Formik>
+												<Button
+													isDisabled={
+														starRating > 0
+															? false
+															: true
+													}
+													bgColor={colors.green}
+													color={colors.white}
+													_hover={{
+														backgroundColor:
+															colors.greyBlue,
+													}}
+													isLoading={isSubmitting}
+													type="submit"
+												>
+													Submit
+												</Button>
+											</VStack>
+										</Form>
+									);
+								}}
+							</Formik>
+						</Container>
 					</Flex>
 				</ModalBody>
 
-				<ModalFooter bgColor={colors.darkBlue}>
-					<Button mr={3} onClick={closeReviewModal}>
-						Close
-					</Button>
-				</ModalFooter>
+				<ModalFooter bgColor={colors.darkBlue}></ModalFooter>
 			</ModalContent>
 		</Modal>
 	);
