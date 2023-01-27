@@ -11,8 +11,10 @@ import {
 	Box,
 	useDisclosure,
 	useBreakpointValue,
-	Colors,
+	IconButton,
+	HStack,
 } from '@chakra-ui/react';
+import { BsPencilSquare } from 'react-icons/bs';
 import React from 'react';
 import { colors } from '../theme';
 import { AiFillEye } from 'react-icons/ai';
@@ -22,7 +24,6 @@ import { SignUpAndLoginModal } from './SignUpAndLoginModal';
 import { StarRatingButtonContainer } from './StarRating';
 import { useReadingList, useReview, useUser } from './Context';
 import { BookForDatabase } from '../src/types';
-import { getBooksReviews } from '../src/api/controllers/reviews';
 
 interface BookWithDetailsProps {
 	book: BookForDatabase;
@@ -139,10 +140,13 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 							)}
 						</Box>
 						{user && (
-							<Stack direction={['row', 'row', 'column', 'row']}>
-								<Button onClick={openReviewModal}>
-									Write Review?
-								</Button>
+							<HStack>
+								<IconButton
+									onClick={openReviewModal}
+									aria-label="Create review"
+									icon={<BsPencilSquare />}
+								/>
+
 								<Button
 									leftIcon={<AiFillEye fontSize={30} />}
 									color={
@@ -171,7 +175,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 								>
 									{bookIsOnList ? 'Remove' : 'Read'}
 								</Button>
-							</Stack>
+							</HStack>
 						)}
 					</Stack>
 					<CreateReviewModal

@@ -145,7 +145,10 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 											}}
 											// borderColor={colors.greyBlue}
 											isLoading={isSubmitting}
-											isDisabled={isSubmitting}
+											isDisabled={
+												isSubmitting ||
+												!searchBarInput.length
+											}
 											icon={<Search2Icon />}
 											aria-label="Magnifying glass"
 											h="1.75rem"
