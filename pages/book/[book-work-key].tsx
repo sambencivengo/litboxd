@@ -19,8 +19,6 @@ import { BOOK_URL } from '../../constants';
 import { BookWithDetails } from '../../components/BookWithDetails';
 import { BookForDatabase } from '../../src/types';
 import { Review } from '../../src/entities';
-import { ReadOnlyRating } from '../../components/StarRating';
-import { colors } from '../../theme';
 import { ReadOnlyReviewCard } from '../../components/ReadOnlyReviewCard';
 
 export interface ReviewWithUser extends Review {

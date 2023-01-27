@@ -2,6 +2,7 @@ import {
 	Modal,
 	ModalOverlay,
 	ModalContent,
+	chakra,
 	ModalHeader,
 	ModalCloseButton,
 	ModalBody,
@@ -13,12 +14,15 @@ import {
 	VStack,
 	FormControl,
 	FormErrorMessage,
-	Input,
-	Checkbox,
+	Text,
+	useToast,
+	Box,
+	Link,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
+import { bookWorkKey } from '../src/api/routes/reviews/[:bookWorkKey]';
 import { Review } from '../src/entities';
 import { CreateBookReview } from '../src/schema';
 import { BookForDatabase } from '../src/types';
@@ -41,6 +45,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
+	const toast = useToast();
 
 	React.useEffect(() => {
 		if (existingReview) {
@@ -103,6 +108,26 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 									rating: starRating,
 									title: book.title,
 									reviewContent,
+								});
+								closeReviewModal();
+								toast({
+									position: 'top',
+									duration: 4000,
+									render: () => (
+										<Box p={2} bgColor={colors.green}>
+											<Text>
+												<chakra.span fontStyle="italic">
+													{book.title} added to{' '}
+												</chakra.span>
+												<Link
+													textDecoration={'underline'}
+													href={`reviews/${book.bookWorkKey}`}
+												>
+													your reviews
+												</Link>
+											</Text>
+										</Box>
+									),
 								});
 							}}
 						>

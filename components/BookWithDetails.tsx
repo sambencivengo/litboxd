@@ -34,7 +34,6 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	imageSize,
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
-	const { getReadingList } = useReadingList();
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	const {
 		isOpen: reviewModalIsOpen,
