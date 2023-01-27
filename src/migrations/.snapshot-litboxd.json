@@ -193,15 +193,6 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "user_id"
-          ],
-          "composite": false,
-          "keyName": "review_user_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
           "keyName": "review_pkey",
           "columnNames": [
             "id"

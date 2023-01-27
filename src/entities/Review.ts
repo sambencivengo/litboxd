@@ -43,6 +43,6 @@ export class Review {
 	@Property({ type: 'integer', default: 0 })
 	likes: number;
 
-	@ManyToOne({ entity: () => User, unique: true })
+	@ManyToOne({ entity: () => User })
 	user: User;
 }
