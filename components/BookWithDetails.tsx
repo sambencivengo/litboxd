@@ -98,7 +98,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 				/>
 			</Center>
 
-			<Stack>
+			<Stack w={'100%'}>
 				<CardBody>
 					<Stack gap={1}>
 						<Heading color={colors.white} size="md">

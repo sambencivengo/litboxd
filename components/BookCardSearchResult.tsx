@@ -58,7 +58,7 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 				alt={`${title} Cover`}
 			/>
 
-			<Stack>
+			<Stack w={'100%'}>
 				<CardBody>
 					<Link href={`/book/${keySlug}?author=${author_name[0]}`}>
 						<Heading color={colors.white} size="md">
