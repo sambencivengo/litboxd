@@ -1,4 +1,12 @@
-import { Heading, Box, Center, Spinner, VStack } from '@chakra-ui/react';
+import {
+	Heading,
+	Box,
+	Center,
+	Spinner,
+	VStack,
+	Divider,
+} from '@chakra-ui/react';
+import Head from 'next/head';
 import React from 'react';
 import { useReview } from '../components/Context';
 import { ReviewCard } from '../components/ReviewCard';
@@ -15,23 +23,32 @@ export default function Reviews() {
 	const ratedReviews = reviews.filter((review) => review.rating > 0);
 
 	return (
-		<Box>
-			<Heading p={10} color={colors.white}>
-				Your Reviews
-			</Heading>
-			<VStack>
-				{
-					// isLoading ? (
-					// 	<Center>
-					// 		<Spinner size="xl" />
-					// 	</Center>
-					// ) : (
-					ratedReviews.map((review, idx) => (
-						<ReviewCard key={idx} review={review} />
-					))
-					// )
-				}
-			</VStack>
-		</Box>
+		<>
+			<Head>
+				<title>Litboxd | Reviews</title>
+
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<Box>
+				<Heading p={10} color={colors.white}>
+					Your Reviews
+				</Heading>
+				<Divider />
+
+				<VStack mt={5}>
+					{
+						// isLoading ? (
+						// 	<Center>
+						// 		<Spinner size="xl" />
+						// 	</Center>
+						// ) : (
+						ratedReviews.map((review, idx) => (
+							<ReviewCard key={idx} review={review} />
+						))
+						// )
+					}
+				</VStack>
+			</Box>
+		</>
 	);
 }
