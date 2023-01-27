@@ -6,6 +6,8 @@ import {
 	Spinner,
 	VStack,
 } from '@chakra-ui/react';
+import { faker } from '@mikro-orm/seeder';
+
 import Head from 'next/head';
 import React from 'react';
 import { BookWithDetails } from '../components/BookWithDetails';

@@ -27,6 +27,8 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	book,
 }) => {
 	const { author_name, cover_i, title, key } = book;
+	console.log({ book });
+
 	const { user } = useUser();
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;

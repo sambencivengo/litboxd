@@ -51,7 +51,7 @@ export default function Home() {
 						<VStack mt={10}>
 							{bookResults &&
 								bookResults.map((book) => {
-									if (book.cover_i) {
+									if (book.cover_i && book.author_name) {
 										return (
 											<BookCardSearchResult
 												book={book}
