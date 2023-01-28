@@ -34,7 +34,6 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 	purpose,
 }) => {
 	const { login, signUp } = useUser();
-	const toast = useToast();
 
 	return (
 		<Modal isOpen={loginModalIsOpen} onClose={closeLoginModal}>
@@ -64,19 +63,6 @@ export const SignUpAndLoginModal: React.FC<SignUpAndLoginModalProps> = ({
 								: (success = await signUp(args));
 							if (success) {
 								closeLoginModal();
-							} else {
-								toast({
-									title: `Unable to ${
-										purpose === 'log in'
-											? 'log in.'
-											: 'sign up.'
-									} `,
-									status: 'error',
-									variant: 'solid',
-									duration: 2000,
-									isClosable: true,
-									position: 'top',
-								});
 							}
 							// TODO: update user store
 						}}

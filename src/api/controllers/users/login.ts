@@ -20,7 +20,7 @@ export const login: Handler = async (req, res) => {
 		});
 
 		if (!user) {
-			res.status(403).send("User doesn't exist");
+			res.status(403).send('Unable to find account');
 			return;
 		}
 		const validPassword = await argon2.verify(user.password, password);

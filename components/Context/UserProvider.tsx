@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import React from 'react';
 import { SimpleUser } from '../../src/types';
 import { useReadingList } from './ReadingListProvider';
@@ -33,6 +34,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 	const [user, setUser] = React.useState<SimpleUser | null>(null);
 	const { getReadingList } = useReadingList();
 	const { getReviews } = useReview();
+	const toast = useToast();
 
 	const getMe = async (): Promise<void> => {
 		try {
@@ -79,6 +81,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 			if (!res.ok) {
 				setUser(null);
+				toast({
+					title: await res.text(),
+					description: 'Please sign up to create an account',
+					status: 'error',
+					variant: 'solid',
+					duration: 2000,
+					isClosable: true,
+					position: 'top',
+				});
 				return false;
 			}
 
@@ -110,6 +121,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 			if (!res.ok) {
 				setUser(null);
+				toast({
+					title: await res.text(),
+					status: 'error',
+					variant: 'solid',
+					duration: 2000,
+					isClosable: true,
+					position: 'top',
+				});
 				return false;
 			}
 			const data: SimpleUser = await res.json();
