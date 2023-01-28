@@ -97,6 +97,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			getReadingList();
 			getReviews;
 			setUser(data);
+			toast({
+				title: 'Welcome back!',
+				status: 'success',
+				variant: 'solid',
+				duration: 2000,
+				isClosable: true,
+				position: 'top',
+			});
 			return true;
 		} catch (error) {
 			setUser(null);
@@ -133,6 +141,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			}
 			const data: SimpleUser = await res.json();
 			setUser(data);
+			toast({
+				title: 'Welcome to Litboxd!',
+				status: 'success',
+				variant: 'solid',
+				duration: 2000,
+				isClosable: true,
+				position: 'top',
+			});
 			return true;
 		} catch (error) {
 			setUser(null);
