@@ -6,7 +6,6 @@ import {
 	IconButton,
 	Input,
 	InputGroup,
-	InputLeftElement,
 	InputRightElement,
 	Select,
 } from '@chakra-ui/react';
