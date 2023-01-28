@@ -27,8 +27,8 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	book,
 }) => {
 	const { author_name, cover_i, title, key } = book;
-	console.log({ book });
-
+	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
+		React.useState(false);
 	const { user } = useUser();
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;
@@ -80,19 +80,29 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 						{user && (
 							<Button
 								leftIcon={<AiFillEye fontSize={30} />}
-								color={bookIsOnList ? colors.green : null}
-								onClick={() =>
-									bookIsOnList
-										? removeFromReadingList({
-												bookWorkKey: book.key,
-										  })
-										: addToReadingList({
-												author: book.author_name[0],
-												bookWorkKey: book.key,
-												cover: book.cover_i,
-												title: book.title,
-										  })
+								color={
+									readingListButtonColorIsGreen
+										? colors.green
+										: null
 								}
+								onClick={() => {
+									setReadingListButtonColorIsGreen(
+										!readingListButtonColorIsGreen
+									);
+
+									if (readingListButtonColorIsGreen) {
+										removeFromReadingList({
+											bookWorkKey: book.key,
+										});
+									} else {
+										addToReadingList({
+											author: book.author_name[0],
+											bookWorkKey: book.key,
+											cover: book.cover_i,
+											title: book.title,
+										});
+									}
+								}}
 							>
 								{bookIsOnList ? 'Remove' : 'Read'}
 							</Button>
