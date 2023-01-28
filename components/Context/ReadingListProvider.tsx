@@ -32,11 +32,10 @@ const ReadingListContext = React.createContext<ReadingListContextData>({
 export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 	children,
 }) => {
-	const [isLoading, setIsLoading] = React.useState(false);
+	const [isLoading, setIsLoading] = React.useState(true);
 	const [readingList, setReadingList] = React.useState([]);
 
 	const getReadingList = async () => {
-		setIsLoading(true);
 		try {
 			const res = await fetch('/api/readingList');
 			const data = await res.json();
@@ -71,6 +70,7 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 		});
 
 		await res.json();
+		setIsLoading(false);
 	};
 
 	const removeFromReadingList = async ({
@@ -85,6 +85,7 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 		});
 
 		await res.json();
+		setIsLoading(false);
 	};
 
 	React.useEffect(() => {

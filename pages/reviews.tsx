@@ -22,6 +22,16 @@ export default function Reviews() {
 
 	const ratedReviews = reviews.filter((review) => review.rating > 0);
 
+	const renderSpinner = () => {
+		if (isLoading) {
+			return (
+				<Center>
+					<Spinner size="xl" />
+				</Center>
+			);
+		}
+	};
+
 	return (
 		<>
 			<Head>
@@ -36,24 +46,18 @@ export default function Reviews() {
 				<Divider />
 
 				<VStack mt={5}>
-					{
-						// isLoading ? (
-						// 	<Center>
-						// 		<Spinner size="xl" />
-						// 	</Center>
-						// ) : (
+					{renderSpinner()}
+					{ratedReviews.length &&
 						ratedReviews.map((review, idx) => (
 							<ReviewCard key={idx} review={review} />
-						))
-						// )
-					}
-					{/* {!ratedReviews.length && (
+						))}
+					{!isLoading && !ratedReviews.length && (
 						<Center p={20}>
 							<Heading color={colors.white} size={'md'}>
 								You haven&apos;t reviewed any books yet...
 							</Heading>
 						</Center>
-					)} */}
+					)}
 				</VStack>
 			</Box>
 		</>

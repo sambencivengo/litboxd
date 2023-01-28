@@ -21,6 +21,16 @@ export default function ReadingList() {
 		getReadingList();
 	}, []);
 
+	const renderSpinner = () => {
+		if (isLoading) {
+			return (
+				<Center>
+					<Spinner size="xl" />
+				</Center>
+			);
+		}
+	};
+
 	return (
 		<>
 			<Head>
@@ -35,11 +45,8 @@ export default function ReadingList() {
 				<Divider />
 
 				<VStack mt={5} spacing={5}>
-					{isLoading ? (
-						<Center>
-							<Spinner size="xl" />
-						</Center>
-					) : (
+					{renderSpinner()}
+					{readingList &&
 						readingList.map((book, idx) => (
 							<BookWithDetails
 								imageSize="M"
@@ -51,9 +58,9 @@ export default function ReadingList() {
 									cover: book.cover,
 								}}
 							/>
-						))
-					)}
-					{!readingList.length && (
+						))}
+
+					{!isLoading && !readingList.length && (
 						<Center p={20}>
 							<Heading color={colors.white} size={'md'}>
 								Looks like you don&apos;t have any books on your

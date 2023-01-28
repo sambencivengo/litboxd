@@ -37,7 +37,7 @@ const ReviewContext = React.createContext<ReviewContextData>({
 });
 
 export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
-	const [isLoading, setIsLoading] = React.useState(false);
+	const [isLoading, setIsLoading] = React.useState(true);
 	const [reviews, setReviews] = React.useState<Review[]>([]);
 
 	const rateBook = async ({
@@ -122,7 +122,6 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 	}, []);
 
 	const getReviews = async () => {
-		setIsLoading(true);
 		try {
 			const res = await fetch('/api/reviews');
 			const data = await res.json();
@@ -131,7 +130,6 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 		} catch (error) {
 			console.error(error);
 			setIsLoading(false);
-			return;
 		}
 	};
 
