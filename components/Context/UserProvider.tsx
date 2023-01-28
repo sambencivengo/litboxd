@@ -1,6 +1,7 @@
-import { useToast } from '@chakra-ui/react';
+import { Box, useToast, Text } from '@chakra-ui/react';
 import React from 'react';
 import { SimpleUser } from '../../src/types';
+import { colors } from '../../theme';
 import { useReadingList } from './ReadingListProvider';
 import { useReview } from './ReviewProvider';
 
@@ -82,11 +83,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			if (!res.ok) {
 				setUser(null);
 				toast({
-					title: await res.text(),
-					description: 'Please sign up to create an account',
-					status: 'error',
-					variant: 'solid',
-					duration: 2000,
+					render: () => (
+						<Box p={2} bgColor={colors.green}>
+							<Text>Welcome back!</Text>
+						</Box>
+					),
+					duration: 4000,
 					isClosable: true,
 					position: 'top',
 				});
@@ -99,7 +101,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			setUser(data);
 			toast({
 				title: 'Welcome back!',
-				status: 'success',
+				status: 'info',
 				variant: 'solid',
 				duration: 2000,
 				isClosable: true,
@@ -142,10 +144,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			const data: SimpleUser = await res.json();
 			setUser(data);
 			toast({
-				title: 'Welcome to Litboxd!',
-				status: 'success',
-				variant: 'solid',
-				duration: 2000,
+				render: () => (
+					<Box p={2} bgColor={colors.green}>
+						<Text>📚 Welcome to LitBoxd 📚</Text>
+					</Box>
+				),
+				duration: 4000,
 				isClosable: true,
 				position: 'top',
 			});

@@ -128,6 +128,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 									toast({
 										position: 'top',
 										duration: 4000,
+										isClosable: true,
 										render: () => (
 											<Box p={2} bgColor={colors.green}>
 												<Text>
