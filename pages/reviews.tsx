@@ -47,6 +47,13 @@ export default function Reviews() {
 						))
 						// )
 					}
+					{/* {!ratedReviews.length && (
+						<Center p={20}>
+							<Heading color={colors.white} size={'md'}>
+								You haven&apos;t reviewed any books yet...
+							</Heading>
+						</Center>
+					)} */}
 				</VStack>
 			</Box>
 		</>

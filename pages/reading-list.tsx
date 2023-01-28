@@ -53,6 +53,14 @@ export default function ReadingList() {
 							/>
 						))
 					)}
+					{!readingList.length && (
+						<Center p={20}>
+							<Heading color={colors.white} size={'md'}>
+								Looks like you don&apos;t have any books on your
+								reading list...
+							</Heading>
+						</Center>
+					)}
 				</VStack>
 			</Box>
 		</>

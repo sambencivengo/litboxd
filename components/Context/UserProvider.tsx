@@ -83,12 +83,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			if (!res.ok) {
 				setUser(null);
 				toast({
-					render: () => (
-						<Box p={2} bgColor={colors.green}>
-							<Text>Welcome back!</Text>
-						</Box>
-					),
-					duration: 4000,
+					title: await res.text(),
+					status: 'error',
+					variant: 'solid',
+					duration: 2000,
 					isClosable: true,
 					position: 'top',
 				});
@@ -100,10 +98,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			getReviews;
 			setUser(data);
 			toast({
-				title: 'Welcome back!',
-				status: 'info',
-				variant: 'solid',
-				duration: 2000,
+				render: () => (
+					<Box p={2} rounded="md" bgColor={colors.green} w="auto">
+						<Text fontWeight={600} textAlign={'center'}>
+							📚 Welcome back 📚
+						</Text>
+					</Box>
+				),
+				duration: 4000,
 				isClosable: true,
 				position: 'top',
 			});
@@ -145,8 +147,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 			setUser(data);
 			toast({
 				render: () => (
-					<Box p={2} bgColor={colors.green}>
-						<Text>📚 Welcome to LitBoxd 📚</Text>
+					<Box p={2} rounded="md" width="auto" bgColor={colors.green}>
+						<Text fontWeight={600} textAlign="center">
+							📚 Welcome to Litboxd 📚
+						</Text>
 					</Box>
 				),
 				duration: 4000,
