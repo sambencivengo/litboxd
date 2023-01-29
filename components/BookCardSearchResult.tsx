@@ -14,7 +14,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { BOOK_COVER_BASE_URL } from '../constants';
-import { ReadingList } from '../src/entities';
 import { colors } from '../theme';
 import { BookResult } from './BookSearchBar';
 import { useReadingList, useUser } from './Context';
@@ -34,26 +33,27 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	const { readingList, addToReadingList, removeFromReadingList } =
 		useReadingList();
 	const router = useRouter();
+	const [_, bookWorkKey] = book.key.split('/works/');
 
 	React.useEffect(() => {
 		if (
 			readingList.find(
-				(readingListBook) => readingListBook.bookWorkKey === book.key // Result from search will have the work key labelled as "key"
+				(readingListBook) => readingListBook.bookWorkKey === bookWorkKey // Result from search will have the work key labelled as "key"
 			)
 		) {
 			setBookIsOnList(true);
 		}
-	}, [book, readingList]);
+	}, [book, bookWorkKey, readingList]);
 
 	const handleOptimisticFetch = async (action: 'add' | 'remove') => {
 		let success: boolean;
 		action === 'remove'
 			? (success = await removeFromReadingList({
-					bookWorkKey: book.key,
+					bookWorkKey,
 			  }))
 			: (success = await addToReadingList({
 					author: book.author_name[0],
-					bookWorkKey: book.key,
+					bookWorkKey,
 					cover: book.cover_i,
 					title: book.title,
 			  }));
@@ -62,6 +62,8 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 			setBookIsOnList(action === 'remove' ? true : false);
 		}
 	};
+
+	console.log({ book });
 
 	return (
 		<Card
