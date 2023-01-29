@@ -63,8 +63,6 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 		}
 	};
 
-	console.log({ book });
-
 	return (
 		<Card
 			w="70%"
