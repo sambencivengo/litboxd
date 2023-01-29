@@ -1,6 +1,7 @@
 import { ButtonGroup, CloseButton, HStack } from '@chakra-ui/react';
 import React from 'react';
 import { BookForDatabase } from '../../src/types';
+import { colors } from '../../theme';
 import { useReview } from '../Context';
 import { StarButton } from './StarButton';
 
@@ -35,6 +36,7 @@ export const StarRatingButtonContainer: React.FC<
 			</ButtonGroup>
 			{starRating && (
 				<CloseButton
+					color={colors.white}
 					onClick={() => {
 						setStarRating(0);
 						editReview({

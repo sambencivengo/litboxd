@@ -64,7 +64,9 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 						<Stack pt={2}>
 							{review.reviewContent && (
 								<>
-									<Heading size="sm">Review:</Heading>
+									<Heading color={colors.white} size="sm">
+										Review:
+									</Heading>
 									<Text color={colors.white} py="2">
 										{review.reviewContent}
 									</Text>
