@@ -20,6 +20,7 @@ import { BookWithDetails } from '../../components/BookWithDetails';
 import { BookForDatabase } from '../../src/types';
 import { Review } from '../../src/entities';
 import { ReadOnlyReviewCard } from '../../components/ReadOnlyReviewCard';
+import { colors } from '../../theme';
 
 export interface ReviewWithUser extends Review {
 	username: string;
@@ -87,6 +88,7 @@ export default function BookWorkKey() {
 							fontWeight={400}
 							size={'md'}
 							m={10}
+							color={colors.white}
 						>
 							Here is what people are saying about{' '}
 							<chakra.span fontStyle={'italic'}>
@@ -96,17 +98,22 @@ export default function BookWorkKey() {
 						<Divider />
 					</>
 				)}
-				{reviews ? (
+				{reviews.length ? (
 					<Wrap align={'left'} justify={'center'} spacing={2} mt={10}>
 						{reviews.map((review, idx) => (
 							<ReadOnlyReviewCard key={idx} review={review} />
 						))}
 					</Wrap>
 				) : (
-					<Box>
+					<Heading
+						textAlign="center"
+						fontWeight={400}
+						size={'md'}
+						m={10}
+					>
 						There are no reviews for this book yet, sign up and be
 						the first!
-					</Box>
+					</Heading>
 				)}
 			</main>
 		</>

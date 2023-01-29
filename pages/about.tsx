@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { ReviewCard } from '../components/ReviewCard';
 import { colors } from '../theme';
 
 export default function About() {
