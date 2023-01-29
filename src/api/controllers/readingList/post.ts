@@ -16,7 +16,7 @@ export const post: Handler = async (req, res) => {
 	if (errorHandled) return;
 
 	try {
-		const readingListExists = req.em.count(ReadingList, {
+		const readingListExists = await req.em.count(ReadingList, {
 			bookWorkKey,
 			user: user.id,
 		});
