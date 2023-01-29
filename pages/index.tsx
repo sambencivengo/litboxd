@@ -11,6 +11,7 @@ import React from 'react';
 import { colors } from '../theme';
 import { BookResult, BookSearchBar } from '../components/BookSearchBar';
 import { BookCardSearchResult } from '../components/BookCardSearchResult';
+import { SplashPageInfo } from '../components/SplashPageInfo';
 
 export default function Home() {
 	const [bookResults, setBookResults] = React.useState<BookResult[]>();
@@ -42,6 +43,9 @@ export default function Home() {
 						A social platform for sharing your taste in literature
 						and books.
 					</Heading>
+					<Divider />
+
+					{!bookResults && <SplashPageInfo />}
 					<Divider />
 					{isLoading ? (
 						<Center mt={100}>
