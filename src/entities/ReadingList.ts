@@ -16,7 +16,7 @@ export class ReadingList {
 	})
 	updatedAt = new Date();
 
-	@Property({ type: 'text', unique: true })
+	@Property({ type: 'text' })
 	bookWorkKey!: string;
 
 	@Property({ type: 'text' })

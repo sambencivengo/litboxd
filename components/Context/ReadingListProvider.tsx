@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import React from 'react';
 import { ReadingList, User } from '../../src/entities';
 
@@ -18,15 +19,15 @@ interface ReadingListContextData {
 	isLoading: boolean;
 	readingList: ReadingList[];
 	getReadingList: () => Promise<void>;
-	addToReadingList: (a: AddToReadingListArgs) => Promise<void>;
-	removeFromReadingList: (a: RemoveFromReadingListArgs) => Promise<void>;
+	addToReadingList: (a: AddToReadingListArgs) => Promise<boolean>;
+	removeFromReadingList: (a: RemoveFromReadingListArgs) => Promise<boolean>;
 }
 const ReadingListContext = React.createContext<ReadingListContextData>({
 	isLoading: false,
 	readingList: [],
 	getReadingList: async () => {},
-	addToReadingList: async () => {},
-	removeFromReadingList: async () => {},
+	addToReadingList: async () => false,
+	removeFromReadingList: async () => false,
 });
 
 export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
@@ -34,6 +35,7 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 }) => {
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [readingList, setReadingList] = React.useState([]);
+	const toast = useToast();
 
 	const getReadingList = async () => {
 		try {
@@ -69,13 +71,25 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 			credentials: 'include',
 		});
 
+		if (!res.ok) {
+			toast({
+				title: 'Unable to add book from reading list',
+				status: 'error',
+				variant: 'solid',
+				duration: 2000,
+				isClosable: true,
+				position: 'top',
+			});
+			return false;
+		}
 		await res.json();
 		setIsLoading(false);
+		return true;
 	};
 
 	const removeFromReadingList = async ({
 		bookWorkKey,
-	}: RemoveFromReadingListArgs) => {
+	}: RemoveFromReadingListArgs): Promise<boolean> => {
 		const res = await fetch(`/api/readingList?bookWorkKey=${bookWorkKey}`, {
 			method: 'DELETE',
 			headers: {
@@ -84,8 +98,20 @@ export const ReadingListProvider: React.FC<ReadingListProviderProps> = ({
 			credentials: 'include',
 		});
 
+		if (!res.ok) {
+			toast({
+				title: 'Unable to remove book to reading list',
+				status: 'error',
+				variant: 'solid',
+				duration: 2000,
+				isClosable: true,
+				position: 'top',
+			});
+			return false;
+		}
+
 		await res.json();
-		setIsLoading(false);
+		return true;
 	};
 
 	React.useEffect(() => {

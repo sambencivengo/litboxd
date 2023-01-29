@@ -20,8 +20,6 @@ export const post: Handler = async (req, res) => {
 		schema: CreateBookReview.apiSchema,
 	});
 
-	console.log({ reviewContent });
-
 	if (errorHandled) return;
 
 	try {

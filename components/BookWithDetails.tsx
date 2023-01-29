@@ -66,6 +66,8 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		(review) => review.bookWorkKey === book.bookWorkKey
 	);
 
+	console.log(readingList);
+
 	React.useEffect(() => {
 		if (
 			readingList.find(
@@ -83,16 +85,22 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 
 	const handleOptimisticFetch = (action: 'add' | 'remove') => {
 		if (action === 'remove') {
-			removeFromReadingList({
+			const success = removeFromReadingList({
 				bookWorkKey: book.bookWorkKey,
 			});
+			if (!success) {
+				getReadingList();
+			}
 		} else {
-			addToReadingList({
+			const success = addToReadingList({
 				author: book.author,
 				bookWorkKey: book.bookWorkKey,
 				cover: book.cover,
 				title: book.title,
 			});
+			if (!success) {
+				getReadingList();
+			}
 		}
 	};
 
