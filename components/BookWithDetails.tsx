@@ -53,20 +53,14 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 
 	const { user } = useUser();
 
-	const {
-		addToReadingList,
-		removeFromReadingList,
-		getReadingList,
-		readingList,
-	} = useReadingList();
+	const { addToReadingList, removeFromReadingList, readingList } =
+		useReadingList();
 
 	const { reviews } = useReview();
 
 	const existingReview = reviews.find(
 		(review) => review.bookWorkKey === book.bookWorkKey
 	);
-
-	console.log(readingList);
 
 	React.useEffect(() => {
 		if (
@@ -83,24 +77,21 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		}
 	}, [existingReview, book, readingList, setStarRating]);
 
-	const handleOptimisticFetch = (action: 'add' | 'remove') => {
-		if (action === 'remove') {
-			const success = removeFromReadingList({
-				bookWorkKey: book.bookWorkKey,
-			});
-			if (!success) {
-				getReadingList();
-			}
-		} else {
-			const success = addToReadingList({
-				author: book.author,
-				bookWorkKey: book.bookWorkKey,
-				cover: book.cover,
-				title: book.title,
-			});
-			if (!success) {
-				getReadingList();
-			}
+	const handleOptimisticFetch = async (action: 'add' | 'remove') => {
+		let success: boolean;
+		action === 'remove'
+			? (success = await removeFromReadingList({
+					bookWorkKey: book.bookWorkKey,
+			  }))
+			: (success = await addToReadingList({
+					author: book.author,
+					bookWorkKey: book.bookWorkKey,
+					cover: book.cover,
+					title: book.title,
+			  }));
+
+		if (!success) {
+			setBookIsOnList(action === 'remove' ? true : false);
 		}
 	};
 
