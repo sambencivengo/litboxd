@@ -23,6 +23,16 @@ export const post: Handler = async (req, res) => {
 	if (errorHandled) return;
 
 	try {
+		const reviewExists = req.em.count(Review, {
+			bookWorkKey,
+			user: user.id,
+		});
+
+		if (reviewExists) {
+			res.status(400).send('Review cannot exist more than once');
+			return;
+		}
+
 		const review = req.em.create(Review, {
 			author,
 			bookWorkKey,

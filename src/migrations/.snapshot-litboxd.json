@@ -301,15 +301,6 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "book_work_key"
-          ],
-          "composite": false,
-          "keyName": "reading_list_book_work_key_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
           "keyName": "reading_list_pkey",
           "columnNames": [
             "id"
