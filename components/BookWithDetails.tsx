@@ -38,7 +38,6 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	const [bookIsOnList, setBookIsOnList] = React.useState(false);
 	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
 		React.useState(false);
-
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	const {
@@ -67,27 +66,35 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 		(review) => review.bookWorkKey === book.bookWorkKey
 	);
 
-	console.log(
-		readingList.find(
-			(readingListBook) =>
-				readingListBook.bookWorkKey === book.bookWorkKey
-		)
-	);
-
 	React.useEffect(() => {
-		setBookIsOnList(
-			!!readingList.find(
+		if (
+			readingList.find(
 				(readingListBook) =>
 					readingListBook.bookWorkKey === book.bookWorkKey
 			)
-		);
-	}, [bookIsOnList, readingList, book]);
+		) {
+			setBookIsOnList(true);
+		}
 
-	React.useEffect(() => {
 		if (existingReview) {
 			setStarRating(existingReview.rating);
 		}
-	}, [existingReview, setStarRating, reviews]);
+	}, [existingReview, book, readingList, setStarRating]);
+
+	const handleOptimisticFetch = (action: 'add' | 'remove') => {
+		if (action === 'remove') {
+			removeFromReadingList({
+				bookWorkKey: book.bookWorkKey,
+			});
+		} else {
+			addToReadingList({
+				author: book.author,
+				bookWorkKey: book.bookWorkKey,
+				cover: book.cover,
+				title: book.title,
+			});
+		}
+	};
 
 	return (
 		<Card
@@ -162,31 +169,16 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 
 								<Button
 									leftIcon={<AiFillEye fontSize={30} />}
-									color={
-										readingListButtonColorIsGreen
-											? colors.green
-											: null
-									}
+									color={bookIsOnList ? colors.green : null}
 									onClick={() => {
-										if (bookIsOnList) {
-											removeFromReadingList({
-												bookWorkKey: book.bookWorkKey,
-											});
-											getReadingList();
-										} else {
-											addToReadingList({
-												author: book.author,
-												bookWorkKey: book.bookWorkKey,
-												cover: book.cover,
-												title: book.title,
-											});
-											getReadingList();
-										}
+										setBookIsOnList(!bookIsOnList);
+
+										handleOptimisticFetch(
+											bookIsOnList ? 'remove' : 'add'
+										);
 									}}
 								>
-									{readingListButtonColorIsGreen
-										? 'Remove'
-										: 'Read'}
+									{bookIsOnList ? 'Remove' : 'Read'}
 								</Button>
 							</HStack>
 						)}

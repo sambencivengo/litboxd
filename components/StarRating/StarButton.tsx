@@ -32,8 +32,6 @@ export const StarButton: React.FC<StarButtonProps> = ({
 		<IconButton
 			type={submitOnStarClick ? 'submit' : 'button'}
 			onClick={async () => {
-				console.log(submitOnStarClick);
-
 				if (submitOnStarClick) {
 					rateBook({
 						rating: ratingValue,

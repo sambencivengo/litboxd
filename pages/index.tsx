@@ -17,11 +17,6 @@ import { useReadingList } from '../components/Context';
 export default function Home() {
 	const [bookResults, setBookResults] = React.useState<BookResult[]>();
 	const [isLoading, setIsLoading] = React.useState(false);
-	const { getReadingList } = useReadingList();
-
-	React.useEffect(() => {
-		getReadingList();
-	}, []);
 
 	return (
 		<>
