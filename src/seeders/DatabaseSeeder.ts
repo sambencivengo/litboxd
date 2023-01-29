@@ -1,12 +1,10 @@
 import type { EntityManager } from '@mikro-orm/core';
-import { Seeder, faker } from '@mikro-orm/seeder';
+import { Seeder } from '@mikro-orm/seeder';
 import { Review } from '../entities';
 import { arrayOfBooks } from './BookInfoForSeeder';
 import { UserFactory } from './factories/UserFactory';
 
 const NUM_USERS = 15;
-const NUM_REVIEWS = 30;
-const NUM_READING_LIST = 30;
 
 export const reviewCombos = [
 	{
@@ -55,17 +53,17 @@ export class DatabaseSeeder extends Seeder {
 
 		users.forEach((user) => {
 			arrayOfBooks.forEach((book) => {
+				const randomReviewCombo =
+					reviewCombos[
+						Math.floor(Math.random() * reviewCombos.length)
+					];
+
 				em.create(Review, {
 					author: book.author,
 					title: book.title,
 					cover: book.cover,
-					rating: reviewCombos[
-						Math.floor(Math.random() * reviewCombos.length)
-					].rating,
-					reviewContent:
-						reviewCombos[
-							Math.floor(Math.random() * reviewCombos.length)
-						].reviewContent,
+					rating: randomReviewCombo.rating,
+					reviewContent: randomReviewCombo.reviewContent,
 					bookWorkKey: book.bookWorkKey,
 					user: user,
 				});
