@@ -39,6 +39,12 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 		(readingListBook) => readingListBook.bookWorkKey === book.key // Result from search will have the work key labelled as "key"
 	);
 
+	React.useEffect(() => {
+		if (bookIsOnList) {
+			setReadingListButtonColorIsGreen(true);
+		}
+	}, [bookIsOnList]);
+
 	return (
 		<Card
 			w="70%"

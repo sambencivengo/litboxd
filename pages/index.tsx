@@ -12,10 +12,16 @@ import { colors } from '../theme';
 import { BookResult, BookSearchBar } from '../components/BookSearchBar';
 import { BookCardSearchResult } from '../components/BookCardSearchResult';
 import { SplashPageInfo } from '../components/SplashPageInfo';
+import { useReadingList } from '../components/Context';
 
 export default function Home() {
 	const [bookResults, setBookResults] = React.useState<BookResult[]>();
 	const [isLoading, setIsLoading] = React.useState(false);
+	const { getReadingList } = useReadingList();
+
+	React.useEffect(() => {
+		getReadingList();
+	}, []);
 
 	return (
 		<>

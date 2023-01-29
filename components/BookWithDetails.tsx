@@ -35,7 +35,12 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 	imageSize,
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
+	const [bookIsOnList, setBookIsOnList] = React.useState(false);
+	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
+		React.useState(false);
+
 	const isMobile = useBreakpointValue({ base: true, md: false });
+
 	const {
 		isOpen: reviewModalIsOpen,
 		onOpen: openReviewModal,
@@ -49,26 +54,34 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 
 	const { user } = useUser();
 
-	const { addToReadingList, removeFromReadingList, readingList } =
-		useReadingList();
+	const {
+		addToReadingList,
+		removeFromReadingList,
+		getReadingList,
+		readingList,
+	} = useReadingList();
 
 	const { reviews } = useReview();
-	const bookIsOnList = readingList.find(
-		(readingListBook) => readingListBook.bookWorkKey === book.bookWorkKey
-	);
-
-	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
-		React.useState(false);
 
 	const existingReview = reviews.find(
 		(review) => review.bookWorkKey === book.bookWorkKey
 	);
 
+	console.log(
+		readingList.find(
+			(readingListBook) =>
+				readingListBook.bookWorkKey === book.bookWorkKey
+		)
+	);
+
 	React.useEffect(() => {
-		if (bookIsOnList) {
-			setReadingListButtonColorIsGreen(true);
-		}
-	}, [bookIsOnList]);
+		setBookIsOnList(
+			!!readingList.find(
+				(readingListBook) =>
+					readingListBook.bookWorkKey === book.bookWorkKey
+			)
+		);
+	}, [bookIsOnList, readingList, book]);
 
 	React.useEffect(() => {
 		if (existingReview) {
@@ -155,14 +168,11 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 											: null
 									}
 									onClick={() => {
-										setReadingListButtonColorIsGreen(
-											!readingListButtonColorIsGreen
-										);
-
-										if (readingListButtonColorIsGreen) {
+										if (bookIsOnList) {
 											removeFromReadingList({
 												bookWorkKey: book.bookWorkKey,
 											});
+											getReadingList();
 										} else {
 											addToReadingList({
 												author: book.author,
@@ -170,10 +180,13 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 												cover: book.cover,
 												title: book.title,
 											});
+											getReadingList();
 										}
 									}}
 								>
-									{bookIsOnList ? 'Remove' : 'Read'}
+									{readingListButtonColorIsGreen
+										? 'Remove'
+										: 'Read'}
 								</Button>
 							</HStack>
 						)}

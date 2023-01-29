@@ -8,6 +8,7 @@ import {
 	InputGroup,
 	InputRightElement,
 	Select,
+	useToast,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
@@ -40,6 +41,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 		React.useState<SearchBarCategoryProps>('title');
 	const [searchBarInput, setSearchBarInput] = React.useState<string>('');
 	const searchQuery = `${LIBRARY_SEARCH_URL}${searchCategory}=${router.query.search}`;
+	const toast = useToast();
 
 	React.useEffect(() => {
 		const fetchFromQuery = async () => {
@@ -49,6 +51,17 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 				}
 				setIsLoading(true);
 				const res = await fetch(searchQuery);
+				if (!res.ok) {
+					toast({
+						title: 'There was an issue with your request',
+						description: await res.text(),
+						status: 'error',
+						variant: 'solid',
+						duration: 4000,
+						isClosable: true,
+						position: 'top',
+					});
+				}
 				const data = await res.json();
 				// TODO: request error
 				const reducedResults = data.docs;
@@ -62,6 +75,7 @@ export const BookSearchBar: React.FC<BookSearchBarProps> = ({
 		router.isReady,
 		router.query,
 		setBookResults,
+		toast,
 		searchQuery,
 	]);
 

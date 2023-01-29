@@ -74,7 +74,6 @@ export default function BookWorkKey() {
 		const bookReviews = await fetch(`/api/reviews/${bookWorkKey}`);
 		const data = await bookReviews.json();
 		setReviews(data);
-		console.log(data);
 	};
 
 	return (
