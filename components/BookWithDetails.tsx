@@ -36,8 +36,6 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const [bookIsOnList, setBookIsOnList] = React.useState(false);
-	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
-		React.useState(false);
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	const {

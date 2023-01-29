@@ -26,24 +26,42 @@ interface BookCardSearchResultProps {
 export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 	book,
 }) => {
+	const [bookIsOnList, setBookIsOnList] = React.useState(false);
 	const { author_name, cover_i, title, key } = book;
-	const [readingListButtonColorIsGreen, setReadingListButtonColorIsGreen] =
-		React.useState(false);
 	const { user } = useUser();
 	const keyArray = key.split('/');
 	const keySlug = `${keyArray[keyArray.length - 1]}`;
 	const { readingList, addToReadingList, removeFromReadingList } =
 		useReadingList();
 	const router = useRouter();
-	const bookIsOnList = readingList.find(
-		(readingListBook) => readingListBook.bookWorkKey === book.key // Result from search will have the work key labelled as "key"
-	);
 
 	React.useEffect(() => {
-		if (bookIsOnList) {
-			setReadingListButtonColorIsGreen(true);
+		if (
+			readingList.find(
+				(readingListBook) => readingListBook.bookWorkKey === book.key // Result from search will have the work key labelled as "key"
+			)
+		) {
+			setBookIsOnList(true);
 		}
-	}, [bookIsOnList]);
+	}, [book, readingList]);
+
+	const handleOptimisticFetch = async (action: 'add' | 'remove') => {
+		let success: boolean;
+		action === 'remove'
+			? (success = await removeFromReadingList({
+					bookWorkKey: book.key,
+			  }))
+			: (success = await addToReadingList({
+					author: book.author_name[0],
+					bookWorkKey: book.key,
+					cover: book.cover_i,
+					title: book.title,
+			  }));
+
+		if (!success) {
+			setBookIsOnList(action === 'remove' ? true : false);
+		}
+	};
 
 	return (
 		<Card
@@ -86,28 +104,13 @@ export const BookCardSearchResult: React.FC<BookCardSearchResultProps> = ({
 						{user && (
 							<Button
 								leftIcon={<AiFillEye fontSize={30} />}
-								color={
-									readingListButtonColorIsGreen
-										? colors.green
-										: null
-								}
+								color={bookIsOnList ? colors.green : null}
 								onClick={() => {
-									setReadingListButtonColorIsGreen(
-										!readingListButtonColorIsGreen
-									);
+									setBookIsOnList(!bookIsOnList);
 
-									if (readingListButtonColorIsGreen) {
-										removeFromReadingList({
-											bookWorkKey: book.key,
-										});
-									} else {
-										addToReadingList({
-											author: book.author_name[0],
-											bookWorkKey: book.key,
-											cover: book.cover_i,
-											title: book.title,
-										});
-									}
+									handleOptimisticFetch(
+										bookIsOnList ? 'remove' : 'add'
+									);
 								}}
 							>
 								{bookIsOnList ? 'Remove' : 'Read'}
