@@ -5,6 +5,7 @@ import {
 	CardBody,
 	Heading,
 	Divider,
+	Text,
 	Image,
 	CardFooter,
 	Button,
@@ -13,6 +14,8 @@ import {
 	useBreakpointValue,
 	IconButton,
 	HStack,
+	chakra,
+	color,
 } from '@chakra-ui/react';
 import { BsPencilSquare } from 'react-icons/bs';
 import React from 'react';
@@ -129,10 +132,16 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 					</Stack>
 					<Divider />
 
-					{/* TODO: update how description is managed... */}
-					{/* {book.description && (
-						<Text py="2">{book.description.value}</Text>
-					)} */}
+					{existingReview.reviewContent && (
+						<Box w={'80%'} rounded={'sm'} p={5}>
+							<Text color={colors.white} fontWeight={800}>
+								Your Review:
+							</Text>
+							<Text color={colors.white} py="2">
+								{existingReview.reviewContent}
+							</Text>
+						</Box>
+					)}
 				</CardBody>
 
 				<CardFooter>

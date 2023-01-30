@@ -8,6 +8,8 @@ import {
 	Heading,
 	Divider,
 	CardFooter,
+	Center,
+	Box,
 } from '@chakra-ui/react';
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
@@ -31,21 +33,23 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 		<Card
 			w={'100%'}
 			direction={['column', 'column', 'row']}
-			overflow="hidden"
+			overflow="scroll"
 			bgColor={colors.darkBlue}
 			variant="outline"
 		>
-			<Image
-				objectFit="contain"
-				maxW="150px"
-				src={
-					review.cover
-						? `${BOOK_COVER_BASE_URL}${review.cover}-L.jpg`
-						: 'https://via.placeholder.com/150'
-				}
-				alt="Book cover"
-				fallbackSrc="https://via.placeholder.com/150"
-			/>
+			<Center>
+				<Image
+					objectFit="contain"
+					maxW={{ base: '100%', sm: '200px' }}
+					src={
+						review.cover
+							? `${BOOK_COVER_BASE_URL}${review.cover}-L.jpg`
+							: 'https://via.placeholder.com/150'
+					}
+					alt="Book Cover"
+					fallbackSrc="https://via.placeholder.com/150"
+				/>
+			</Center>
 
 			<Stack w={'100%'}>
 				<CardBody>
@@ -61,18 +65,16 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 							)}
 						</Stack>
 						<Divider pt={2} />
-						<Stack pt={2}>
-							{review.reviewContent && (
-								<>
-									<Heading color={colors.white} size="sm">
-										Review:
-									</Heading>
-									<Text color={colors.white} py="2">
-										{review.reviewContent}
-									</Text>
-								</>
-							)}
-						</Stack>
+						{review.reviewContent && (
+							<Box w={'80%'} rounded={'sm'} p={5}>
+								<Text color={colors.white} fontWeight={800}>
+									Your Review:
+								</Text>
+								<Text color={colors.white} py="2">
+									{review.reviewContent}
+								</Text>
+							</Box>
+						)}
 					</Flex>
 				</CardBody>
 
