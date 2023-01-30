@@ -22,7 +22,9 @@ export const post: Handler = async (req, res) => {
 		});
 
 		if (readingListExists) {
-			res.status(400).send('Review cannot exist more than once');
+			res.status(400).send(
+				'Book cannot be added to reading list more than once'
+			);
 			return;
 		}
 

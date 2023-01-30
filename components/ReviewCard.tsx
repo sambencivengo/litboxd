@@ -10,11 +10,18 @@ import {
 	CardFooter,
 	Center,
 	Box,
+	Button,
+	HStack,
+	IconButton,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import React from 'react';
+import { AiFillEye } from 'react-icons/ai';
+import { BsPencilSquare } from 'react-icons/bs';
 import { BOOK_COVER_BASE_URL } from '../constants';
 import { Review } from '../src/entities';
 import { colors } from '../theme';
+import { useReadingList } from './Context';
 import { StarRatingButtonContainer } from './StarRating';
 
 interface ReviewCardProps {
@@ -23,11 +30,41 @@ interface ReviewCardProps {
 
 export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
+	const [bookIsOnList, setBookIsOnList] = React.useState(false);
+	const { addToReadingList, removeFromReadingList, readingList } =
+		useReadingList();
+	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	React.useEffect(() => {
+		if (
+			readingList.find(
+				(readingListBook) =>
+					readingListBook.bookWorkKey === review.bookWorkKey
+			)
+		) {
+			setBookIsOnList(true);
+		}
+
 		setStarRating(review.rating);
 	}, [review]);
 
+	const handleOptimisticFetch = async (action: 'add' | 'remove') => {
+		let success: boolean;
+		action === 'remove'
+			? (success = await removeFromReadingList({
+					bookWorkKey: review.bookWorkKey,
+			  }))
+			: (success = await addToReadingList({
+					author: review.author,
+					bookWorkKey: review.bookWorkKey,
+					cover: review.cover,
+					title: review.title,
+			  }));
+
+		if (!success) {
+			setBookIsOnList(action === 'remove' ? true : false);
+		}
+	};
 	return (
 		<Card
 			w={'100%'}
@@ -78,17 +115,45 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 				</CardBody>
 
 				<CardFooter>
-					<StarRatingButtonContainer
-						starRating={starRating}
-						setStarRating={setStarRating}
-						submitOnStarClick={true}
-						book={{
-							author: review.author,
-							bookWorkKey: review.bookWorkKey,
-							title: review.title,
-							cover: review.cover,
-						}}
-					/>
+					<Stack
+						alignItems="center"
+						w={'100%'}
+						direction={isMobile ? 'column' : 'row'}
+						spacing={5}
+					>
+						<StarRatingButtonContainer
+							starRating={starRating}
+							setStarRating={setStarRating}
+							submitOnStarClick={true}
+							book={{
+								author: review.author,
+								bookWorkKey: review.bookWorkKey,
+								title: review.title,
+								cover: review.cover,
+							}}
+						/>
+						<HStack>
+							<IconButton
+								onClick={() => {}}
+								aria-label="Create review"
+								icon={<BsPencilSquare />}
+							/>
+
+							<Button
+								leftIcon={<AiFillEye fontSize={30} />}
+								color={bookIsOnList ? colors.green : null}
+								onClick={() => {
+									setBookIsOnList(!bookIsOnList);
+
+									handleOptimisticFetch(
+										bookIsOnList ? 'remove' : 'add'
+									);
+								}}
+							>
+								{bookIsOnList ? 'Remove' : 'Read'}
+							</Button>
+						</HStack>
+					</Stack>
 				</CardFooter>
 			</Stack>
 		</Card>
