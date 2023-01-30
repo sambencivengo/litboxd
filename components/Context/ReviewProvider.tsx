@@ -111,6 +111,7 @@ export const ReviewProvider: React.FC<ReviewProviderProps> = ({ children }) => {
 				return;
 			}
 			await res.json();
+			getReviews();
 		} catch (error) {
 			console.error(error);
 		}

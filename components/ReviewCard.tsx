@@ -14,6 +14,7 @@ import {
 	HStack,
 	IconButton,
 	useBreakpointValue,
+	useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
 import { AiFillEye } from 'react-icons/ai';
@@ -22,6 +23,7 @@ import { BOOK_COVER_BASE_URL } from '../constants';
 import { Review } from '../src/entities';
 import { colors } from '../theme';
 import { useReadingList } from './Context';
+import { CreateReviewModal } from './CreateReviewModal';
 import { StarRatingButtonContainer } from './StarRating';
 
 interface ReviewCardProps {
@@ -34,6 +36,16 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	const { addToReadingList, removeFromReadingList, readingList } =
 		useReadingList();
 	const isMobile = useBreakpointValue({ base: true, md: false });
+	// const {
+	// 	isOpen: editReviewModalIsOpen,
+	// 	onOpen: openEditReviewModal,
+	// 	onClose: closeEditReviewModal,
+	// } = useDisclosure();
+	const {
+		isOpen: reviewModalIsOpen,
+		onOpen: openReviewModal,
+		onClose: closeReviewModal,
+	} = useDisclosure();
 
 	React.useEffect(() => {
 		if (
@@ -133,11 +145,12 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 							}}
 						/>
 						<HStack>
-							<IconButton
-								onClick={() => {}}
-								aria-label="Create review"
-								icon={<BsPencilSquare />}
-							/>
+							<Button
+								leftIcon={<BsPencilSquare />}
+								onClick={() => openReviewModal()}
+							>
+								Edit
+							</Button>
 
 							<Button
 								leftIcon={<AiFillEye fontSize={30} />}
@@ -154,6 +167,12 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 							</Button>
 						</HStack>
 					</Stack>
+					<CreateReviewModal
+						existingReview={review}
+						book={review}
+						closeReviewModal={closeReviewModal}
+						reviewModalIsOpen={reviewModalIsOpen}
+					/>
 				</CardFooter>
 			</Stack>
 		</Card>

@@ -18,14 +18,12 @@ import {
 	useToast,
 	Box,
 	Link,
-	Center,
 	Container,
 	Heading,
 } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
 import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
-import { bookWorkKey } from '../src/api/routes/reviews/[:bookWorkKey]';
 import { Review } from '../src/entities';
 import { CreateBookReview } from '../src/schema';
 import { BookForDatabase } from '../src/types';
@@ -107,7 +105,9 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 								validateOnChange={false}
 								validateOnBlur={false}
 								initialValues={{
-									reviewContent: '',
+									reviewContent: existingReview.reviewContent
+										? existingReview.reviewContent
+										: '',
 									author: book.author as string,
 									bookWorkKey: book.bookWorkKey as string,
 									cover: book.cover,
@@ -116,14 +116,22 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 								}}
 								validationSchema={CreateBookReview.uiSchema}
 								onSubmit={async ({ reviewContent }) => {
-									rateBook({
-										author: book.author as string,
-										bookWorkKey: book.bookWorkKey as string,
-										cover: book.cover,
-										rating: starRating,
-										title: book.title,
-										reviewContent,
-									});
+									existingReview
+										? editReview({
+												bookWorkKey:
+													existingReview.bookWorkKey,
+												rating: starRating,
+												reviewContent,
+										  })
+										: rateBook({
+												author: book.author as string,
+												bookWorkKey:
+													book.bookWorkKey as string,
+												cover: book.cover,
+												rating: starRating,
+												title: book.title,
+												reviewContent,
+										  });
 									closeReviewModal();
 									toast({
 										position: 'top',
@@ -160,6 +168,10 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 													id="reviewContent"
 												>
 													<Textarea
+														defaultValue={
+															existingReview.reviewContent ??
+															''
+														}
 														onChange={handleChange}
 														id="reviewContent"
 														placeholder="Write your review here..."
