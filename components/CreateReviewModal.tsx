@@ -139,19 +139,35 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 										isClosable: true,
 										render: () => (
 											<Box p={2} bgColor={colors.green}>
-												<Text>
-													<chakra.span fontStyle="italic">
-														{book.title} added to{' '}
-													</chakra.span>
-													<Link
-														textDecoration={
-															'underline'
-														}
-														href={`/reviews`}
-													>
-														your reviews
-													</Link>
-												</Text>
+												{existingReview ? (
+													<Text>
+														Review updated and added
+														to{' '}
+														<Link
+															textDecoration={
+																'underline'
+															}
+															href={`/reviews`}
+														>
+															your reviews
+														</Link>
+													</Text>
+												) : (
+													<Text>
+														<chakra.span fontStyle="italic">
+															{book.title} added
+															to{' '}
+														</chakra.span>
+														<Link
+															textDecoration={
+																'underline'
+															}
+															href={`/reviews`}
+														>
+															your reviews
+														</Link>
+													</Text>
+												)}
 											</Box>
 										),
 									});
