@@ -15,7 +15,6 @@ import React from 'react';
 import { BOOK_COVER_BASE_URL } from '../constants';
 import { Review } from '../src/entities';
 import { colors } from '../theme';
-import { useReview } from './Context';
 import { StarRatingButtonContainer } from './StarRating';
 
 interface ReviewCardProps {
