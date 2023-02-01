@@ -95,7 +95,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
 			const data: SimpleUser = await res.json();
 			getReadingList();
-			getReviews;
+			getReviews();
 			setUser(data);
 			toast({
 				render: () => (

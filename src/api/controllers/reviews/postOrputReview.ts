@@ -20,7 +20,9 @@ export const postOrPut: Handler = async (req, res) => {
 		});
 
 		if (existingReview) {
-			existingReview.reviewContent = reviewContent;
+			if (reviewContent) {
+				existingReview.reviewContent = reviewContent;
+			}
 			existingReview.rating = rating;
 			await req.em.persistAndFlush(existingReview);
 
