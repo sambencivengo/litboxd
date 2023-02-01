@@ -52,8 +52,6 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 
 	React.useEffect(() => {
 		if (existingReview) {
-			console.log({ existingReview });
-
 			setStarRating(existingReview.rating);
 		}
 	}, [existingReview, setStarRating, reviews]);

@@ -28,15 +28,16 @@ export interface ReviewWithUser extends Review {
 }
 
 export default function BookWorkKey() {
-	const [isLoading, setIsLoading] = React.useState(false);
+	const [isLoading, setIsLoading] = React.useState(true);
 	const router = useRouter();
 	const [book, setBook] = React.useState<BookForDatabase>(null);
 	const [reviews, setReviews] = React.useState<ReviewWithUser[]>([]);
 	const bookWorkKey = router.query['book-work-key'];
 
 	React.useEffect(() => {
-		setIsLoading(true);
 		const getBookInfo = async () => {
+			setIsLoading(true);
+
 			// NOTE: if the book exists in a review or on the reading list,
 			// these properties will come from the DB, in this file,
 			// they are populated by the API and query parameters.
@@ -46,6 +47,7 @@ export default function BookWorkKey() {
 			// regardless of its origin (DB, API)
 			const res = await fetch(`${BOOK_URL}${bookWorkKey}.json`);
 			const data = await res.json();
+			setIsLoading(false);
 
 			setBook({
 				cover: data.covers ? data.covers[0] : undefined,
@@ -53,10 +55,14 @@ export default function BookWorkKey() {
 				author: router.query.author,
 				title: data.title,
 			});
+
+			const getBookReviewsForBook = async () => {
+				const bookReviews = await fetch(`/api/reviews/${bookWorkKey}`);
+				const data = await bookReviews.json();
+				setReviews(data);
+			};
 			getBookReviewsForBook();
 		};
-
-		setIsLoading(false);
 
 		if (router.isReady) {
 			getBookInfo();
@@ -70,12 +76,6 @@ export default function BookWorkKey() {
 			</Center>
 		);
 	}
-
-	const getBookReviewsForBook = async () => {
-		const bookReviews = await fetch(`/api/reviews/${bookWorkKey}`);
-		const data = await bookReviews.json();
-		setReviews(data);
-	};
 
 	return (
 		<>
