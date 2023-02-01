@@ -77,7 +77,7 @@ export const BookWithDetails: React.FC<BookWithDetailsProps> = ({
 			setExistingReview(existingReview);
 			setStarRating(existingReview.rating);
 		}
-	}, [existingReview, book, readingList, setStarRating]);
+	}, [existingReview, book, reviews, readingList, setStarRating]);
 
 	const handleOptimisticFetch = async (action: 'add' | 'remove') => {
 		let success: boolean;

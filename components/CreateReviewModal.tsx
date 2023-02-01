@@ -47,7 +47,6 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
-	const { user } = useUser();
 	const toast = useToast();
 
 	React.useEffect(() => {
