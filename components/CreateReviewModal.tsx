@@ -28,6 +28,7 @@ import { Review } from '../src/entities';
 import { CreateBookReview } from '../src/schema';
 import { BookForDatabase } from '../src/types';
 import { colors } from '../theme';
+import { useUser } from './Context';
 import { useReview } from './Context/ReviewProvider';
 import { StarRatingButtonContainer } from './StarRating';
 
@@ -46,10 +47,13 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 }) => {
 	const [starRating, setStarRating] = React.useState<number>(0);
 	const { rateBook, reviews, editReview } = useReview();
+	const { user } = useUser();
 	const toast = useToast();
 
 	React.useEffect(() => {
 		if (existingReview) {
+			console.log({ existingReview });
+
 			setStarRating(existingReview.rating);
 		}
 	}, [existingReview, setStarRating, reviews]);
@@ -105,9 +109,7 @@ export const CreateReviewModal: React.FC<CreateReviewModalProps> = ({
 								validateOnChange={false}
 								validateOnBlur={false}
 								initialValues={{
-									reviewContent: existingReview.reviewContent
-										? existingReview.reviewContent
-										: '',
+									reviewContent: '',
 									author: book.author as string,
 									bookWorkKey: book.bookWorkKey as string,
 									cover: book.cover,
