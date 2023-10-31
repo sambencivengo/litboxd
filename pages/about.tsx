@@ -31,7 +31,7 @@ export default function About() {
 				<Center mt={5}>
 					<Container gap={10} centerContent>
 						<Text>
-							Litboxd is book platform in the vein of Letterboxd.
+							Litboxd is a book rating platform in the vein of Letterboxd.
 							The application leverages the Internet
 							Archive&apos;s{' '}
 							<chakra.span textDecoration="underline">
