@@ -1,11 +1,5 @@
 export const bookData = [
 	{
-		bookWorkKey: 'OL17889978W',
-		cover: 8202400,
-		title: 'My Year of Rest and Relaxation ',
-		author: 'Ottessa Moshfegh',
-	},
-	{
 		bookWorkKey: 'OL3378547W',
 		cover: 5071195,
 		title: 'A Distant Mirror',
