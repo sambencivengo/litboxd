@@ -1,6 +1,5 @@
 import { MikroORM } from '@mikro-orm/postgresql';
 import path from 'path';
-import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { env } from './env';
 
 export default {
@@ -15,6 +14,5 @@ export default {
 	// debug: !__prod__,
 	type: 'postgresql',
 	clientUrl: env.pgClientURL,
-	highlighter: new SqlHighlighter(),
 	allowGlobalContext: true,
 } as Parameters<typeof MikroORM.init>[0];
