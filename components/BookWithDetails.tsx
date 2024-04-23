@@ -9,7 +9,7 @@ import {StarRatingButtonContainer} from "./StarRating";
 import {useReadingList, useReview, useUser} from "./Context";
 import {BookForDatabase} from "../src/types";
 import {Review} from "../src/entities";
-import {useBreakpointValue, useDisclosure, Text, Image, Card, Center, Stack, CardBody, Heading, Divider, CardFooter, Button, HStack, IconButton, Box} from "@chakra-ui/react";
+import {Box, Button, Image, Text, Card, CardBody, CardFooter, Center, Divider, HStack, Heading, IconButton, Stack, useBreakpointValue, useDisclosure} from "@chakra-ui/react";
 
 interface BookWithDetailsProps {
   book: BookForDatabase;
